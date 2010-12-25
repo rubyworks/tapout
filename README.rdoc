@@ -1,0 +1,60 @@
+= Koax
+
+
+== RESOURCES
+
+* home: http://rubyworks.github.com/koax
+* work: http://github.com/rubyworks/koax
+
+
+== DESCRIPTION
+
+Kaox is a TAP-Y handler.
+
+TAP-Y is an innovation of KO and Koax. It is a modernization of TAP using
+pure YAML streams.
+
+TAP-Y has a sister format TAP-J, which is a JSON variant, but is not yet
+supported by Koax.
+
+Traditional TAP is more limited than TAP-Y, but it can still be translated
+with fairly good results. Koax includes a TAP adapter to handle this 
+translation (currently a work in progress).
+
+To learn about the TAP-Y specification, see the TAP-Y.rdoc file.
+
+
+== SYNOPSIS
+
+Using a test framework that produces a TAP-Y output stream, simply pipe
+the stream into `koax`.
+
+  $ ko -y -Ilib test/foo.rb | koax
+
+Koax supports a variety of output formats. These are selectable via the `-f`
+option.
+
+  $ ko -y -Ilib test/foo.rb | koax -f progessbar
+
+Koax is smart enough to match the closest matching format name. So, for
+example, the above could be written as:
+
+  $ ko -y -Ilib test/foo.rb | koax -f pro
+
+And koax will know to use the `progressbar` format.
+
+To see a list of supported formats use the list subcommand:
+
+  $ koax list
+
+If your test framework does not support TAP-Y, but does support traditional
+TAP, use the -t flag to utilize the TAP adatper.
+
+  $ ko -t -Ilib test/foo.rb | koax -t -f pro
+
+
+== COPYRIGHT
+
+Copyright (c) 2010 Thomas Sawyer
+
+
