@@ -1,6 +1,9 @@
 = TAP-Y Format
 
-TAP-Y streams are a plain YAML streams.
+TAP-Y is a plain YAML stream format.
+
+A YAML stream is composed a sequence of YAML *documents*, each divided by
+a start document marker (`---`).
 
 An example of a TAP-Y stream looks like this:
 
@@ -13,30 +16,30 @@ An example of a TAP-Y stream looks like this:
   description: Subtraction
   ---
   type: test
-  okay: pass
+  status: pass
   file: foo.rb
   line: 45
   description: an important test
   returned: true
   expected: true
   source: ok 1, 2
-  snippet: |
-    ok 0,0
-    ok 1,2
-    ok 2,4
+  snippet:
+    44: ok 0,0
+    45: ok 1,2
+    46: ok 2,4
   ---
   type: test
-  okay: fail
+  status: fail
   file: foo.rb
   line: 46
   description: another test
   returned: false
   expected: true
   source: ok 2,4
-  snippet: |
-    ok 1,2
-    ok 2,4
-
+  snippet:
+    45: ok 1,2
+    46: ok 2,4
+    47:
   message:
     blah blah
   extra:
@@ -53,6 +56,10 @@ An example of a TAP-Y stream looks like this:
     pending: 0
   ...
 
+As you can see TAP-Y streams provide a great deal of detail. They are not
+intended for the end-user, but rather to pipe to consumer apps to process
+into a human readable form.
+
 == Fields
 
 === type
@@ -67,9 +74,9 @@ The `case` type marks the start of a testcase. All `test` (and `note`)
 documents following it are considered a part of the case until a new case
 document occurs.
 
-=== okay
+=== status
 
-The `okay` field designates the status of a test document. Valid values
+The `status` field designates the status of a test document. Valid values
 are `pass`, `fail`, `error`, `omit` and `pending`.
 
 In comparison to the classic TAP format, `pass` is equivalent to `ok` and 
@@ -99,15 +106,16 @@ The `source` field is a verbatim copy of the source code that defines the test.
 This may be just the first line of the definition/ In classic TAP this
 is called `raw_test`.
 
-=== snippet [DEPRECATED]
+=== snippet
 
-Much like `source`, but `snippet` can contain extra lines of code before and
-after `line`. The snippet should always consist an odd number of lines with 
-the `line` being in the center. If at the end or begining of a script pad
-the snippet with blank lines to keep `line` in the center.
+The `snippet` field is a hash of line number mapped to source code of that line.
+While `snippet` is much like `source` it also contains extra lines of code
+before and after the test `line`.
 
-The `snippet` field is being deprecated, since the TAP consumer can use the
-file and line to extract the source code if needed.
+The `snippet` field should always consist an odd number of lines, the same before
+and after, the `line` being in the center, unless the line occurs at the
+begining or the end of the file. The number of lines before and after is
+arbitrary and up to the producer, but should be the same on either side.
 
 === message
 
@@ -116,21 +124,36 @@ failure or error. Generally this is just the error message produced by
 the underlying message. The `pass` type can have the message field too,
 but it will generally be ignored by TAP consumers.
 
-=== range [DEPRECATED?]
+=== range
 
 The range of tests being executed of the test suite. The range is written in
 the form of `X..Y`. Where X is the index of the first test and Y is the index
 of last test.
+
+NOTE: This may be deprecated since the count field suffices. A range can not
+uniquely identify the tests being run in any case, so the first sentinal will
+always be 1, which is redundant.
 
 === count
 
 The `count` field provides the total number of tests being executed. It must
 be given in the header and the footer.
 
+=== tally
+
+The footer must provide a tally for all status categories. This is like `count`
+but broken down into status groups.
+
+=== time
+
+The footer should have the `time` elapsed in running the tests, given
+in number of seconds.
+
 === extra
 
 Additional data, not specifucally designated by this sepecification can
-place it under this section without worry that future versions of the
-specification will come into conflict with the field name.
-
+place under the `extra` section without worry that future versions of the
+specification will come into conflict with the field name. The namespace
+is a free-for-all, so use it with that in mind. Teh `extra` field can 
+appear in any document.
 
