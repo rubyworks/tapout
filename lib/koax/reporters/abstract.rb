@@ -1,98 +1,147 @@
 require 'ansi'
+require 'abbrev'
 
-module KO
+module Koax
 
+  # Namespace for Report Formats.
   module Reporters
 
-    #
-    def self.factory(name)
-      Reporters.const_get(name.to_s.capitalize)
+    # Returns a Hash of name to reporter class.
+    def self.index
+      @index ||= {}
     end
 
+    # Returns a reporter class given it's name or a unique abbreviation of it.
+    def self.factory(name)
+      list = index.keys.abbrev
+      index[list[name]]
+    end
+
+    # The Abstract class serves as a base class for all reporters. Reporters
+    # must sublcass Abstract in order to be added the the Reporters Index.
     #
+    # TODO: Simplify this class and have the sublcasses handle more of the load.
     class Abstract
+      # When Abstract is inherited it saves a reference to it in `Reporters.index`.
+      def self.inherited(subclass)
+        name = subclass.name.split('::').last.downcase
+        Reporters.index[name] = subclass
+      end
 
+      # New reporter.
       def initialize
-        @passed = []
-        @failed = []
-        @raised = []
-        @source = {}
+        @passed  = []
+        @failed  = []
+        @raised  = []
+        @skipped = []
+        @omitted = []
+
+        @source  = {}
+        @previous_case = nil
       end
 
-      #
-      def start(tag, *args)
-        case tag
-        when :suite
-          start_suite(*args)
-        when :all, :concern
-          start_concern(*args)
-        when :each, :test, :ok
-          start_ok(*args)
-        else
-          # ???
+      # Handler method. This dispatches a given entry to the appropriate
+      # report methods.
+      def handle(entry)
+        case entry['type']
+        when 'header'
+          start_suite(entry)
+        when 'case'
+          finish_case(@previous_case) if @previous_case
+          @previous_case = entry
+          start_case(entry)
+        when 'note'
+          note(entry)
+        when 'test'
+          test(entry)
+          case entry['status']
+          when 'pass'
+            pass(entry)
+          when 'fail'
+            fail(entry)
+          when 'error'
+            err(entry)
+          when 'omit'
+            omit(entry)
+          when 'pending', 'skip'
+            skip(entry)
+          end
+        when 'footer'
+          finish_case(@previous_case) if @previous_case
+          finish_suite(entry)
         end
       end
 
-      #
-      def finish(tag, *args)
-        case tag
-        when :suite
-          finish_suite(*args)
-        when :all, :concern
-          finish_concern(*args)
-        when :each, :test, :ok
-          finish_ok(*args)
-        else
-          # ???
-        end
+      # Handle header.
+      def start_suite(entry)
       end
 
-      #
-      def start_suite(suite)
+      # At the start of a new test case.
+      def start_case(entry)
       end
 
-      #
-      def start_concern(concern)
+      # Handle an arbitray note.
+      def note(entry)
       end
 
-      #
-      def start_ok(ok)
+      # Handle test. This is run before the status handlers.
+      def test(entry)
       end
 
-      #
-      def pass(ok)
-        @passed << ok
+      # Handle test with pass status.
+      def pass(entry)
+        @passed << entry
       end
 
-      #
-      def fail(ok, exception)
-        @failed << [ok, exception]
+      # Handle test with fail status.
+      def fail(entry)
+        @failed << entry
       end
 
-      #
-      def err(ok, exception)
-        @raised << [ok, exception]
+      # Handle test with error status.
+      def err(entry)
+        @raised << entry
       end
 
-      #
-      def finish_ok(ok)
+      # Handle test with omit status.
+      def omit(entry)
+        @omitted << entry
       end
 
-      #
-      def finish_concern(concern)
+      # Handle test with skip or pending status.
+      def skip(entry)
+        @skipped << entry
       end
 
-      #
-      def finish_suite(suite)
+      # When a test case is complete.
+      def finish_case(entry)
       end
 
-      # FIXME: KO needs to track it;s own count b/x it no longer uses AE.
-      def tally
-        return ""
+      # Handle footer.
+      def finish_suite(entry)
+      end
 
-        text = "%s concerns: %s passed, %s failed, %s errored (%s/%s assertions)"
+      # TODO: get the tally's from the footer entry ?
+      def tally(entry)
         total = @passed.size + @failed.size + @raised.size
-        text = text % [total, @passed.size, @failed.size, @raised.size, $assertions - $failures, $assertions]
+
+        assertions = entry['assertions']
+        failures   = entry['failures']
+
+        if tally = entry['tally']
+          sums = %w{pass fail error skip}.map{ |e| tally[e] || 0 }
+        else
+          sums = [@passed, @failed, @raised, @skipped].map{ |e| e.size }
+        end
+
+        if assertions
+          text = "%s tests: %s pass, %s fail, %s err, %s pending (%s/%s assertions)"
+          text = text % [total, *sums] + [assertions - failures, assertions]
+        else
+          text = "%s tests: %s pass, %s fail, %s err, %s pending"
+          text = text % [total, *sums]
+        end
+
         if @failed.size > 0
           text.ansi(:red)
         elsif @raised.size > 0
@@ -102,8 +151,8 @@ module KO
         end
       end
 
-      fs = Regexp.escape(File::SEPARATOR)
-      INTERNALS = /(lib|bin)#{fs}ko/
+      #
+      INTERNALS = /(lib|bin)#{Regexp.escape(File::SEPARATOR)}ko/
 
       # Clean the backtrace of any reference to ko/ paths and code.
       def clean_backtrace(backtrace)
@@ -120,30 +169,54 @@ module KO
         trace
       end
 
-      # Have to thank Suraj N. Kurapati for the crux of this code.
-      def code_snippet(source_file, source_line) #exception
-        ##backtrace = exception.backtrace.reject{ |bt| bt =~ INTERNALS }
-        ##backtrace.first =~ /(.+?):(\d+(?=:|\z))/ or return ""
-        #caller =~ /(.+?):(\d+(?=:|\z))/ or return ""
-        #source_file, source_line = $1, $2.to_i
+      # Returns a String of source code.
+      def code_snippet(entry)
+        file    = entry['file']
+        line    = entry['line']
+        snippet = entry['snippet']
 
-        source = source(source_file)
+        if snippet
+          len = snippet.map{ |n, t| n }.max.to_s.length
 
-        radius = 3 # number of surrounding lines to show
-        region = [source_line - radius, 1].max ..
-                 [source_line + radius, source.length].min
+          # ensure proper alignment by zero-padding line numbers
+          format = " %5s %0#{len}d %s"
 
-        # ensure proper alignment by zero-padding line numbers
-        format = " %2s %0#{region.last.to_s.length}d %s"
+          snippet = snippet.map{|n,t|[n,t]}.sort{|a,b|a[0]<=>b[0]}
 
-        pretty = region.map do |n|
-          format % [('=>' if n == source_line), n, source[n-1].chomp]
-        end #.unshift "[#{region.inspect}] in #{source_file}"
+          pretty = snippet.map do |(n,t)|
+            format % [('=>' if n == line), n, t.rstrip]
+          end
+        else
+          ##backtrace = exception.backtrace.reject{ |bt| bt =~ INTERNALS }
+          ##backtrace.first =~ /(.+?):(\d+(?=:|\z))/ or return ""
+          #caller =~ /(.+?):(\d+(?=:|\z))/ or return ""
+          #source_file, source_line = $1, $2.to_i
 
-        pretty
+          if File.file?(file)
+            source = source(file)
+
+            radius = 3 # number of surrounding lines to show
+            region = [source_line - radius, 1].max ..
+                     [source_line + radius, source.length].min
+
+            len = region.last.to_s.length
+
+            # ensure proper alignment by zero-padding line numbers
+            format = " %5s %0#{len}d %s"
+
+            pretty = region.map do |n|
+              SOURECE_FORMAT % [('=>' if n == line), n, source[n-1].chomp]
+            end #.unshift "[#{region.inspect}] in #{source_file}"
+          else
+            pretty = ''
+          end
+        end
+
+        return pretty
       end
 
-      #
+      # Cache source file text. This is only used if the TAP-Y stream
+      # doesn not provide a snippet and the test file is locatable.
       def source(file)
         @source[file] ||= (
           File.readlines(file)
@@ -169,4 +242,3 @@ module KO
   end#module Reporters
 
 end
-

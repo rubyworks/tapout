@@ -1,63 +1,61 @@
-require 'ko/reporters/abstract'
+require 'koax/reporters/abstract'
 
-module KO::Reporters
+module Koax::Reporters
 
   # Traditional dot progress reporter.
   class Dotprogress < Abstract
 
     #
-    def start_suite(suite)
+    def start_suite(entry)
       @start_time = Time.now
       $stdout.puts "Started\n"
     end
 
     #
-    def pass(ok)
+    def pass(entry)
       $stdout.print '.'
       $stdout.flush
-      super(ok)
+      super(entry)
     end
 
     #
-    def fail(ok, exception)
+    def fail(entry)
       $stdout.print 'F'.ansi(:red)
       $stdout.flush
-      super(ok, exception)
+      super(entry)
     end
 
     #
-    def err(ok, exception)
+    def err(entry)
       $stdout.print 'E'.ansi(:yellow)
       $stdout.flush
-      super(ok, exception)
+      super(entry)
     end
 
     #
-    def finish_suite(suite)
+    def finish_suite(entry)
       $stdout.puts "\n\n"
 
       i = 1
 
-      @failed.each do |(ok, exception)|
-        concern  = ok.concern
+      @failed.each do |e|
         #backtrace = clean_backtrace(exception.backtrace)
-        $stdout.puts "#{i}. " + (concern.full_label).ansi(:red)
+        $stdout.puts "#{i}. " + (e['label']).ansi(:red)
         $stdout.puts
-        $stdout.puts "    #{exception}"
-        $stdout.puts "    #{ok.file}:#{ok.line}" #+ backtrace[0]
-        $stdout.puts code_snippet(ok.file, ok.line)
+        $stdout.puts "    #{e['message']}"
+        $stdout.puts "    #{e['file']}:#{e['line']}" #+ backtrace[0]
+        $stdout.puts code_snippet(e)
         $stdout.puts
         i += 1
       end
 
-      @raised.each do |(ok, exception)|
-        concern  = ok.concern
+      @raised.each do |e|
         #backtrace = clean_backtrace(exception.backtrace)
-        $stdout.puts "#{i}. " + (concern.full_label).ansi(:yellow)
+        $stdout.puts "#{i}. " + (e['label']).ansi(:yellow)
         $stdout.puts
-        $stdout.puts "    #{exception.class}: #{exception.message}"
-        $stdout.puts "    #{ok.file}:#{ok.line}" #+ backtrace[0..2].join("    \n")
-        $stdout.puts code_snippet(ok.file, ok.line)
+        $stdout.puts "    #{e['message']}"
+        $stdout.puts "    #{e['file']}:#{e['line']}" #+ backtrace[0..2].join("    \n")
+        $stdout.puts code_snippet(e)
         $stdout.puts
         i += 1
       end

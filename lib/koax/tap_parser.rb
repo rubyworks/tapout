@@ -57,7 +57,7 @@ module Koax
 
     def parse_comment(line)
       case state.last
-      when :
+      when :open
         md = /^\#(.*?)$/.match(line)
         @state = :comment
         @comment << md[1]
@@ -100,7 +100,7 @@ module Koax
 
     def not_ok(number, description, metainfo)
       puts "not ok #{number} - #{description}"
-      puts metadata.to_yaml.sub(/^/, '  ')) if metainfo
+      puts metadata.to_yaml.sub(/^/, '  ') if metainfo
     end
 
   end

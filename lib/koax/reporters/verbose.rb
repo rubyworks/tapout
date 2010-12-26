@@ -1,54 +1,52 @@
-require 'ko/reporters/abstract'
+require 'koax/reporters/abstract'
 
-module KO::Reporters
+module Koax::Reporters
 
   # Verbose reporter.
   class Verbose < Abstract
 
     #
-    def start_suite(suite)
+    def start_suite(entry)
       @start_time = Time.now
     end
 
     #
-    def start_concern(concern)
-      $stdout.puts concern.to_s.ansi(:bold)
+    def start_case(entry)
+      $stdout.puts entry['label'].ansi(:bold)
     end
 
-    def pass(ok)
-      super(ok)
-      $stdout.puts "* " + ok.check.to_s.ansi(:green) + " #{ok}"
+    def pass(entry)
+      super(entry)
+      $stdout.puts "* " + entry['label'].ansi(:green) + "   #{entry['source']}"
     end
 
-    def fail(ok, exception)
-      super(ok, exception)
-      concern = ok.concern
-      $stdout.puts "* " + ok.check.to_s.ansi(:red) + " #{ok}"
+    def fail(entry)
+      super(entry)
+      $stdout.puts "* " + entry['label'].ansi(:red) + "   #{entry['source']}"
       $stdout.puts
-      $stdout.puts "    #{exception}"
-      $stdout.puts "    " + ok.caller #clean_backtrace(exception.backtrace)[0]
+      $stdout.puts "    #{entry['message']}"
+      #$stdout.puts "    " + ok.caller #clean_backtrace(exception.backtrace)[0]
       $stdout.puts
-      $stdout.puts code_snippet(ok.file, ok.line)
+      $stdout.puts code_snippet(entry)
       $stdout.puts
     end
 
-    def err(ok, exception)
-      super(ok, exception)
-      concern = ok.concern
-      $stdout.puts "* " + ok.check.to_s.ansi(:yellow) + " #{ok}"
+    def err(entry)
+      super(entry)
+      $stdout.puts "* " + entry['label'].ansi(:yellow) + "   #{entry['source']}"
       $stdout.puts
-      $stdout.puts "    #{exception.class}: #{exception.message}"
-      $stdout.puts "    " + ok.caller #clean_backtrace(exception.backtrace)[0..2].join("    \n")
+      $stdout.puts "    #{entry['message']}"  # error class?
+      #$stdout.puts "    " + ok.caller #clean_backtrace(exception.backtrace)[0..2].join("    \n")
       $stdout.puts
-      $stdout.puts code_snippet(ok.file, ok.line)
+      $stdout.puts code_snippet(entry)
       $stdout.puts
     end
 
     #
-    def finish_suite(suite)
+    def finish_suite(entry)
       #$stderr.puts
-      $stderr.print tally
-      $stderr.puts " [%0.4fs] " % [Time.now - @start_time]
+      $stdout.print tally(entry)
+      $stdout.puts " [%0.4fs] " % [Time.now - @start_time]
     end
 
   end

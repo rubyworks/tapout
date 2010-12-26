@@ -1,7 +1,3 @@
 #!/usr/bin/env ruby
-
-while line = $stdin.gets
-  puts line
-end
-
-# TODO: Eventually I would like to rewrite this in coffee-script
+require 'koax'
+Koax.cli(*ARGV)
