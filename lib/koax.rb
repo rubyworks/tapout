@@ -15,9 +15,9 @@ module Koax
         options[:format] = fmt
       end
 
-      opt.on('-t', '--tap', 'Consume legacy TAP input') do |fmt|
-        type = :legacy
-      end
+      #opt.on('-t', '--tap', 'Consume legacy TAP input') do |fmt|
+      #  type = :legacy
+      #end
 
       opt.on('--no-color', 'Supress ANSI color codes') do
         # TODO
@@ -31,20 +31,47 @@ module Koax
     parser.parse!(argv)
 
     # TODO: would be nice if it could automatically determine which
-    #line1 = $stdin.readline
-    #        $stdin.rewind
-    #type = :legacy if line1 =~ /^\d+/
-    #type = :modern if line1 =~ /^\-/
+    #c = $stdin.getc
+    #    $stdin.pos = 0
+    #type = :legacy if c =~ /\d/
+    #type = :modern if c == '-'
+
+    stdin = Curmudgeon.new($stdin)
+
+    case stdin.line1
+    when /^\d/
+      type = :legacy
+    when /^\-/
+      type = :modern
+    else
+      raise "Not a TAP input!"
+    end
 
     case type
     when :legacy
       stream_parser = TAPLegacyParser.new(options)
-      stream_parser.consume($stdin)
+      stream_parser.consume(stdin)
     else
       stream_parser = TAPYParser.new(options)
-      stream_parser.consume($stdin)
+      stream_parser.consume(stdin)
     end
+  end
 
+  #
+  class Curmudgeon #< IO
+    def initialize(input)
+      @input = input
+      @line1 = input.gets
+    end
+    def line1
+      @line1
+    end
+    def gets
+      (class << self; self; end).class_eval %{
+        def gets; @input.gets; end
+      }
+      return @line1
+    end
   end
 
 end
