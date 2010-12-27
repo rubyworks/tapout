@@ -128,16 +128,24 @@ module Koax
 
       # TODO: get the tally's from the footer entry ?
       def tally(entry)
-        total = @passed.size + @failed.size + @raised.size
+        total = entry['count'] || (@passed.size + @failed.size + @raised.size)
 
-        assertions = entry['assertions']
-        failures   = entry['failures']
+        if entry['tally']
+          count_fail  = entry['tally']['fail']
+          count_error = entry['tally']['error']
+        else
+          count_fail  = @failed.size
+          count_error = @raised.size
+        end
 
         if tally = entry['tally']
           sums = %w{pass fail error skip}.map{ |e| tally[e] || 0 }
         else
           sums = [@passed, @failed, @raised, @skipped].map{ |e| e.size }
         end
+
+        assertions = entry['assertions']
+        failures   = entry['failures']
 
         if assertions
           text = "%s tests: %s pass, %s fail, %s err, %s pending (%s/%s assertions)"
@@ -147,9 +155,9 @@ module Koax
           text = text % [total, *sums]
         end
 
-        if @failed.size > 0
+        if count_fail > 0
           text.ansi(:red)
-        elsif @raised.size > 0
+        elsif count_error > 0
           text.ansi(:yellow)
         else
           text.ansi(:green)
