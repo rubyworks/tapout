@@ -9,19 +9,20 @@
 
 == DESCRIPTION
 
-Kaox is a TAP-Y handler.
+Kaox is a TAP handler. Koax supports TAP-Y/J as well as traditional TAP.
 
-TAP-Y is an innovation of KO and Koax. It is a modernization of TAP using
-pure YAML streams.
+TAP-Y/J is an innovation of KO and Koax. It is a modernization of TAP using
+pure YAML/JSON streams.
 
-TAP-Y has a sister format TAP-J, which is a JSON variant, but is not yet
-supported by Koax.
+Traditional TAP has less detail than TAP-Y/J, but it can still be translated
+with fairly good results. Koax includes a TAP adapter to handle the
+translation transparently. Current Koax support TAP v12 with minor
+limitations.
 
-Traditional TAP is more limited than TAP-Y, but it can still be translated
-with fairly good results. Koax includes a TAP adapter to handle this 
-translation (currently a work in progress).
+Koax fully supports TAP-Y at this time. TAP-J support is still in
+development.
 
-To learn about the TAP-Y specification, see the TAP-Y.rdoc file.
+To learn about the TAP-Y/J specification, see the TAP-Y.rdoc file.
 
 
 == SYNOPSIS
@@ -48,13 +49,23 @@ To see a list of supported formats use the list subcommand:
   $ koax list
 
 If your test framework does not support TAP-Y, but does support traditional
-TAP, use the -t flag to utilize the TAP adatper.
+TAP, Koax will automatically recognize the difference by TAP's `1..N` header.
 
-  $ ko -t -Ilib test/foo.rb | koax -t -f pro
+  $ ko -t -Ilib test/foo.rb | koax -f progressbar
 
 
 == COPYRIGHT
 
-Copyright (c) 2010 Thomas Sawyer
+Koax, Copyright (c) 2010 Thomas Sawyer
 
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this program except in compliance with the License.
+You may obtain a copy of the License at
 
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.

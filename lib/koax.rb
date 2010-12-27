@@ -44,7 +44,7 @@ module Koax
     when /^\-/
       type = :modern
     else
-      raise "Not a TAP input!"
+      raise "Not a recognized TAP stream!"
     end
 
     case type
