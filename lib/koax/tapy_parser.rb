@@ -4,42 +4,53 @@ require 'yaml'
 
 module Koax
 
-  #
+  # The TAP-Y Parser takes a TAP-Y stream and routes it though a Koax
+  # report format.
   class TAPYParser
 
     #
     def initialize(options={})
-      format = options[:format] || :dotprogress
+      format    = options[:format] || 'dotprogress'
       @reporter = Reporters.factory(format).new
-    end
-
-    # TODO: write this as a YAML stream parser
-    def consume(io)
-      doc = ''
-      while line = io.gets
-        case line
-        when /^\-\-\-/
-          handle doc
-          doc = ''
-          doc << line
-        else
-          doc << line
-        end
-      end
-      handle doc
-      stop
+      @doc      = ''
+      @done = false
     end
 
     #
-    def handle(doc)
-      return if doc == ''
-      entry = YAML.load(doc)
-      @reporter.handle(entry)
+    def consume(input)
+      @doc  = ''
+      @done = false
+      while line = input.gets
+        self << line
+      end
+      handle unless @done   # in case `...` was left out
+    end
+
+    # TODO: write this as a YAML stream parser
+    def <<(line)
+      case line
+      when /^\-\-\-/
+        handle #@doc
+        @doc << line
+      when /^\.\.\./
+        handle #@doc
+        stop
+      else
+        @doc << line
+      end
+    end
+
+    #
+    def handle
+      return if @doc == ''
+      entry = YAML.load(@doc)
+      @reporter << entry
+      @doc = ''
     end
 
     #
     def stop
-      #@reporter.handle(entry)
+      @done = true
     end
 
   end

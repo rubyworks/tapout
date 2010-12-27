@@ -1,5 +1,5 @@
 require 'koax/tapy_parser'
-require 'koax/tap_parser'
+require 'koax/tap_legacy_parser'
 
 require 'optparse'
 
@@ -8,7 +8,7 @@ module Koax
   #
   def self.cli(*argv)
     options = {}
-    legacy  = false
+    type    = :modern
 
     parser = OptionParser.new do |opt|
       opt.on('--format', '-f FORMAT', 'Report format') do |fmt|
@@ -16,7 +16,11 @@ module Koax
       end
 
       opt.on('-t', '--tap', 'Consume legacy TAP input') do |fmt|
-        legacy = true
+        type = :legacy
+      end
+
+      opt.on('--no-color', 'Supress ANSI color codes') do
+        # TODO
       end
 
       opt.on('--debug', 'Run with $DEBUG flag on') do |fmt|
@@ -26,13 +30,21 @@ module Koax
 
     parser.parse!(argv)
 
-    if legacy
-      parser = TAPParser.new(options)
+    # TODO: would be nice if it could automatically determine which
+    #line1 = $stdin.readline
+    #        $stdin.rewind
+    #type = :legacy if line1 =~ /^\d+/
+    #type = :modern if line1 =~ /^\-/
+
+    case type
+    when :legacy
+      stream_parser = TAPLegacyParser.new(options)
+      stream_parser.consume($stdin)
     else
-      parser = TAPYParser.new(options)
+      stream_parser = TAPYParser.new(options)
+      stream_parser.consume($stdin)
     end
 
-    parser.consume($stdin)
   end
 
 end

@@ -40,6 +40,11 @@ module Koax
         @previous_case = nil
       end
 
+      #
+      def <<(entry)
+        handle(entry)
+      end
+
       # Handler method. This dispatches a given entry to the appropriate
       # report methods.
       def handle(entry)
