@@ -1,8 +1,8 @@
-require 'koax/reporters/abstract'
+require 'tapout/reporters/abstract'
 
 require 'ansi/progressbar'
 
-module Koax
+module TapOut
 
   module Reporters
 

@@ -1,6 +1,6 @@
-require 'koax/reporters/abstract'
+require 'tapout/reporters/abstract'
 
-module Koax::Reporters
+module TapOut::Reporters
 
   # Traditional dot progress reporter.
   class Dotprogress < Abstract
@@ -61,7 +61,7 @@ module Koax::Reporters
       end
 
       $stdout.puts "Finished in #{Time.now - @start_time}s"
-      $stdout.puts tally
+      $stdout.puts tally(entry)
     end
 
   end

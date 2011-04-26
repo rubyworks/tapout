@@ -1,6 +1,6 @@
-require 'koax/reporters/abstract'
+require 'tapout/reporters/abstract'
 
-module Koax::Reporters
+module TapOut::Reporters
 
   # Verbose reporter.
   class Verbose < Abstract

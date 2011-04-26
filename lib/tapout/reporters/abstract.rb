@@ -1,7 +1,7 @@
 require 'ansi'
 require 'abbrev'
 
-module Koax
+module TapOut
 
   # Namespace for Report Formats.
   module Reporters
@@ -131,8 +131,8 @@ module Koax
         total = entry['count'] || (@passed.size + @failed.size + @raised.size)
 
         if entry['tally']
-          count_fail  = entry['tally']['fail']
-          count_error = entry['tally']['error']
+          count_fail  = entry['tally']['fail']  || 0
+          count_error = entry['tally']['error'] || 0
         else
           count_fail  = @failed.size
           count_error = @raised.size

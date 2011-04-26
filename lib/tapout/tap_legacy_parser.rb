@@ -1,11 +1,11 @@
-require 'koax/version'
-require 'koax/tap_legacy_adapter'
-require 'koax/reporters'
+require 'tapout/version'
+require 'tapout/tap_legacy_adapter'
+require 'tapout/reporters'
 
-module Koax
+module TapOut
 
   # The TAPLegacy Parser takes a traditional TAP stream and routes
-  # it through a Koax report format.
+  # it through a Tap Out report format.
   class TAPLegacyParser
 
     # options[:format] - the report format to use

@@ -1,6 +1,6 @@
-require 'koax/reporters/abstract'
+require 'tapout/reporters/abstract'
 
-module Koax
+module TapOut
 
   module Reporters
 

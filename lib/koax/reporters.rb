@@ -1,6 +1,0 @@
-require 'koax/reporters/abstract'
-require 'koax/reporters/dotprogress'
-require 'koax/reporters/verbose'
-require 'koax/reporters/tap'
-require 'koax/reporters/progressbar'
-require 'koax/reporters/breakdown'

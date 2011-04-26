@@ -1,0 +1,6 @@
+require 'tapout/reporters/abstract'
+require 'tapout/reporters/dotprogress'
+require 'tapout/reporters/verbose'
+require 'tapout/reporters/tap'
+require 'tapout/reporters/progressbar'
+require 'tapout/reporters/breakdown'

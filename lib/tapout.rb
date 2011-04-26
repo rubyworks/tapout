@@ -1,9 +1,12 @@
-require 'koax/tapy_parser'
-require 'koax/tap_legacy_parser'
+require 'tapout/tapy_parser'
+require 'tapout/tap_legacy_parser'
 
 require 'optparse'
 
-module Koax
+module TapOut
+
+  #
+  PARSERS = %w{breakdown dotprogress progressbar tap verbose}
 
   #
   def self.cli(*argv)
@@ -11,9 +14,13 @@ module Koax
     type    = :modern
 
     parser = OptionParser.new do |opt|
-      opt.on('--format', '-f FORMAT', 'Report format') do |fmt|
-        options[:format] = fmt
-      end
+      opt.banner = "tapout [options] [format]"
+
+      opt.separator("\nOPTIONS:")
+
+      #opt.on('--format', '-f FORMAT', 'Report format') do |fmt|
+      #  options[:format] = fmt
+      #end
 
       #opt.on('-t', '--tap', 'Consume legacy TAP input') do |fmt|
       #  type = :legacy
@@ -26,9 +33,13 @@ module Koax
       opt.on('--debug', 'Run with $DEBUG flag on') do |fmt|
         $DEBUG = true
       end
+
+      opt.separator("\nFORMATS:\n        " + PARSERS.join("\n        "))
     end
 
     parser.parse!(argv)
+
+    options[:format] = argv.first
 
     # TODO: would be nice if it could automatically determine which
     #c = $stdin.getc

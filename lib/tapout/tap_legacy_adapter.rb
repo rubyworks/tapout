@@ -1,6 +1,6 @@
-require 'koax/version'
+require 'tapout/version'
 
-module Koax
+module TapOut
 
   # The TAP Legacy Adapter transforms traditional TAP format to 
   # modern TAP-Y format.

@@ -1,0 +1,22 @@
+#!mast -x Syckfile -x PROFILE .ruby bin expo lib man qed spec test [A-Z]*
+.ruby
+bin/tapout
+lib/tapout/reporters/abstract.rb
+lib/tapout/reporters/breakdown.rb
+lib/tapout/reporters/dotprogress.rb
+lib/tapout/reporters/progressbar.rb
+lib/tapout/reporters/tap.rb
+lib/tapout/reporters/verbose.rb
+lib/tapout/reporters.rb
+lib/tapout/tap_legacy_adapter.rb
+lib/tapout/tap_legacy_parser.rb
+lib/tapout/tapy_parser.rb
+lib/tapout/version.rb
+lib/tapout.rb
+spec/applique/env.rb
+spec/tap_adapter.rdoc
+HISTORY.rdoc
+Profile
+LICENSE
+README.rdoc
+TAP-Y.rdoc

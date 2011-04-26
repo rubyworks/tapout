@@ -1,11 +1,11 @@
-require 'koax/reporters'
+require 'tapout/reporters'
 
 require 'yaml'
 
-module Koax
+module TapOut
 
-  # The TAP-Y Parser takes a TAP-Y stream and routes it though a Koax
-  # report format.
+  # The TAP-Y Parser takes a TAP-Y stream and routes it through
+  # a Tap Out report format.
   class TAPYParser
 
     #

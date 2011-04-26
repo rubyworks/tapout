@@ -1,6 +1,6 @@
 = TAP Parser
 
-  require 'koax'
+  require 'tapout'
 
 Given a legacy TAP stream:
 
@@ -23,7 +23,7 @@ The TAPAdapter can convert the stream into TAP-Y.
 
   stream = StringIO.new(@tap)
 
-  adapter = Koax::TAPLegacyAdapter.new(stream)
+  adapter = TapOut::TAPLegacyAdapter.new(stream)
 
   entries = adapter.to_a
 
@@ -36,7 +36,7 @@ Or pipe the converted stream directly to another stream.
 
   stream = StringIO.new(@tap)
 
-  adapter = Koax::TAPLegacyAdapter.new(stream)
+  adapter = TapOut::TAPLegacyAdapter.new(stream)
 
   output = ""
 
@@ -57,7 +57,7 @@ Let's see if this works.
 
   stream = StringIO.new(@tap)
 
-  adapter = Koax::TAPLegacyAdapter.new(stream)
+  adapter = TapOut::TAPLegacyAdapter.new(stream)
 
   entries = adapter.to_a
 
