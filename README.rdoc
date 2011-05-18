@@ -22,7 +22,7 @@ limitations.
 Tap Out fully supports TAP-Y at this time. TAP-J support is still in
 development.
 
-To learn about the TAP-Y/J specification, see the TAP-Y.rdoc file.
+To learn about the TAP-Y/J specification, see the TAP-YJ.rdoc file.
 
 For information about TAP, see http://testanything.org/wiki/index.php/Main_Page.
 

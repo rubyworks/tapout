@@ -1,0 +1,296 @@
+= TAP-Y/J Format
+
+TAP-Y and TAP-J are test streams. They are essentially the same except
+for the underlying format used, which are YAML and JSON repsectively.
+
+== TAP-Y Structure
+
+TAP-Y is a plain YAML stream format. Only YAML core types are used, 
+scalar, sequence and mapping.
+
+A YAML stream is composed a sequence of YAML *documents*, each divided by
+a start document marker (`---`). Each document MUST have a +type+ field
+which designates it a +header+, +case+, +test+, +note+ or +footer+. Any
+document MAY have an +extra+ field which contains an open mapping for
+extraneous information.
+
+=== Header
+
+A +header+ starts a stream of tests.
+
+  ---
+  type: header
+  start: 2011-10-10 12:12:32
+  count: 2
+  range: 1..2
+
+The header +count+ indicates the number of total tests forethcoming. If
+the number of tests is unknow, count can be omitted or marked <code>~</code>.
+
+The +range+ defines the index of tests to be run separated by two period marks.
+The range will usually start with +1+, but may start with another number if the
+underlying test system index tests.
+
+The +start+ entry marks the date and time testing began.
+
+=== Case
+
+The +case+ type indicates the start of a test case.
+
+  ---
+  type: case
+  description: Subtraction
+
+The case docoument has a  +description+ that is a free-form string describing
+the nature of the test case.
+
+=== Test
+
+The +test+ type indicates a test. A test MUST have a +status+ with
+one of five possible values: +pass+, +fail+, +error+, +omit+, +pending+.
+
+  ---
+  type: test
+  status: pass
+  description: an important test
+  file: foo.rb
+  line: 45
+  returned: true
+  expected: true
+  source: ok 1, 2
+  snippet:
+    - 44: ok 0,0
+    - 45: ok 1,2
+    - 46: ok 2,4
+  time: 0.01
+
+Like a case, the test can have a description.
+
+A test SHOULD also have a +file+ and +line+ number for the location of
+of the definition of the test, when +pass+ or +omit+, or the location
+of the exception when +fail+ or +error+. A +pending+ test will give the
+location of one or the other depending on how the underlying test system
+behaves.
+
+If a test fails or errors it MUST also provide a +message+ describing the
+nature of the exception. It MAY also provide a system +backtrace+.
+
+A test SHOULD also give an +expected+ and +returned+ value, if relavent
+to the nature of the test. For example, the most common test operation is
+equality, e.g. <code>assert_equal(4,3)</code>, +expected+ would be 3 and
++returned+ 4.
+
+A test SHOULD provide the line of +source+ code that triggers the test.
+This will be the line of code the +file+ and +line+ number references.
+
+The +snippet+ is like +source+ but provides surronding context. It MAY be
+a verbatim string, in which case it must have an odd number of lines with
+the source line in the center. Or, it MAY be an ordered map of 
+<i>- line: source</i>. Using an ordered map the line numbers may start
+and end wherever, but they MUST be consecutive and the source line MUST
+be among them.
+
+Lasty, the +time+ is the number of seconds that have elapsed since the
+the header start time.
+
+=== Footer
+
+The +footer+ type incidates the end of a test set.
+
+  ---
+  type: footer
+  count: 2
+  tally:
+    pass: 1
+    fail: 1
+    error: 0
+    omit: 0
+    pending: 0
+  time: 0.03
+  ...
+
+It MUST give the total test +count+ and +tally+ for each test status.
+
+The test stream end when a full ellipsis (<code>...</code>) appears.
+
+
+= Full TAP-Y Example
+
+Here is a complete example.
+
+An example of a TAP-Y stream looks like this:
+
+  ---
+  type: header
+  count: 2
+  range: 1..2
+  ---
+  type: case
+  description: Subtraction
+  ---
+  type: test
+  status: pass
+  file: foo.rb
+  line: 45
+  description: an important test
+  returned: true
+  expected: true
+  source: ok 1, 2
+  snippet:
+    44: ok 0,0
+    45: ok 1,2
+    46: ok 2,4
+  ---
+  type: test
+  status: fail
+  file: foo.rb
+  line: 46
+  description: another test
+  returned: false
+  expected: true
+  source: ok 2,4
+  snippet:
+    45: ok 1,2
+    46: ok 2,4
+    47:
+  message:
+    blah blah
+  extra:
+    THAC0: 16
+  ---
+  type: footer
+  time: 0.01
+  count: 2
+  tally:
+    pass: 1
+    fail: 1
+    error: 0
+    omit: 0
+    pending: 0
+  ...
+
+As you can see TAP-Y streams provide a great deal of detail. They are not
+intended for the end-user, but rather to pipe to consuming apps to process
+into a human readable form.
+
+== TAP-J
+
+TAP-J documents follow all the same feild rules as TAP-Y, but are represented
+as a stream of JSON documents.
+
+  {"type":"header","count":"2","range":"1..2"}
+  {"type":"case","description":"Subtraction"}
+  {"type":"test","status":"pass","file":"foo.rb","line":"45","description":
+  "an important test","returned":true,"expected":true,"source":"ok 1, 2",
+  "snippet":[{44:"  ok 0,0"},{45:"  ok 1,2"},{46:"  ok 2,4"}],"time":0.01}
+
+  ...  
+
+Ans so on.
+
+
+== Glossery of Fields
+
+=== count
+
+The `count` field provides the total number of tests being executed. It SHOULD
+be given in the header, if possible, and it MUST be given in the footer.
+
+=== extra
+
+Additional data, not specifucally designated by this sepecification can
+place under the `extra` section without worry that future versions of the
+specification will come into conflict with the field name. The namespace
+is a free-for-all, so use it with that in mind. Teh `extra` field can 
+appear in any document.
+
+=== file
+
+The `file` field provides the name of the file in which the test is defined,
+or where th test failed/errored.
+
+=== line
+
+The `line` field provides the line number of the file on which the
+definition of the test begins, or is the line number of where the 
+test failed/errored.
+
+=== message
+
+For tests with `fail` or `error` status, the message provides the explination
+for the failure or error. Usually this is just the error message produced by
+the underlying exception. The `pass` type can have the message field too,
+but it will generally be ignored by TAP consumers.
+
+=== range
+
+The range of tests being executed of the test suite. The range is written in
+the form of `X..Y`. Where X is the index of the first test and Y is the index
+of last test.
+
+NOTE: This may be deprecated since the count field probably suffices. Can a
+range uniquely identify the tests being run? If not, the first sentinal will
+always be 1, which is redundant.
+
+=== snippet
+
+The `snippet` field is either a verbatim string or an ordered mapping of line
+number mapped to the source code for that line. While `snippet` is
+like `source` it also contains extra lines of code before and after the
+test `line` for context.
+
+If `snippet` is a string it MUST consist an odd number of lines, the same
+number before and after the source line in the center, unless the line occurs
+at the begining or the end of the file. The number of lines before and after is
+arbitrary and up to the producer, but should be the same on either side. Three
+to five is generally enough.
+
+=== source
+
+The `source` field is a verbatim copy of the source code that defines the test.
+This may be just the first line of the definition. In classic TAP this
+is called `raw_test`.
+
+=== start
+
+The header SHOULD have a start time in ISO standard format <code>YYYY-MM-DD HH:MM:SS</code>.
+
+=== status
+
+The `status` field designates the status of a test document. Valid values
+are `pass`, `fail`, `error`, `omit` and `pending`.
+
+In comparison to the classic TAP format, `pass` is equivalent to `ok` and 
+`fail` and `error` are akin to `not ok`, where `fail` is "not ok" with regards
+to a test assertion and `error` is "not ok" becuase of a raised coding error.
+
+Tests with an `omit` status do not need to be provided in the document stream,
+so this status will rarely appear in practice. But if a producer chooses to do
+so this status simply means the test is purposefully being disregarded.
+
+On the other hand, `pending` means the test will be used in the future
+but implementation has not been completed. It serves as reminder to developers
+to write a missing test.
+
+=== tally
+
+The footer MUST provide a tally for all status categories. This is like `count`
+but broken down into status groups.
+
+=== time
+
+The tests and the footer SHOULD have the +time+ elapsed since starting the 
+tests given in number of seconds.
+
+=== type
+
+Each document MUST have a *type*. Valid types are `header`, `footer`, `case`,
+`test` and `note`.
+
+The `header` and `footer` types can only occur once, at the start and end of the
+stream, respectively. All other types may occur repeatedly in between.
+
+The `case` type marks the start of a testcase. All `test` (and `note`) 
+documents following it are considered a part of the case until a new case
+document occurs.
+
