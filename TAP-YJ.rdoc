@@ -9,8 +9,8 @@ TAP-Y is a plain YAML stream format. Only YAML core types are used,
 scalar, sequence and mapping.
 
 A YAML stream is composed a sequence of YAML *documents*, each divided by
-a start document marker (`---`). Each document MUST have a +type+ field
-which designates it a +header+, +case+, +test+, +note+ or +footer+. Any
+a start document marker (<code>---</code>). Each document MUST have a +type+
+field which designates it a +header+, +case+, +test+, +note+ or +footer+. Any
 document MAY have an +extra+ field which contains an open mapping for
 extraneous information.
 
@@ -28,7 +28,7 @@ The header +count+ indicates the number of total tests forethcoming. If
 the number of tests is unknow, count can be omitted or marked <code>~</code>.
 
 The +range+ defines the index of tests to be run separated by two period marks.
-The range will usually start with +1+, but may start with another number if the
+The range will usually start with 1, but may start with another number if the
 underlying test system index tests.
 
 The +start+ entry marks the date and time testing began.
@@ -64,7 +64,7 @@ one of five possible values: +pass+, +fail+, +error+, +omit+, +pending+.
     - 46: ok 2,4
   time: 0.01
 
-Like a case, the test can have a description.
+Like a case, the test can have a +description+.
 
 A test SHOULD also have a +file+ and +line+ number for the location of
 of the definition of the test, when +pass+ or +omit+, or the location
@@ -77,20 +77,20 @@ nature of the exception. It MAY also provide a system +backtrace+.
 
 A test SHOULD also give an +expected+ and +returned+ value, if relavent
 to the nature of the test. For example, the most common test operation is
-equality, e.g. <code>assert_equal(4,3)</code>, +expected+ would be 3 and
+equality, e.g. <code>assert_equal(4,3)</code>, so +expected+ would be 3 and
 +returned+ 4.
 
 A test SHOULD provide the line of +source+ code that triggers the test.
 This will be the line of code the +file+ and +line+ number references.
 
 The +snippet+ is like +source+ but provides surronding context. It MAY be
-a verbatim string, in which case it must have an odd number of lines with
+a verbatim string, in which case it MUST have an odd number of lines with
 the source line in the center. Or, it MAY be an ordered map of 
 <i>- line: source</i>. Using an ordered map the line numbers may start
 and end wherever, but they MUST be consecutive and the source line MUST
 be among them.
 
-Lasty, the +time+ is the number of seconds that have elapsed since the
+Lastly, the +time+ is the number of seconds that have elapsed since the
 the header start time.
 
 === Footer
@@ -109,7 +109,8 @@ The +footer+ type incidates the end of a test set.
   time: 0.03
   ...
 
-It MUST give the total test +count+ and +tally+ for each test status.
+It MUST give the total test +count+ and +tally+ for each test status, and
+SHOULD give the time ellapsed.
 
 The test stream end when a full ellipsis (<code>...</code>) appears.
 
@@ -178,11 +179,9 @@ into a human readable form.
 TAP-J documents follow all the same feild rules as TAP-Y, but are represented
 as a stream of JSON documents.
 
-  {"type":"header","count":"2","range":"1..2"}
-  {"type":"case","description":"Subtraction"}
-  {"type":"test","status":"pass","file":"foo.rb","line":"45","description":
-  "an important test","returned":true,"expected":true,"source":"ok 1, 2",
-  "snippet":[{44:"  ok 0,0"},{45:"  ok 1,2"},{46:"  ok 2,4"}],"time":0.01}
+  {"type":"header", "count":"2", "range":"1..2"}
+  {"type":"case", "description":"Subtraction"}
+  {"type": "test", "status": "pass", "file": "foo.rb", "line": "45", "description": "an important test", "returned": true, "expected": true, "source": "ok 1, 2", "snippet": [{44:"  ok 0,0"},{45:"  ok 1,2"},{46:"  ok 2,4"}], "time": 0.01}
 
   ...  
 
