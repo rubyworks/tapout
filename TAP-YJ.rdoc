@@ -114,69 +114,14 @@ SHOULD give the time ellapsed.
 
 The test stream end when a full ellipsis (<code>...</code>) appears.
 
-
-= Full TAP-Y Example
-
-Here is a complete example.
-
-An example of a TAP-Y stream looks like this:
-
-  ---
-  type: header
-  count: 2
-  range: 1..2
-  ---
-  type: case
-  description: Subtraction
-  ---
-  type: test
-  status: pass
-  file: foo.rb
-  line: 45
-  description: an important test
-  returned: true
-  expected: true
-  source: ok 1, 2
-  snippet:
-    44: ok 0,0
-    45: ok 1,2
-    46: ok 2,4
-  ---
-  type: test
-  status: fail
-  file: foo.rb
-  line: 46
-  description: another test
-  returned: false
-  expected: true
-  source: ok 2,4
-  snippet:
-    45: ok 1,2
-    46: ok 2,4
-    47:
-  message:
-    blah blah
-  extra:
-    THAC0: 16
-  ---
-  type: footer
-  time: 0.01
-  count: 2
-  tally:
-    pass: 1
-    fail: 1
-    error: 0
-    omit: 0
-    pending: 0
-  ...
-
 As you can see TAP-Y streams provide a great deal of detail. They are not
 intended for the end-user, but rather to pipe to consuming apps to process
 into a human readable form.
 
+
 == TAP-J
 
-TAP-J documents follow all the same feild rules as TAP-Y, but are represented
+TAP-J documents follows all the same feild rules as TAP-Y, but are represented
 as a stream of JSON documents.
 
   {"type":"header", "count":"2", "range":"1..2"}
@@ -292,4 +237,60 @@ stream, respectively. All other types may occur repeatedly in between.
 The `case` type marks the start of a testcase. All `test` (and `note`) 
 documents following it are considered a part of the case until a new case
 document occurs.
+
+
+== Example - Complete TAP-Y Stream
+
+Here is a complete example.
+
+An example of a TAP-Y stream looks like this:
+
+  ---
+  type: header
+  count: 2
+  range: 1..2
+  ---
+  type: case
+  description: Subtraction
+  ---
+  type: test
+  status: pass
+  file: foo.rb
+  line: 45
+  description: an important test
+  returned: true
+  expected: true
+  source: ok 1, 2
+  snippet:
+    - 44: ok 0,0
+    - 45: ok 1,2
+    - 46: ok 2,4
+  ---
+  type: test
+  status: fail
+  file: foo.rb
+  line: 46
+  description: another test
+  returned: false
+  expected: true
+  source: ok 2,4
+  snippet:
+    - 45: ok 1,2
+    - 46: ok 2,4
+    - 47:
+  message:
+    blah blah
+  extra:
+    THAC0: 16
+  ---
+  type: footer
+  time: 0.01
+  count: 2
+  tally:
+    pass: 1
+    fail: 1
+    error: 0
+    omit: 0
+    pending: 0
+  ...
 
