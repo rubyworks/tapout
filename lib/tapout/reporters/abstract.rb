@@ -188,16 +188,19 @@ module TapOut
         line    = entry['line']
         snippet = entry['snippet']
 
-        if snippet
-          len = snippet.map{ |n, t| n }.max.to_s.length
+        s = []
 
-          # ensure proper alignment by zero-padding line numbers
-          format = " %5s %0#{len}d %s"
-
-          snippet = snippet.map{|n,t|[n,t]}.sort{|a,b|a[0]<=>b[0]}
-
-          pretty = snippet.map do |(n,t)|
-            format % [('=>' if n == line), n, t.rstrip]
+        case snippet
+        when String
+          lines = snippet.lines.to_a
+          index = line - ((lines.size - 1) / 2)
+          lines.each do |line|
+            s << [index, line]
+            index += 1
+          end
+        when Array
+          snippet.each do |h|
+            s << [h.key, h.value]
           end
         else
           ##backtrace = exception.backtrace.reject{ |bt| bt =~ INTERNALS }
@@ -212,18 +215,24 @@ module TapOut
             region = [source_line - radius, 1].max ..
                      [source_line + radius, source.length].min
 
-            len = region.last.to_s.length
+            #len = region.last.to_s.length
 
-            # ensure proper alignment by zero-padding line numbers
-            format = " %5s %0#{len}d %s"
-
-            pretty = region.map do |n|
-              SOURECE_FORMAT % [('=>' if n == line), n, source[n-1].chomp]
-            end #.unshift "[#{region.inspect}] in #{source_file}"
-          else
-            pretty = ''
+            s = region.map do |n|
+              format % [n, source[n-1].chomp]
+            end
           end
         end
+
+        len = s.map{ |(n,t)| n }.max.to_s.length
+
+        # ensure proper alignment by zero-padding line numbers
+        format = " %5s %0#{len}d %s"
+
+        #s = s.map{|n,t|[n,t]}.sort{|a,b|a[0]<=>b[0]}
+
+        pretty = s.map do |(n,t)|
+          format % [('=>' if n == line), n, t.rstrip]
+        end #.unshift "[#{region.inspect}] in #{source_file}"
 
         return pretty
       end
