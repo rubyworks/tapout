@@ -1,7 +1,12 @@
 --- !ruby/object:Gem::Specification 
 name: tapout
 version: !ruby/object:Gem::Version 
+  hash: 27
   prerelease: 
+  segments: 
+  - 0
+  - 1
+  - 0
   version: 0.1.0
 platform: ruby
 authors: 
@@ -20,6 +25,9 @@ dependencies:
     requirements: 
     - - ">="
       - !ruby/object:Gem::Version 
+        hash: 3
+        segments: 
+        - 0
         version: "0"
   type: :runtime
   version_requirements: *id001
@@ -31,6 +39,9 @@ dependencies:
     requirements: 
     - - ">="
       - !ruby/object:Gem::Version 
+        hash: 3
+        segments: 
+        - 0
         version: "0"
   type: :development
   version_requirements: *id002
@@ -42,6 +53,9 @@ dependencies:
     requirements: 
     - - ">="
       - !ruby/object:Gem::Version 
+        hash: 3
+        segments: 
+        - 0
         version: "0"
   type: :development
   version_requirements: *id003
@@ -91,12 +105,18 @@ required_ruby_version: !ruby/object:Gem::Requirement
   requirements: 
   - - ">="
     - !ruby/object:Gem::Version 
+      hash: 3
+      segments: 
+      - 0
       version: "0"
 required_rubygems_version: !ruby/object:Gem::Requirement 
   none: false
   requirements: 
   - - ">="
     - !ruby/object:Gem::Version 
+      hash: 3
+      segments: 
+      - 0
       version: "0"
 requirements: []
 
