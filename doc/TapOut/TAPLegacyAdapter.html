@@ -1,0 +1,1006 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf8" />
+<title>Class: TapOut::TAPLegacyAdapter</title>
+<link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '..';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (T)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../TapOut.html" title="TapOut (module)">TapOut</a></span></span>
+     &raquo; 
+    <span class="title">TAPLegacyAdapter</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Class List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Class: TapOut::TAPLegacyAdapter
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">TapOut::TAPLegacyAdapter</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/tapout/tap_legacy_adapter.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>The TAP Legacy Adapter transforms traditional TAP format to  modern TAP-Y
+format.</p>
+
+<p>NOTE: This is still a work in progress.</p>
+
+<p>TODO: Add support for TAP-J.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+
+  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#entries-instance_method" title="#entries (instance method)">- (Object) <strong>entries</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title readonly">readonly</span>
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>We need to keep an internal list of all entries in order to create a proper
+footer.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#%3C%3C-instance_method" title="#&lt;&lt; (instance method)">- (Object) <strong>&lt;&lt;</strong>(line) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#convert_not_ok-instance_method" title="#convert_not_ok (instance method)">- (Object) <strong>convert_not_ok</strong>(number, label, metainfo) </a>
+    
+
+    
+  </span>
+  
+  
+  <span class="note title private">private</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#finish-instance_method" title="#finish (instance method)">- (Object) <strong>finish</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (TAPLegacyAdapter) <strong>initialize</strong>(input) </a>
+    
+
+    
+  </span>
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>A new instance of TAPLegacyAdapter.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#make_footer-instance_method" title="#make_footer (instance method)">- (Object) <strong>make_footer</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  <span class="note title private">private</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#output-instance_method" title="#output (instance method)">- (Object) <strong>output</strong>(entry) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#parse-instance_method" title="#parse (instance method)">- (Object) <strong>parse</strong>(cache) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#reset-instance_method" title="#reset (instance method)">- (Object) <strong>reset</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Reset state.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#to_a-instance_method" title="#to_a (instance method)">- (Object) <strong>to_a</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Route stream to an array of entires.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#to_s-instance_method" title="#to_s (instance method)">- (Object) <strong>to_s</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Convert input stream to TAP-Y string.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#%7C-instance_method" title="#| (instance method)">- (Object) <strong>|</strong>(output) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Convert input stream to TAP-Y and <b>pipe</b> to <tt>output</tt> stream.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <p class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="TapOut::TAPLegacyAdapter (class)">TAPLegacyAdapter</a></span></tt>) <strong>initialize</strong>(input) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>A new instance of TAPLegacyAdapter</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+15
+16
+17
+18</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/tapout/tap_legacy_adapter.rb', line 15</span>
+
+<span class='def def kw'>def</span> <span class='initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='input identifier id'>input</span><span class='rparen token'>)</span>
+  <span class='@input ivar id'>@input</span> <span class='assign token'>=</span> <span class='input identifier id'>input</span>
+  <span class='reset identifier id'>reset</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id=""></span>
+      <span id="entries-instance_method"></span>
+      <div class="method_details first">
+  <p class="signature first" id="entries-instance_method">
+  
+    - (<tt>Object</tt>) <strong>entries</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>We need to keep an internal list of all entries in order to create a proper
+footer.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+30
+31
+32</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/tapout/tap_legacy_adapter.rb', line 30</span>
+
+<span class='def def kw'>def</span> <span class='entries identifier id'>entries</span>
+  <span class='@entries ivar id'>@entries</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="<<-instance_method">
+  
+    - (<tt>Object</tt>) <strong>&lt;&lt;</strong>(line) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/tapout/tap_legacy_adapter.rb', line 54</span>
+
+<span class='def def kw'>def</span> <span class='lshft op'>&lt;&lt;</span><span class='lparen token'>(</span><span class='line identifier id'>line</span><span class='rparen token'>)</span>
+  <span class='case case kw'>case</span> <span class='line identifier id'>line</span>
+  <span class='when when kw'>when</span> <span class='nil nil kw'>nil</span>
+    <span class='parse identifier id'>parse</span><span class='lparen token'>(</span><span class='@cache ivar id'>@cache</span><span class='rparen token'>)</span>
+    <span class='@state ivar id'>@state</span> <span class='assign token'>=</span> <span class='symbol val'>:footer</span>
+    <span class='finish identifier id'>finish</span>
+  <span class='when when kw'>when</span> <span class='regexp val'>/^\d+\.\.\d+/</span>
+    <span class='comment val'>#parse(@cache) if @state != :plan</span>
+    <span class='return return kw'>return</span> <span class='if if_mod kw'>if</span> <span class='@head ivar id'>@head</span>
+    <span class='@head ivar id'>@head</span>  <span class='assign token'>=</span> <span class='true true kw'>true</span>
+    <span class='@state ivar id'>@state</span> <span class='assign token'>=</span> <span class='symbol val'>:plan</span>
+    <span class='@cache ivar id'>@cache</span> <span class='lshft op'>&lt;&lt;</span> <span class='line identifier id'>line</span>
+  <span class='when when kw'>when</span> <span class='regexp val'>/^ok/</span>
+    <span class='parse identifier id'>parse</span><span class='lparen token'>(</span><span class='@cache ivar id'>@cache</span><span class='rparen token'>)</span> <span class='comment val'>#if @state != :ok</span>
+    <span class='@state ivar id'>@state</span> <span class='assign token'>=</span> <span class='symbol val'>:ok</span>
+    <span class='@cache ivar id'>@cache</span> <span class='lshft op'>&lt;&lt;</span> <span class='line identifier id'>line</span>
+  <span class='when when kw'>when</span> <span class='regexp val'>/^not\ ok/</span>
+    <span class='parse identifier id'>parse</span><span class='lparen token'>(</span><span class='@cache ivar id'>@cache</span><span class='rparen token'>)</span> <span class='comment val'>#if @state != :not_ok</span>
+    <span class='@state ivar id'>@state</span> <span class='assign token'>=</span> <span class='symbol val'>:not_ok</span>
+    <span class='@cache ivar id'>@cache</span> <span class='lshft op'>&lt;&lt;</span> <span class='line identifier id'>line</span>
+  <span class='when when kw'>when</span> <span class='regexp val'>/^\#/</span>
+    <span class='parse identifier id'>parse</span><span class='lparen token'>(</span><span class='@cache ivar id'>@cache</span><span class='rparen token'>)</span> <span class='if if_mod kw'>if</span> <span class='@state ivar id'>@state</span> <span class='neq op'>!=</span> <span class='symbol val'>:comment</span>
+    <span class='@state ivar id'>@state</span> <span class='assign token'>=</span> <span class='symbol val'>:comment</span>
+    <span class='@cache ivar id'>@cache</span> <span class='lshft op'>&lt;&lt;</span> <span class='line identifier id'>line</span>
+  <span class='else else kw'>else</span>
+    <span class='@cache ivar id'>@cache</span> <span class='lshft op'>&lt;&lt;</span> <span class='line identifier id'>line</span>
+  <span class='end end kw'>end</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="convert_not_ok-instance_method">
+  
+    - (<tt>Object</tt>) <strong>convert_not_ok</strong>(number, label, metainfo)  <span class="extras">(private)</span>
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/tapout/tap_legacy_adapter.rb', line 134</span>
+
+<span class='def def kw'>def</span> <span class='convert_not_ok identifier id'>convert_not_ok</span><span class='lparen token'>(</span><span class='number identifier id'>number</span><span class='comma token'>,</span> <span class='label identifier id'>label</span><span class='comma token'>,</span> <span class='metainfo identifier id'>metainfo</span><span class='rparen token'>)</span>
+  <span class='entry identifier id'>entry</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+  <span class='entry identifier id'>entry</span><span class='lbrack token'>[</span><span class='string val'>'type'</span><span class='rbrack token'>]</span>   <span class='assign token'>=</span> <span class='string val'>'test'</span>
+  <span class='entry identifier id'>entry</span><span class='lbrack token'>[</span><span class='string val'>'status'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>'fail'</span>
+  <span class='entry identifier id'>entry</span><span class='lbrack token'>[</span><span class='string val'>'index'</span><span class='rbrack token'>]</span>  <span class='assign token'>=</span> <span class='number identifier id'>number</span><span class='dot token'>.</span><span class='to_i identifier id'>to_i</span>
+  <span class='entry identifier id'>entry</span><span class='lbrack token'>[</span><span class='string val'>'label'</span><span class='rbrack token'>]</span>  <span class='assign token'>=</span> <span class='label identifier id'>label</span>
+  <span class='if if kw'>if</span> <span class='metainfo identifier id'>metainfo</span>
+    <span class='entry identifier id'>entry</span><span class='lbrack token'>[</span><span class='string val'>'file'</span><span class='rbrack token'>]</span>        <span class='assign token'>=</span> <span class='metainfo identifier id'>metainfo</span><span class='lbrack token'>[</span><span class='string val'>'file'</span><span class='rbrack token'>]</span>
+    <span class='entry identifier id'>entry</span><span class='lbrack token'>[</span><span class='string val'>'line'</span><span class='rbrack token'>]</span>        <span class='assign token'>=</span> <span class='metainfo identifier id'>metainfo</span><span class='lbrack token'>[</span><span class='string val'>'line'</span><span class='rbrack token'>]</span>
+    <span class='entry identifier id'>entry</span><span class='lbrack token'>[</span><span class='string val'>'expected'</span><span class='rbrack token'>]</span>    <span class='assign token'>=</span> <span class='metainfo identifier id'>metainfo</span><span class='lbrack token'>[</span><span class='string val'>'wanted'</span><span class='rbrack token'>]</span>
+    <span class='entry identifier id'>entry</span><span class='lbrack token'>[</span><span class='string val'>'returned'</span><span class='rbrack token'>]</span>    <span class='assign token'>=</span> <span class='metainfo identifier id'>metainfo</span><span class='lbrack token'>[</span><span class='string val'>'found'</span><span class='rbrack token'>]</span>
+    <span class='entry identifier id'>entry</span><span class='lbrack token'>[</span><span class='string val'>'description'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='metainfo identifier id'>metainfo</span><span class='lbrack token'>[</span><span class='string val'>'description'</span><span class='rbrack token'>]</span>
+    <span class='entry identifier id'>entry</span><span class='lbrack token'>[</span><span class='string val'>'source'</span><span class='rbrack token'>]</span>      <span class='assign token'>=</span> <span class='metainfo identifier id'>metainfo</span><span class='lbrack token'>[</span><span class='string val'>'raw_test'</span><span class='rbrack token'>]</span>
+    <span class='entry identifier id'>entry</span><span class='lbrack token'>[</span><span class='string val'>'extra'</span><span class='rbrack token'>]</span>       <span class='assign token'>=</span> <span class='metainfo identifier id'>metainfo</span><span class='lbrack token'>[</span><span class='string val'>'extensions'</span><span class='rbrack token'>]</span>
+  <span class='end end kw'>end</span>
+  <span class='entry identifier id'>entry</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="finish-instance_method">
+  
+    - (<tt>Object</tt>) <strong>finish</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+123
+124
+125
+126
+127
+128
+129</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/tapout/tap_legacy_adapter.rb', line 123</span>
+
+<span class='def def kw'>def</span> <span class='finish identifier id'>finish</span>
+  <span class='output identifier id'>output</span><span class='lparen token'>(</span><span class='make_footer identifier id'>make_footer</span><span class='rparen token'>)</span>
+  <span class='case case kw'>case</span> <span class='@out ivar id'>@out</span>
+  <span class='when when kw'>when</span> <span class='String constant id'>String</span><span class='comma token'>,</span> <span class='IO constant id'>IO</span>
+    <span class='@out ivar id'>@out</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>'...'</span>
+  <span class='end end kw'>end</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="make_footer-instance_method">
+  
+    - (<tt>Object</tt>) <strong>make_footer</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/tapout/tap_legacy_adapter.rb', line 153</span>
+
+<span class='def def kw'>def</span> <span class='make_footer identifier id'>make_footer</span>
+  <span class='groups identifier id'>groups</span> <span class='assign token'>=</span> <span class='@entries ivar id'>@entries</span><span class='dot token'>.</span><span class='group_by identifier id'>group_by</span><span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='e identifier id'>e</span><span class='bitor op'>|</span> <span class='e identifier id'>e</span><span class='lbrack token'>[</span><span class='string val'>'status'</span><span class='rbrack token'>]</span> <span class='rbrace token'>}</span>
+
+  <span class='entry identifier id'>entry</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+  <span class='entry identifier id'>entry</span><span class='lbrack token'>[</span><span class='string val'>'count'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='@count ivar id'>@count</span>
+  <span class='entry identifier id'>entry</span><span class='lbrack token'>[</span><span class='string val'>'type'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>'footer'</span>
+  <span class='entry identifier id'>entry</span><span class='lbrack token'>[</span><span class='string val'>'tally'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span>
+    <span class='string val'>'pass'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='groups identifier id'>groups</span><span class='lbrack token'>[</span><span class='string val'>'pass'</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='size identifier id'>size</span><span class='comma token'>,</span>
+    <span class='string val'>'fail'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='groups identifier id'>groups</span><span class='lbrack token'>[</span><span class='string val'>'fail'</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='size identifier id'>size</span>
+  <span class='rbrace token'>}</span>
+  <span class='entry identifier id'>entry</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="output-instance_method">
+  
+    - (<tt>Object</tt>) <strong>output</strong>(entry) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+112
+113
+114
+115
+116
+117
+118
+119
+120</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/tapout/tap_legacy_adapter.rb', line 112</span>
+
+<span class='def def kw'>def</span> <span class='output identifier id'>output</span><span class='lparen token'>(</span><span class='entry identifier id'>entry</span><span class='rparen token'>)</span>
+  <span class='@entries ivar id'>@entries</span> <span class='lshft op'>&lt;&lt;</span> <span class='entry identifier id'>entry</span>
+  <span class='case case kw'>case</span> <span class='@out ivar id'>@out</span>
+  <span class='when when kw'>when</span> <span class='String constant id'>String</span><span class='comma token'>,</span> <span class='IO constant id'>IO</span>
+    <span class='@out ivar id'>@out</span> <span class='lshft op'>&lt;&lt;</span> <span class='entry identifier id'>entry</span><span class='dot token'>.</span><span class='to_yaml identifier id'>to_yaml</span>
+  <span class='else else kw'>else</span>
+    <span class='@out ivar id'>@out</span> <span class='lshft op'>&lt;&lt;</span> <span class='entry identifier id'>entry</span>
+  <span class='end end kw'>end</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="parse-instance_method">
+  
+    - (<tt>Object</tt>) <strong>parse</strong>(cache) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/tapout/tap_legacy_adapter.rb', line 84</span>
+
+<span class='def def kw'>def</span> <span class='parse identifier id'>parse</span><span class='lparen token'>(</span><span class='cache identifier id'>cache</span><span class='rparen token'>)</span>
+  <span class='case case kw'>case</span> <span class='@state ivar id'>@state</span>
+  <span class='when when kw'>when</span> <span class='nil nil kw'>nil</span>
+    <span class='return return kw'>return</span>
+  <span class='when when kw'>when</span> <span class='symbol val'>:plan</span>
+    <span class='line identifier id'>line</span> <span class='assign token'>=</span> <span class='cache identifier id'>cache</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span>
+    <span class='md identifier id'>md</span> <span class='assign token'>=</span> <span class='regexp val'>/^(\d+)\.\.(\d+)\s*$/</span><span class='dot token'>.</span><span class='match identifier id'>match</span><span class='lparen token'>(</span><span class='line identifier id'>line</span><span class='rparen token'>)</span>
+    <span class='count identifier id'>count</span> <span class='assign token'>=</span> <span class='md identifier id'>md</span><span class='lbrack token'>[</span><span class='integer val'>2</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='to_i identifier id'>to_i</span> <span class='minus op'>-</span> <span class='md identifier id'>md</span><span class='lbrack token'>[</span><span class='integer val'>1</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='to_i identifier id'>to_i</span> <span class='plus op'>+</span> <span class='integer val'>1</span>
+    <span class='entry identifier id'>entry</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='string val'>'count'</span><span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='count identifier id'>count</span><span class='comma token'>,</span> <span class='string val'>'type'</span><span class='assign token'>=</span><span class='gt op'>&gt;</span><span class='string val'>'header'</span><span class='comma token'>,</span> <span class='string val'>'version'</span><span class='assign token'>=</span><span class='gt op'>&gt;</span><span class='TAP_Y_VERSION constant id'>TAP_Y_VERSION</span><span class='rbrace token'>}</span>
+  <span class='when when kw'>when</span> <span class='symbol val'>:ok</span>
+    <span class='line identifier id'>line</span> <span class='assign token'>=</span> <span class='cache identifier id'>cache</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span>
+    <span class='md identifier id'>md</span> <span class='assign token'>=</span> <span class='regexp val'>/^ok\s+(\d+)\s*\-?\s*(.*?)($|#)/</span><span class='dot token'>.</span><span class='match identifier id'>match</span><span class='lparen token'>(</span><span class='line identifier id'>line</span><span class='rparen token'>)</span>
+    <span class='entry identifier id'>entry</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='string val'>'type'</span><span class='assign token'>=</span><span class='gt op'>&gt;</span><span class='string val'>'test'</span><span class='comma token'>,</span><span class='string val'>'status'</span><span class='assign token'>=</span><span class='gt op'>&gt;</span><span class='string val'>'pass'</span><span class='comma token'>,</span><span class='string val'>'index'</span><span class='assign token'>=</span><span class='gt op'>&gt;</span><span class='md identifier id'>md</span><span class='lbrack token'>[</span><span class='integer val'>1</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='to_i identifier id'>to_i</span><span class='comma token'>,</span> <span class='string val'>'label'</span><span class='assign token'>=</span><span class='gt op'>&gt;</span><span class='md identifier id'>md</span><span class='lbrack token'>[</span><span class='integer val'>2</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
+  <span class='when when kw'>when</span> <span class='symbol val'>:not_ok</span>
+    <span class='line identifier id'>line</span> <span class='assign token'>=</span> <span class='cache identifier id'>cache</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span>
+    <span class='yaml identifier id'>yaml</span> <span class='assign token'>=</span> <span class='cache identifier id'>cache</span><span class='lbrack token'>[</span><span class='float val'>1</span><span class='dot2 op'>..</span><span class='integer val'>-2</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>''</span><span class='rparen token'>)</span>
+    <span class='data identifier id'>data</span> <span class='assign token'>=</span> <span class='YAML constant id'>YAML</span><span class='dot token'>.</span><span class='load identifier id'>load</span><span class='lparen token'>(</span><span class='yaml identifier id'>yaml</span><span class='rparen token'>)</span>
+    <span class='md identifier id'>md</span> <span class='assign token'>=</span> <span class='regexp val'>/^not ok\s+(\d+)\s*\-?\s*(.*?)($|#)/</span><span class='dot token'>.</span><span class='match identifier id'>match</span><span class='lparen token'>(</span><span class='line identifier id'>line</span><span class='rparen token'>)</span>
+    <span class='entry identifier id'>entry</span> <span class='assign token'>=</span> <span class='convert_not_ok identifier id'>convert_not_ok</span><span class='lparen token'>(</span><span class='md identifier id'>md</span><span class='lbrack token'>[</span><span class='integer val'>1</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='md identifier id'>md</span><span class='lbrack token'>[</span><span class='integer val'>2</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='data identifier id'>data</span><span class='rparen token'>)</span>
+  <span class='when when kw'>when</span> <span class='symbol val'>:comment</span>
+    <span class='desc identifier id'>desc</span> <span class='assign token'>=</span> <span class='cache identifier id'>cache</span><span class='dot token'>.</span><span class='map identifier id'>map</span><span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='c identifier id'>c</span><span class='bitor op'>|</span> <span class='c identifier id'>c</span><span class='dot token'>.</span><span class='sub identifier id'>sub</span><span class='lparen token'>(</span><span class='regexp val'>/^\#\s{0,1}/</span><span class='comma token'>,</span> <span class='string val'>''</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&quot;\n&quot;</span><span class='rparen token'>)</span>
+    <span class='entry identifier id'>entry</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='string val'>'type'</span><span class='assign token'>=</span><span class='gt op'>&gt;</span><span class='string val'>'note'</span><span class='comma token'>,</span> <span class='string val'>'description'</span><span class='assign token'>=</span><span class='gt op'>&gt;</span><span class='desc identifier id'>desc</span><span class='dot token'>.</span><span class='rstrip identifier id'>rstrip</span><span class='rbrace token'>}</span>
+  <span class='end end kw'>end</span>
+  <span class='output identifier id'>output</span><span class='lparen token'>(</span><span class='entry identifier id'>entry</span><span class='rparen token'>)</span>
+  <span class='@cache ivar id'>@cache</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="reset-instance_method">
+  
+    - (<tt>Object</tt>) <strong>reset</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>Reset state.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+21
+22
+23
+24
+25
+26</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/tapout/tap_legacy_adapter.rb', line 21</span>
+
+<span class='def def kw'>def</span> <span class='reset identifier id'>reset</span>
+  <span class='@head ivar id'>@head</span>    <span class='assign token'>=</span> <span class='false false kw'>false</span>
+  <span class='@state ivar id'>@state</span>   <span class='assign token'>=</span> <span class='nil nil kw'>nil</span>
+  <span class='@entries ivar id'>@entries</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='@cache ivar id'>@cache</span>   <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="to_a-instance_method">
+  
+    - (<tt>Object</tt>) <strong>to_a</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>Route stream to an array of entires.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+38
+39
+40</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/tapout/tap_legacy_adapter.rb', line 38</span>
+
+<span class='def def kw'>def</span> <span class='to_a identifier id'>to_a</span>
+  <span class='self self kw'>self</span> <span class='bitor op'>|</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="to_s-instance_method">
+  
+    - (<tt>Object</tt>) <strong>to_s</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>Convert input stream to TAP-Y string.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+33
+34
+35</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/tapout/tap_legacy_adapter.rb', line 33</span>
+
+<span class='def def kw'>def</span> <span class='to_s identifier id'>to_s</span>
+  <span class='self self kw'>self</span> <span class='bitor op'>|</span> <span class='string val'>&quot;&quot;</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="|-instance_method">
+  
+    - (<tt>Object</tt>) <strong>|</strong>(output) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>Convert input stream to TAP-Y and <b>pipe</b> to <tt>output</tt> stream.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+43
+44
+45
+46
+47
+48
+49
+50
+51</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/tapout/tap_legacy_adapter.rb', line 43</span>
+
+<span class='def def kw'>def</span> <span class='bitor op'>|</span><span class='lparen token'>(</span><span class='output identifier id'>output</span><span class='rparen token'>)</span>
+  <span class='@out ivar id'>@out</span> <span class='assign token'>=</span> <span class='output identifier id'>output</span>
+  <span class='reset identifier id'>reset</span>
+  <span class='while while kw'>while</span> <span class='line identifier id'>line</span> <span class='assign token'>=</span> <span class='@input ivar id'>@input</span><span class='dot token'>.</span><span class='gets identifier id'>gets</span>
+    <span class='self self kw'>self</span> <span class='lshft op'>&lt;&lt;</span> <span class='line identifier id'>line</span>
+  <span class='end end kw'>end</span>
+  <span class='self self kw'>self</span> <span class='lshft op'>&lt;&lt;</span> <span class='nil nil kw'>nil</span>
+  <span class='return return kw'>return</span> <span class='@out ivar id'>@out</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+    
+    <div id="footer">
+  Generated on Sat May 21 16:28:33 2011 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.6.7 (ruby-1.8.7).
+</div>
+
+  </body>
+</html>
