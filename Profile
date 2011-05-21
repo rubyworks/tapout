@@ -1,6 +1,6 @@
 --- 
+name   : tapout
 title  : Tap Out
-version: 1.0.0
 summary: Progressive TAP Harness
 contact: trans <transfire@gmail.com>
 
@@ -9,9 +9,9 @@ description:
   TAP-J stream and output it in a variety of useful formats.
 
 requires:
-- ansi
-- syckle (build)
-- qed    (buidl)
+  - ansi
+  - redline (build)
+  - qed     (build)
 
 resources:
   home: http://rubyworks.github.com/tapout
@@ -23,7 +23,8 @@ repositories:
 authors:
   - Thomas Sawyer
 
-company  : RubyWorks
+organization: RubyWorks
+
 created  : 2010-12-23
 license  : Apache 2.0
 copyright: Copyright (c) 2010 Thomas Sawyer

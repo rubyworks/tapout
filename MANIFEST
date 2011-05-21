@@ -1,4 +1,4 @@
-#!mast -x Syckfile -x PROFILE .ruby bin expo lib man qed spec test [A-Z]*
+#!mast .ruby bin lib man qed test [A-Z][A-Z]*
 .ruby
 bin/tapout
 lib/tapout/reporters/abstract.rb
@@ -13,10 +13,10 @@ lib/tapout/tap_legacy_parser.rb
 lib/tapout/tapy_parser.rb
 lib/tapout/version.rb
 lib/tapout.rb
-spec/applique/env.rb
-spec/tap_adapter.rdoc
+qed/applique/env.rb
+qed/tap_adapter.rdoc
 HISTORY.rdoc
-Profile
-LICENSE
+APACHE2.txt
 README.rdoc
-TAP-Y.rdoc
+TAP-YJ.rdoc
+NOTICE.rdoc
