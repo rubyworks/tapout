@@ -22,8 +22,8 @@ stats:
 rdoc:
   service : rdoc
   format  : redfish
-  exclude : [Redfile, Profile, Version, Manifest.txt]
-  output  : site/doc/api
+  exclude : [Redfile, Profile, Version, MANIFEST.txt]
+  output  : site/doc
 
 ri:
   service: RI
