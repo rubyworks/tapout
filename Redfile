@@ -19,18 +19,11 @@ stats:
   output   : ~
   active   : true
 
-rdoc:
-  service : rdoc
-  format  : redfish
-  exclude : [Redfile, Profile, Version, MANIFEST.txt]
-  output  : site/doc
-
-ri:
-  service: RI
-  include: ~
-  exclude: ~
-  output : .ri
-  active : true
+yard:
+  service : Custom
+  track   : site
+  document:
+    system "yard"
 
 grancher:
   service: Grancher
