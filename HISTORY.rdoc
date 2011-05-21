@@ -1,5 +1,11 @@
 = RELEASE HISTORY
 
-== 1.0.0 / 2011-04-26
+== 1.0.0 / 2011-05-21
 
+This is the initial release of Tap Out,
+a TAP and TAP-Y/J output formatter.
+
+Changes:
+
+* Happy Release Day!
 
