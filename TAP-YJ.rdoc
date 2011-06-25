@@ -93,6 +93,16 @@ be among them.
 Lastly, the +time+ is the number of seconds that have elapsed since the
 the header start time.
 
+=== Note
+
+The +note+ type is used to interject a note or message bettween tests that
+is not tieds to a specific test. It has one a few fields.
+
+  ---
+  type: note
+  description:
+    This is an example note.
+
 === Footer
 
 The +footer+ type incidates the end of a test set.
