@@ -1,31 +1,30 @@
 --- 
 name   : tapout
-title  : Tap Out
+title  : Tapout
 summary: Progressive TAP Harness
-contact: trans <transfire@gmail.com>
 
 description:
-  Tap Out is a TAP consumer that can take any TAP, TAP-Y or
+  Tapout is a TAP consumer that can take any TAP, TAP-Y or
   TAP-J stream and output it in a variety of useful formats.
 
 requires:
   - ansi
-  - redline (build)
-  - qed     (build)
+  - detroit (build)
+  - qed     (test)
 
 resources:
   home: http://rubyworks.github.com/tapout
   code: http://github.com/rubyworks/tapout
 
 repositories:
-  public: git://github.com/proutils/tapout.git
+  upstream: git://github.com/rubyworks/tapout.git
 
 authors:
-  - Thomas Sawyer
+  - Thomas Sawyer <transfire@gmail.com>
 
 organization: RubyWorks
 
 created  : 2010-12-23
-license  : Apache 2.0
 copyright: Copyright (c) 2010 Thomas Sawyer
+license  : BSD-2-Clause
 

@@ -1,5 +1,6 @@
-#!mast .ruby bin lib man qed test [A-Z][A-Z]*
+#!mast .ruby .yardopts bin lib man qed test [A-Z][A-Z]*
 .ruby
+.yardopts
 bin/tapout
 lib/tapout/reporters/abstract.rb
 lib/tapout/reporters/breakdown.rb
@@ -16,7 +17,9 @@ lib/tapout.rb
 qed/applique/env.rb
 qed/tap_adapter.rdoc
 HISTORY.rdoc
-APACHE2.txt
+PROFILE
+LICENSE.txt
 README.rdoc
-TAP-YJ.rdoc
-NOTICE.rdoc
+VERSION
+COPYING.rdoc
+TAP-YJ.md
