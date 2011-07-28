@@ -1,6 +1,6 @@
 = COPYRIGHT NOTICES
 
-== KO
+== TAPOUT
 
 Copyright (c) 2010 Thomas Sawyer
 
