@@ -1,6 +1,6 @@
 = Tapout
 
-Copyright: 2010 Thomas Sawyer, Rubyworks
+Copyright:: 2010 Thomas Sawyer, Rubyworks
 Author:: Thomas Sawyer
 License:: BSD-2-Clause
 
