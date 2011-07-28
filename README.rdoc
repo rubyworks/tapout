@@ -1,4 +1,8 @@
-= Tap Out
+= Tapout
+
+Copyright: 2010 Thomas Sawyer, Rubyworks
+Author:: Thomas Sawyer
+License:: BSD-2-Clause
 
 
 == RESOURCES
@@ -9,18 +13,13 @@
 
 == DESCRIPTION
 
-Tap Out is a TAP handler. Tap Out supports TAP-Y/J as well as traditional TAP.
+Tapout is a TAP handler. Tapout supports TAP-Y/J as well as traditional TAP.
 
-TAP-Y/J is an innovation of KO and Tap Out. It is a modernization of TAP using
-pure YAML/JSON streams.
-
+TAP-Y/J is a modernization of TAP using pure YAML/JSON streams.
 Traditional TAP has less detail than TAP-Y/J, but it can still be translated
-with fairly good results. Tap Out includes a TAP adapter to handle the
-translation transparently. Current Tap Out support TAP v12 with minor
+with fairly good results. Tapout includes a TAP adapter to handle the
+translation transparently. Current Tapout support TAP v12 with minor
 limitations.
-
-Tap Out fully supports TAP-Y at this time. TAP-J support is still in
-development.
 
 To learn about the TAP-Y/J specification, see the TAP-YJ.rdoc file.
 
@@ -32,17 +31,17 @@ For information about TAP, see http://testanything.org/wiki/index.php/Main_Page.
 Using a test framework that produces a TAP-Y output stream, simply pipe
 the stream into `tapout`.
 
-  $ ko -y -Ilib test/foo.rb | tapout
+  $ ruby-test -y -Ilib test/foo.rb | tapout
 
-Tap Out supports a variety of output formats. These are selectable via the `-f`
+Tapout supports a variety of output formats. These are selectable via the `-f`
 option.
 
-  $ ko -y -Ilib test/foo.rb | tapout -f progessbar
+  $ ruby-test -y -Ilib test/foo.rb | tapout -f progessbar
 
-Tap Out is smart enough to match the closest matching format name. So, for
+Tapout is smart enough to match the closest matching format name. So, for
 example, the above could be written as:
 
-  $ ko -y -Ilib test/foo.rb | tapout -f pro
+  $ ruby-test -y -Ilib test/foo.rb | tapout -f pro
 
 And tapout will know to use the `progressbar` format.
 
@@ -51,23 +50,15 @@ To see a list of supported formats use the list subcommand:
   $ tapout list
 
 If your test framework does not support TAP-Y, but does support traditional
-TAP, Tap Out will automatically recognize the difference by TAP's `1..N` header.
+TAP, Tapout will automatically recognize the difference by TAP's `1..N` header.
 
-  $ ko -t -Ilib test/foo.rb | tapout -f progressbar
+  $ ruby-test -ftap -Ilib test/foo.rb | tapout -f progressbar
 
 
-== COPYRIGHT
+== COPYRIGHTS
 
-Tap Out, Copyright (c) 2010 Thomas Sawyer
+Tapout, Copyright (c) 2010 Thomas Sawyer
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this program except in compliance with the License.
-You may obtain a copy of the License at
+Tapout is licensed under the terms of the FreeBSD license.
 
-   http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+See COPYING.rdoc and LICENSE.txt for details.
