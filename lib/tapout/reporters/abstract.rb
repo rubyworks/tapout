@@ -49,7 +49,7 @@ module TapOut
       # report methods.
       def handle(entry)
         case entry['type']
-        when 'header'
+        when 'suite'
           start_suite(entry)
         when 'case'
           finish_case(@previous_case) if @previous_case
@@ -68,10 +68,10 @@ module TapOut
             err(entry)
           when 'omit'
             omit(entry)
-          when 'pending', 'skip'
+          when 'todo', 'skip', 'pending'
             skip(entry)
           end
-        when 'footer'
+        when 'tally'
           finish_case(@previous_case) if @previous_case
           finish_suite(entry)
         end
@@ -128,30 +128,32 @@ module TapOut
 
       # TODO: get the tally's from the footer entry ?
       def tally(entry)
-        total = entry['count'] || (@passed.size + @failed.size + @raised.size)
+        total = @passed.size + @failed.size + @raised.size #+ @skipped.size + @omitted.size
 
-        if entry['tally']
-          count_fail  = entry['tally']['fail']  || 0
-          count_error = entry['tally']['error'] || 0
+        if entry['counts']
+          total       = entry['counts']['total'] || total
+          count_fail  = entry['counts']['fail']  || 0
+          count_error = entry['counts']['error'] || 0
         else
           count_fail  = @failed.size
           count_error = @raised.size
         end
 
-        if tally = entry['tally']
-          sums = %w{pass fail error skip}.map{ |e| tally[e] || 0 }
+        if tally = entry['counts']
+          sums = %w{pass fail error todo omit}.map{ |e| tally[e] || 0 }
         else
-          sums = [@passed, @failed, @raised, @skipped].map{ |e| e.size }
+          sums = [@passed, @failed, @raised, @skipped, @omitted].map{ |e| e.size }
         end
 
+        # ???
         assertions = entry['assertions']
         failures   = entry['failures']
 
         if assertions
-          text = "%s tests: %s pass, %s fail, %s err, %s pending (%s/%s assertions)"
+          text = "%s tests: %s pass, %s fail, %s err, %s todo, %omit (%s/%s assertions)"
           text = text % [total, *sums] + [assertions - failures, assertions]
         else
-          text = "%s tests: %s pass, %s fail, %s err, %s pending"
+          text = "%s tests: %s pass, %s fail, %s err, %s todo, %s omit"
           text = text % [total, *sums]
         end
 
