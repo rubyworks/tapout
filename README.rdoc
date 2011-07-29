@@ -1,4 +1,4 @@
-= Tapout
+= TapOut
 
 Copyright:: 2010 Thomas Sawyer, Rubyworks
 Author:: Thomas Sawyer
@@ -13,12 +13,12 @@ License:: BSD-2-Clause
 
 == DESCRIPTION
 
-Tapout is a TAP handler. Tapout supports TAP-Y/J as well as traditional TAP.
+TapOut is a TAP handler. TapOut supports TAP-Y/J as well as traditional TAP.
 
 TAP-Y/J is a modernization of TAP using pure YAML/JSON streams.
 Traditional TAP has less detail than TAP-Y/J, but it can still be translated
-with fairly good results. Tapout includes a TAP adapter to handle the
-translation transparently. Current Tapout support TAP v12 with minor
+with fairly good results. TapOut includes a TAP adapter to handle the
+translation transparently. Current TapOut support TAP v12 with minor
 limitations.
 
 To learn about the TAP-Y/J specification, see the TAP-YJ.rdoc file.
@@ -33,12 +33,12 @@ the stream into `tapout`.
 
   $ ruby-test -y -Ilib test/foo.rb | tapout
 
-Tapout supports a variety of output formats. These are selectable via the `-f`
+TapOut supports a variety of output formats. These are selectable via the `-f`
 option.
 
   $ ruby-test -y -Ilib test/foo.rb | tapout -f progessbar
 
-Tapout is smart enough to match the closest matching format name. So, for
+TapOut is smart enough to match the closest matching format name. So, for
 example, the above could be written as:
 
   $ ruby-test -y -Ilib test/foo.rb | tapout -f pro
@@ -50,15 +50,15 @@ To see a list of supported formats use the list subcommand:
   $ tapout list
 
 If your test framework does not support TAP-Y, but does support traditional
-TAP, Tapout will automatically recognize the difference by TAP's `1..N` header.
+TAP, TapOut will automatically recognize the difference by TAP's `1..N` header.
 
   $ ruby-test -ftap -Ilib test/foo.rb | tapout -f progressbar
 
 
 == COPYRIGHTS
 
-Tapout, Copyright (c) 2010 Thomas Sawyer
+TapOut, Copyright (c) 2010 Thomas Sawyer
 
-Tapout is licensed under the terms of the FreeBSD license.
+TapOut is licensed under the terms of the FreeBSD license.
 
 See COPYING.rdoc and LICENSE.txt for details.

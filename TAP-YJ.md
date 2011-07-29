@@ -16,14 +16,14 @@ scalar, sequence and mapping.
 
 A YAML stream is composed a sequence of YAML *documents*, each divided by
 a start document marker (<code>---</code>). Each document MUST have a `type`
-field which designates it a `suite`, `case`, `test`, `note` or `tally`. Any
-document MAY have an `extra` field which contains an open mapping for
+field which designates it a `suite`, `case`, `unit`, `note` or `tally`. Any
+document MAY have an `extra` entry which contains an open mapping for
 extraneous information.
 
 ### Suite
 
-A `suite` document marks the beginning of forthcoming stream of tests,
-aka the <i>test suite</i>. All TAP-Y streams MUST begin with a _suite_
+A `suite` document marks the beginning of a forthcoming stream of tests,
+i.e. a <i>test suite</i>. All TAP-Y streams MUST begin with a suite
 document.
 
     ---
@@ -45,19 +45,20 @@ The `case` type indicates the start of a test case.
 
     ---
     type: case
-    subtype: scenario
-    description: Subtraction
+    subtype: feature
+    description: Multiplication
     level: 0
+
+The case document MAY provide a `class` which is a label for the
+typ of test case. For example, a test framwework that uses Gherkin
+nomenclature would classify a test case as a "feature".
 
 The case document SHOULD provide a `description` that is a free-form string
 describing the nature of the test case.
 
-The case document MAY provide a `subtype` which is a brief description of
-the type of test case.
-
 The `level` field is used to notate sub-case heiararchies. By default the
-value is assumed to be `0`, which means the case is not a sub-case. If `1`
-than the it indicates that the case is a sub-case of the previous zero-level
+value is assumed to be `0`, which means the case is not a subcase. If `1`
+than the it indicates that the case is a subcase of the previous zero-level
 case, and so on for higher levels. Subcases should proceed sequentially.
 If a case contains both tests and subcases, the tests must come first in the
 document stream.
@@ -75,8 +76,8 @@ Here is an example of a passing unit document.
     type: unit
     subtype: step
     status: pass
-    description: multiples of two
     setup: foo instance
+    description: multiples of two
     expected: 2
     returned: 2
     file: test/test_foo.rb
@@ -88,7 +89,8 @@ Here is an example of a passing unit document.
       - 46: ok 2,4
     coverage:
       file: lib/foo.rb
-      code: Foo#`
+      line: 11..13
+      code: Foo#*
     time: 0.01
 
 Besides the `status`, all unit documents MUST have a `description`.
@@ -117,11 +119,12 @@ the source line in the center. Or, it MAY be an ordered map of verbatim
 and end wherever, but they MUST be consecutive and the source line MUST
 be among them.
 
-The `coverage` subsection MAY be provided, in which can be two optional 
-fields: `file` and `code`. Where `file` specifies the source file being
-targeted by the unit test, and `code` specifices the language construct
-being targeted. For example, `code` might be `Foo#bar` if the test targets
-the `bar` method of the `Foo` class.
+The `coverage` subsection MAY be provided, in which can have three optional 
+fields: `file`, `line` and `code`. Where `file` specifies the source file being
+targeted by the unit test, `line` specifies the line number, range of
+line numbers (e.g. `1..4`) or an aray of such, and `code` specifices the
+language construct being targeted. For example, `code` might be `Foo#bar`
+if the test targets the `bar` method of the `Foo` class.
 
 The `time` is the number of seconds that have elapsed since the
 the suite start time.
@@ -147,6 +150,7 @@ omission.
       - 46: ok 2,4
     coverage:
       file: lib/foo.rb
+      line: 11..13
       code: Foo#*
     exception:
       message: |
@@ -166,20 +170,28 @@ omission.
     time: 0.02
 
 The `exception` section MUST give the `message`, describing the nature
-of the failure or exception.
-
-In this subsection, file and line indicate the location in code that triggered
-the exception or failed assertion.
+of the failure or exception. In this subsection, `file` and `line` indicate
+the location in code that triggered the exception or failed assertion.
 
 Like the originating test code, a `source` and code `snippet` SHOULD also
 be provided.
 
 It MAY also provide a system `backtrace`.
 
+<blockquote>
+Q. Why supply a code snippet when the file and line are already given.
+Can't a test reporter just look up the code itself?
+
+A. Of course it can, but if the TAP-Y document is being consumed remotely
+it might not have easy access the file being tested. While this may be of
+rare use it none the less provides the TAP-Y consumer some view of the
+code with having to do additional processing.
+</blockquote>
+
 ### Note
 
 The `note` type is used to interject a message between tests that
-is not tied to a specific test. It has only a few fields.
+is not tied to a specific unit or case. It has only a few fields.
 
   ---
   type: note
@@ -223,7 +235,7 @@ intended for the end-user, but rather to pipe to a consuming app to process
 into a human readable form.
 
 
-== Glossery of Fields
+## Glossery of Fields
 
 ### count
 
