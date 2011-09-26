@@ -98,12 +98,13 @@ module TapOut
             #puts "\n-- Failures and Errors --\n"
             puts
             bad.each do |e|
-              message = e['message'].strip
+              x = e['exception']
+              message = x['message'].strip
               message = message.ansi(:red)
               puts(message)
-              puts "#{e['file']}:#{e['line']}"
+              puts "#{x['file']}:#{x['line']}"
               puts
-              puts code_snippet(e)
+              puts code_snippet(x)
             end
             puts
           end

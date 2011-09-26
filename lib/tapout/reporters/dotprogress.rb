@@ -42,9 +42,9 @@ module TapOut::Reporters
         #backtrace = clean_backtrace(exception.backtrace)
         $stdout.puts "#{i}. " + (e['label']).ansi(:red)
         $stdout.puts
-        $stdout.puts "    #{e['message']}"
-        $stdout.puts "    #{e['file']}:#{e['line']}" #+ backtrace[0]
-        $stdout.puts code_snippet(e)
+        $stdout.puts "    #{e['exception']['message']}"
+        $stdout.puts "    #{e['exception']['file']}:#{e['exception']['line']}" #+ backtrace[0]
+        $stdout.puts code_snippet(e['exception'])
         $stdout.puts
         i += 1
       end
@@ -53,9 +53,9 @@ module TapOut::Reporters
         #backtrace = clean_backtrace(exception.backtrace)
         $stdout.puts "#{i}. " + (e['label']).ansi(:yellow)
         $stdout.puts
-        $stdout.puts "    #{e['message']}"
-        $stdout.puts "    #{e['file']}:#{e['line']}" #+ backtrace[0..2].join("    \n")
-        $stdout.puts code_snippet(e)
+        $stdout.puts "    #{e['exception']['message']}"
+        $stdout.puts "    #{e['exception']['file']}:#{e['exception']['line']}" #+ backtrace[0..2].join("    \n")
+        $stdout.puts code_snippet(e['exception'])
         $stdout.puts
         i += 1
       end

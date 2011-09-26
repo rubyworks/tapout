@@ -31,13 +31,15 @@ module TapOut
       def fail(entry)
         @pbar.clear
 
+        e = entry['exception']
+
         puts
-        message = entry['message'].strip
+        message = e['message'].strip
         message = message.ansi(:red)
         puts(message)
-        puts "#{entry['file']}:#{entry['line']}"
+        puts "#{e['file']}:#{e['line']}"
         puts
-        puts code_snippet(entry)
+        puts code_snippet(e)
         puts
 
         @pbar.style(:bar=>:red)
@@ -45,16 +47,18 @@ module TapOut
       end
 
       #
-      def error(message=nil)
+      def err(entry) #message=nil)
         @pbar.clear
 
+        e = entry['exception']
+
         puts
-        message = entry['message'].strip
+        message = e['message'].strip
         message = message.ansi(:red)
         puts(message)
-        puts "#{entry['file']}:#{entry['line']}"
+        puts "#{e['file']}:#{e['line']}"
         puts
-        puts code_snippet(entry)
+        puts code_snippet(e)
         puts
 
         @pbar.style(:bar=>:yellow)

@@ -3,6 +3,8 @@ require 'tapout/reporters/abstract'
 module TapOut::Reporters
 
   # Verbose reporter.
+  #
+  # TODO: Rename this and improve it.
   class Verbose < Abstract
 
     #
@@ -24,10 +26,10 @@ module TapOut::Reporters
       super(entry)
       $stdout.puts "* " + entry['label'].ansi(:red) + "   #{entry['source']}"
       $stdout.puts
-      $stdout.puts "    #{entry['message']}"
+      $stdout.puts "    #{entry['exception']['message']}"
       #$stdout.puts "    " + ok.caller #clean_backtrace(exception.backtrace)[0]
       $stdout.puts
-      $stdout.puts code_snippet(entry)
+      $stdout.puts code_snippet(entry['exception'])
       $stdout.puts
     end
 
@@ -35,10 +37,10 @@ module TapOut::Reporters
       super(entry)
       $stdout.puts "* " + entry['label'].ansi(:yellow) + "   #{entry['source']}"
       $stdout.puts
-      $stdout.puts "    #{entry['message']}"  # error class?
+      $stdout.puts "    #{entry['exception']['message']}"  # error class?
       #$stdout.puts "    " + ok.caller #clean_backtrace(exception.backtrace)[0..2].join("    \n")
       $stdout.puts
-      $stdout.puts code_snippet(entry)
+      $stdout.puts code_snippet(entry['exception'])
       $stdout.puts
     end
 

@@ -167,7 +167,7 @@ module TapOut
       end
 
       #
-      INTERNALS = /(lib|bin)#{Regexp.escape(File::SEPARATOR)}ko/
+      INTERNALS = /(lib|bin)#{Regexp.escape(File::SEPARATOR)}tapout/
 
       # Clean the backtrace of any reference to ko/ paths and code.
       def clean_backtrace(backtrace)
@@ -202,7 +202,7 @@ module TapOut
           end
         when Array
           snippet.each do |h|
-            s << [h.key, h.value]
+            s << [h.keys.first, h.values.first]
           end
         else
           ##backtrace = exception.backtrace.reject{ |bt| bt =~ INTERNALS }
@@ -210,17 +210,18 @@ module TapOut
           #caller =~ /(.+?):(\d+(?=:|\z))/ or return ""
           #source_file, source_line = $1, $2.to_i
 
-          if File.file?(file)
+          if file && File.file?(file)
             source = source(file)
 
             radius = 3 # number of surrounding lines to show
-            region = [source_line - radius, 1].max ..
-                     [source_line + radius, source.length].min
+            region = [line - radius, 1].max ..
+                     [line + radius, source.length].min
 
             #len = region.last.to_s.length
 
             s = region.map do |n|
-              format % [n, source[n-1].chomp]
+              #format % [n, source[n-1].chomp]
+              [n, source[n-1].chomp]
             end
           end
         end

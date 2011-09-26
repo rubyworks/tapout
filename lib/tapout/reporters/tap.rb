@@ -28,43 +28,50 @@ module TapOut::Reporters
     def pass(entry)
       super(entry)
 
+      @i += 1
       #desc = entry['message'] #+ " #{ok.arguments.inspect}"
 
-      puts "ok #{entry['index']} - #{entry['label']}"
+      puts "ok #{@i} - #{entry['label']}"
     end
 
     #
     def fail(entry)
       super(entry)
 
+      @i += 1
+      x = entry['exception']
+
       #desc = #ok.concern.label + " #{ok.arguments.inspect}"
 
       body = []
-      body << "FAIL #{entry['file']}:#{entry['line']}" #clean_backtrace(exception.backtrace)[0]
-      body << "#{entry['message']}"
+      body << "FAIL #{x['file']}:#{x['line']}" #clean_backtrace(exception.backtrace)[0]
+      body << "#{x['message']}"
       body << code_snippet(entry)
       body = body.join("\n").gsub(/^/, '  # ')
 
-      puts "not ok #{entry['index']} - #{entry['label']}"
+      puts "not ok #{@i} - #{entry['label']}"
       puts body
     end
 
     #
-    def error(entry)
+    def err(entry)
       super(entry)
+
+      @i += 1
+      x = entry['exception']
 
       #desc = ok.concern.label + " #{ok.arguments.inspect}"
 
       body = []
-      body << "ERROR #{entry['file']}:#{entry['line']}" #clean_backtrace(exception.backtrace)[0..2].join("    \n")
+      body << "ERROR #{x['file']}:#{x['line']}" #clean_backtrace(exception.backtrace)[0..2].join("    \n")
       #body << "#{exception.class}: #{entry['message']}"
-      body << "#{entry['message']}"
+      body << "#{x['message']}"
       body << ""
       body << code_snippet(entry)
       body << ""
       body = body.join("\n").gsub(/^/, '  # ')
 
-      puts "not ok #{entry['index']} - #{entry['label']}"
+      puts "not ok #{@i} - #{entry['label']}"
       puts body
     end
 
