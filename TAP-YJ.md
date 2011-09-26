@@ -46,14 +46,14 @@ The `case` type indicates the start of a test case.
     ---
     type: case
     subtype: feature
-    description: Multiplication
+    label: Multiplication
     level: 0
 
 The case document MAY provide a `class` which is a label for the
 typ of test case. For example, a test framwework that uses Gherkin
 nomenclature would classify a test case as a "feature".
 
-The case document SHOULD provide a `description` that is a free-form string
+The case document SHOULD provide a `label` that is a free-form string
 describing the nature of the test case.
 
 The `level` field is used to notate sub-case heiararchies. By default the
@@ -63,9 +63,9 @@ case, and so on for higher levels. Subcases should proceed sequentially.
 If a case contains both tests and subcases, the tests must come first in the
 document stream.
 
-### Unit
+### Test
 
-The `unit` type indicates a test procedure. A unit MUST have a `status` with
+The `test` type indicates a test procedure. A unit MUST have a `status` with
 one of five possible values: `pass`, `fail`, `error`, `omit` or `todo`.
 Unit documents vary somewhat based on the status. But they all share
 common fields. 
@@ -73,11 +73,11 @@ common fields.
 Here is an example of a passing unit document.
 
     ---
-    type: unit
+    type: test
     subtype: step
     status: pass
     setup: foo instance
-    description: multiples of two
+    label: multiples of two
     expected: 2
     returned: 2
     file: test/test_foo.rb
@@ -93,12 +93,12 @@ Here is an example of a passing unit document.
       code: Foo#*
     time: 0.01
 
-Besides the `status`, all unit documents MUST have a `description`.
+Besides the `status`, all test documents MUST have a `label`.
 
-A unit document MAY provide a `setup` field, which is used to describe
+A test document MAY provide a `setup` field, which is used to describe
 the setup for the unit test.
 
-Units SHOULD also give an `expected` and `returned` value, if relavent
+Tests SHOULD also give an `expected` and `returned` value, if relavent
 to the nature of the test. For example, the most common test assertion is
 equality, e.g. <code>assert_equal(4,3)</code>, so `expected` would be `3` and
 `returned` woudl be `4`. Although desirable this can be a difficult piece
@@ -119,10 +119,10 @@ the source line in the center. Or, it MAY be an ordered map of verbatim
 and end wherever, but they MUST be consecutive and the source line MUST
 be among them.
 
-The `coverage` subsection MAY be provided, in which can have three optional 
+[EXPERIMENTAL] The `coverage` subsection MAY be provided, in which can have three optional 
 fields: `file`, `line` and `code`. Where `file` specifies the source file being
-targeted by the unit test, `line` specifies the line number, range of
-line numbers (e.g. `1..4`) or an aray of such, and `code` specifices the
+targeted by the test, `line` specifies the line number, range of line
+numbers (e.g. `1..4`) or an array of such, and `code` specifices the
 language construct being targeted. For example, `code` might be `Foo#bar`
 if the test targets the `bar` method of the `Foo` class.
 
@@ -134,10 +134,10 @@ subsection which is used to describe the nature of the failure, error or
 omission.
 
     ---
-    type: unit
+    type: test
     subtype: step
     status: fail
-    description: multiples of two
+    label: multiples of two
     setup: foo instance
     expected: 2
     returned: 1
