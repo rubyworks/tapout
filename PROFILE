@@ -25,6 +25,7 @@ authors:
 organization: RubyWorks
 
 created  : 2010-12-23
-copyright: Copyright (c) 2010 Thomas Sawyer
-license  : BSD-2-Clause
+
+copyrights:
+  - Copyright (c) 2010 Thomas Sawyer (BSD-2-Clause)
 

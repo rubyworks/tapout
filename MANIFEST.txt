@@ -5,6 +5,7 @@ bin/tapout
 lib/tapout/reporters/abstract.rb
 lib/tapout/reporters/breakdown.rb
 lib/tapout/reporters/dotprogress.rb
+lib/tapout/reporters/html.rb
 lib/tapout/reporters/progressbar.rb
 lib/tapout/reporters/tap.rb
 lib/tapout/reporters/verbose.rb
