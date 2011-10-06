@@ -49,7 +49,7 @@ module TapOut
       #
       def post_report(entry)
 
-        sums = %w{pass fail error pending}.map{ |n| entry['tally'][n] || 0 }
+        sums = %w{pass fail error todo}.map{ |n| entry['counts'][n] || 0 }
 
         puts ("-" * 80)
 
