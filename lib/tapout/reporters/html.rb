@@ -1,4 +1,4 @@
-require 'test/reporters/abstract'
+require 'tapout/reporters/abstract'
 
 module TapOut::Reporters
 
