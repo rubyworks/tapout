@@ -95,6 +95,7 @@ module TapOut
       when :not_ok
         line = cache[0]
         yaml = cache[1..-2].join('')
+        yaml = unindent(yaml)
         data = YAML.load(yaml)
         md = /^not ok\s+(\d+)\s*\-?\s*(.*?)($|#)/.match(line)
         entry = convert_not_ok(md[1], md[2], data)
@@ -162,6 +163,16 @@ module TapOut
         'fail'  => (groups['fail'] || []).size
       }
       entry
+    end
+
+    #
+    def unindent(yaml)
+      if md = /^\s+/.match(yaml)
+        re = Regexp.escape(md[0])
+        yaml.gsub(/^#{re}/, '')
+      else
+        yaml
+      end
     end
 
   end

@@ -1,5 +1,17 @@
 = RELEASE HISTORY
 
+== 0.2.1 / 2011-10-07
+
+A quick fix for a malformed require call in the HTML reporter,
+and a fix for indention in the legacy TAP adapter.
+
+
+Changes:
+
+* Fix require in html reporter.
+* Fix indention of YAML in legacy TAP adapter.
+
+
 == 0.2.0 / 2011-10-06
 
 This realease revises the specification a bit, primarily

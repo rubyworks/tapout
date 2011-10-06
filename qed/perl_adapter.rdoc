@@ -19,7 +19,7 @@ Given a legacy TAP stream:
     ...
   ok 3
 
-The TAPAdapter can convert the stream into TAP-Y.
+The PerlAdapter can convert the stream into TAP-Y.
 
   stream = StringIO.new(@tap)
 

@@ -30,7 +30,7 @@ load_path:
 - lib
 extra: {}
 date: '2011-10-06'
-version: 0.2.0
+version: 0.2.1
 alternatives: []
 revision: 0
 source:

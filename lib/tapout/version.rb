@@ -1,6 +1,6 @@
 module TapOut
   # Current version of TAPOUT project.
-  VERSION = "0.2.0"
+  VERSION = "0.2.1"
 
   # The current revision of the TAP-Y/J format.
   REVISION = "2"
