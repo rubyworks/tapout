@@ -1,9 +1,24 @@
 = RELEASE HISTORY
 
-== 1.0.0 / 2011-05-21
+== 0.2.0 / 2011-10-06
 
-This is the initial release of Tap Out,
-a TAP and TAP-Y/J output formatter.
+This realease revises the specification a bit, primarily
+changing the names of header and footer sections to more
+semantically usefule terms, suite and tally, respectively.
+Also, a `rev` field has been added to the suite entries
+to allow consuming apps to gracfully handle any future
+changes.
+
+Changes:
+
+* Rename header and footer to suite and tally.
+* Add rev field to suite entry.
+
+
+== 0.1.0 / 2011-05-21
+
+This is the first public release of TapOut, a TAP and TAP-Y/J output
+formatter.
 
 Changes:
 
