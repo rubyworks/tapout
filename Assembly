@@ -1,36 +1,18 @@
 ---
+github:
+  active: true
+
 gem:
-  service: Gem
   active : true
 
 dnote:
   service  : DNote
-  loadpath : ~
   labels   : ~
-  output   : ~
-  format   : ~
+  output   : log/NOTES.rdoc
   active   : true
 
-stats:
-  service  : Stats
-  title    : ~
-  loadpath : ~
-  exclude  : ~
-  output   : ~
-  active   : true
-
-yard:
-  service : Custom
-  track   : site
-  document:
-    system "yard"
-
-grancher:
-  service: Grancher
-  active: true
-
-gemcutter:
-  active: true
+locat:
+  active   : false
 
 email:
   service : Email
@@ -47,10 +29,6 @@ email:
   active  : true
 
 vclog:
-  service  : VClog
-  format   : html   # xml, txt
-  layout   : rel    # gnu
-  typed    : false
-  output   : ~
+  output   : log/HISTORY.rdoc
   active   : false
 
