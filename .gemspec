@@ -4,7 +4,7 @@ require 'yaml'
 
 Gem::Specification.new do |gemspec|
 
-  manifest = Dir.glob('manifest{,.txt)', File::FNM_CASEFOLD).first
+  manifest = Dir.glob('manifest{,.txt}', File::FNM_CASEFOLD).first
 
   scm = case
         when File.directory?('.git')
@@ -14,7 +14,7 @@ Gem::Specification.new do |gemspec|
   files = case
           when manifest
            File.readlines(manifest).
-             map{ |line| line.srtip }.
+             map{ |line| line.strip }.
              reject{ |line| line.empty? || line[0,1] == '#' }
           when scm == :git
            `git ls-files -z`.split("\0")
