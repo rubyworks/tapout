@@ -7,7 +7,7 @@ The following overview will use the YAML format. Becuase the YAML format
 is a plan format, not using an special YAML tags, it is easy to convert
 to JSON to get the equivalent TAP-J format. TAP-J documents follow all the
 same feild rules as TAP-Y, but are represented as a stream of JSON 
-documents, instead of YAML documents.
+documents, one per line, instead of YAML documents.
 
 ## Structure
 
@@ -30,6 +30,7 @@ document.
     type: suite
     start: 2011-10-10 12:12:32
     count: 2
+    rev: 2
 
 The `start` field marks the date and time testing began. It MUST be
 an ISO-8601 formated timestamp.
@@ -38,6 +39,12 @@ The `count` field indicates the total number of test units forethcoming.
 If the number of test units is unknown, the total can be omitted or 
 marked as `~` (nil). The total should only indicate the number of
 <i>test units</i>, not any enumeration of <i>test cases</i>.
+
+The `rev` field provides the version of the TAP-Y/J format that is
+being used. The specification will change little, if at all, as it
+become more mainstream. But just in case, having a revision field
+ensures things will work if they do change by allowing consuming
+apps to adjust to any future variation.
 
 ### Case
 
@@ -227,7 +234,7 @@ tests (this MUST be same as `count` in the suite document if it was given)
 and the totals for each test status. It SHOULD also give the time elapsed
 since the suite time.
 
-As mentioned., the test stream ends when a full ellipsis (<code>...</code>)
+As mentioned, the test stream ends when a full ellipsis (<code>...</code>)
 appears.
 
 As you can see TAP-Y streams provides a great deal of detail. They are not
