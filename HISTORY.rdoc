@@ -5,7 +5,6 @@
 A quick fix for a malformed require call in the HTML reporter,
 and a fix for indention in the legacy TAP adapter.
 
-
 Changes:
 
 * Fix require in html reporter.
