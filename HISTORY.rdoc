@@ -1,6 +1,16 @@
 = RELEASE HISTORY
 
-== 0.2.1 / 2011-10-07
+== 0.2.2 / 2011-10-07
+
+Fixed incorrect tally entry in breakdown reporter.
+
+Changes:
+
+* Fixed incorrect tally entry in breakdown reporter.
+* Add intergration specs for reporters.
+
+
+== 0.2.1 / 2011-10-06
 
 A quick fix for a malformed require call in the HTML reporter,
 and a fix for indention in the legacy TAP adapter.
