@@ -1,12 +1,10 @@
-require 'tapout/tapy_parser'
-require 'tapout/tap_legacy_parser'
-
 require 'optparse'
+require 'tapout/parsers'
 
 module TapOut
 
-  #
-  PARSERS = %w{breakdown dotprogress progressbar tap verbose}
+  # Usable formats.
+  FORMATS = %w{breakdown dotprogress html outline progressbar tap}
 
   #
   def self.cli(*argv)
@@ -34,7 +32,7 @@ module TapOut
         $DEBUG = true
       end
 
-      opt.separator("\nFORMATS:\n        " + PARSERS.join("\n        "))
+      opt.separator("\nFORMATS:\n        " + FORMATS.join("\n        "))
     end
 
     parser.parse!(argv)
@@ -51,19 +49,24 @@ module TapOut
 
     case stdin.line1
     when /^\d/
-      type = :legacy
+      type = :perl
     when /^\-/
-      type = :modern
+      type = :yaml
+    when /^\{/
+      type = :json
     else
       raise "Not a recognized TAP stream!"
     end
 
     case type
-    when :legacy
-      stream_parser = TAPLegacyParser.new(options)
+    when :perl
+      stream_parser = PerlParser.new(options)
       stream_parser.consume(stdin)
-    else
-      stream_parser = TAPYParser.new(options)
+    when :yaml
+      stream_parser = YamlParser.new(options)
+      stream_parser.consume(stdin)
+    when :json
+      stream_parser = JsonParser.new(options)
       stream_parser.consume(stdin)
     end
   end

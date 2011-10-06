@@ -2,10 +2,11 @@ require 'tapout/reporters/abstract'
 
 module TapOut::Reporters
 
-  # Verbose reporter.
+  # Outline reporter.
   #
-  # TODO: Rename this and improve it.
-  class Verbose < Abstract
+  # TODO: This is still a work in progress.
+  #
+  class Outline < Abstract
 
     #
     def start_suite(entry)

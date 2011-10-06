@@ -1,12 +1,11 @@
 require 'tapout/reporters'
-
 require 'yaml'
 
 module TapOut
 
   # The TAP-Y Parser takes a TAP-Y stream and routes it through
-  # a Tap Out report format.
-  class TAPYParser
+  # a TapOut report format.
+  class YamlParser
 
     #
     def initialize(options={})

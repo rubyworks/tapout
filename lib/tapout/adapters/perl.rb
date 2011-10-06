@@ -5,11 +5,9 @@ module TapOut
   # The TAP Legacy Adapter transforms traditional TAP format to 
   # modern TAP-Y format.
   #
-  # NOTE: This is still a work in progress.
-  #
-  # TODO: Add support for TAP-J.
+  # IMPORTANT: This is still very much a work in progress.
 
-  class TAPLegacyAdapter
+  class PerlAdapter
 
     #
     def initialize(input)
@@ -89,7 +87,7 @@ module TapOut
         line = cache[0]
         md = /^(\d+)\.\.(\d+)\s*$/.match(line)
         count = md[2].to_i - md[1].to_i + 1
-        entry = {'count'=> count, 'type'=>'header', 'version'=>TAP_Y_VERSION}
+        entry = {'count'=>count, 'type'=>'suite', 'rev'=>REVISION}
       when :ok
         line = cache[0]
         md = /^ok\s+(\d+)\s*\-?\s*(.*?)($|#)/.match(line)
@@ -102,7 +100,7 @@ module TapOut
         entry = convert_not_ok(md[1], md[2], data)
       when :comment
         desc = cache.map{ |c| c.sub(/^\#\s{0,1}/, '') }.join("\n")
-        entry = {'type'=>'note', 'description'=>desc.rstrip}
+        entry = {'type'=>'note', 'text'=>desc.rstrip}
       end
       output(entry)
       @cache = []
@@ -131,20 +129,23 @@ module TapOut
     private
 
     #
-    def convert_not_ok(number, label, metainfo)
+    # TODO: Any way to distinguish fail vs error?
+    def convert_not_ok(number, label, data)
       entry = {}
       entry['type']   = 'test'
       entry['status'] = 'fail'
       entry['index']  = number.to_i
       entry['label']  = label
-      if metainfo
-        entry['file']        = metainfo['file']
-        entry['line']        = metainfo['line']
-        entry['expected']    = metainfo['wanted']
-        entry['returned']    = metainfo['found']
-        entry['description'] = metainfo['description']
-        entry['source']      = metainfo['raw_test']
-        entry['extra']       = metainfo['extensions']
+      if data
+        entry['exception'] = {}
+        entry['exception']['file']    = data['file']
+        entry['exception']['line']    = data['line']
+        entry['exception']['message'] = data['description']
+
+        entry['expected'] = data['wanted']
+        entry['returned'] = data['found']
+        entry['source']   = data['raw_test']
+        entry['extra']    = data['extensions']
       end
       entry
     end
@@ -154,11 +155,11 @@ module TapOut
       groups = @entries.group_by{ |e| e['status'] }
 
       entry = {}
-      entry['count'] = @count
-      entry['type'] = 'footer'
-      entry['tally'] = {
-        'pass' => (groups['pass'] || []).size,
-        'fail' => (groups['fail'] || []).size
+      entry['type'] = 'tally'
+      entry['counts'] = {
+        'total' => @count,
+        'pass'  => (groups['pass'] || []).size,
+        'fail'  => (groups['fail'] || []).size
       }
       entry
     end

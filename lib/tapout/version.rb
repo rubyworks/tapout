@@ -1,7 +1,7 @@
 module TapOut
-  #
-  VERSION = "1.0.0"
+  # Current version of TAPOUT project.
+  VERSION = "0.2.0"
 
-  #
-  TAP_Y_VERSION = "1"
+  # The current revision of the TAP-Y/J format.
+  REVISION = "2"
 end
