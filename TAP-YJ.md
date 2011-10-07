@@ -1,5 +1,8 @@
 # TAP-Y/J Format
 
+PLEASE NOTE: Theoffical specification is moving to the wiki. This document
+may not be fully uptodate.
+
 TAP-Y and TAP-J are test streams. They are essentially the same except
 for the underlying format used, which are YAML and JSON repsectively.
 
@@ -30,6 +33,7 @@ document.
     type: suite
     start: 2011-10-10 12:12:32
     count: 2
+    seed: 32154
     rev: 2
 
 The `start` field marks the date and time testing began. It MUST be
@@ -39,6 +43,9 @@ The `count` field indicates the total number of test units forethcoming.
 If the number of test units is unknown, the total can be omitted or 
 marked as `~` (nil). The total should only indicate the number of
 <i>test units</i>, not any enumeration of <i>test cases</i>.
+
+The `seed` is provided if the test runner has randomized the order of
+execution unit tests. The seed can be used to reproduce the same order.
 
 The `rev` field provides the version of the TAP-Y/J format that is
 being used. The specification will change little, if at all, as it
@@ -321,10 +328,10 @@ On the other hand, `todo` means the test will be used in the future
 but implementation has not been completed. It serves as reminder to developers
 to write a missing test.
 
-### tally
+### counts
 
-The footer MUST provide a tally for all status categories. This is like `count`
-but broken down into status groups.
+The footer MUST provide counts for all status categories and the total.
+This is like `count` in the suite entry but broken down into status groups.
 
 ### time
 
