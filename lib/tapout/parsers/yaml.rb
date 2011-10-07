@@ -23,6 +23,7 @@ module TapOut
         self << line
       end
       handle unless @done   # in case `...` was left out
+      return @reporter.exit_code
     end
 
     # TODO: write this as a YAML stream parser

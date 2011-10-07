@@ -61,14 +61,16 @@ module TapOut
     case type
     when :perl
       stream_parser = PerlParser.new(options)
-      stream_parser.consume(stdin)
+      exit_code     = stream_parser.consume(stdin)
     when :yaml
       stream_parser = YamlParser.new(options)
-      stream_parser.consume(stdin)
+      exit_code     = stream_parser.consume(stdin)
     when :json
       stream_parser = JsonParser.new(options)
-      stream_parser.consume(stdin)
+      exit_code     = stream_parser.consume(stdin)
     end
+
+    exit(exit_code || 0)
   end
 
   #

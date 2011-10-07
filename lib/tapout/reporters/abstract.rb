@@ -36,8 +36,14 @@ module TapOut
         @skipped = []
         @omitted = []
 
-        @source  = {}
+        @source        = {}
         @previous_case = nil
+        @exit_code     = 0  # assume passing
+      end
+
+      # Exit code.
+      def exit_code
+        @exit_code
       end
 
       #
@@ -63,8 +69,10 @@ module TapOut
           when 'pass'
             pass(entry)
           when 'fail'
+            @exit_code = -1
             fail(entry)
           when 'error'
+            @exit_code = -1
             err(entry)
           when 'omit'
             omit(entry)

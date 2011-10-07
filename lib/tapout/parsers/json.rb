@@ -19,6 +19,7 @@ module TapOut
       while line = input.gets
         self << line
       end
+      return @reporter.exit_code
     end
 
     #

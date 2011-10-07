@@ -18,6 +18,7 @@ module TapOut
     def consume(input)
       parser = PerlAdapter.new(input)
       parser | @reporter
+      return @reporter.exit_code
     end
 
   end
