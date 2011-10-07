@@ -1,14 +1,16 @@
 = TapOut
 
+{Website}[http://rubyworks.github.com/tapout] |
+{Development}[http://github.com/rubyworks/tapout]
+
 Copyright:: 2010 Thomas Sawyer, Rubyworks
 Author:: Thomas Sawyer
 License:: BSD-2-Clause
 
 
-== RESOURCES
+== BUILD STATUS
 
-* home: http://rubyworks.github.com/tapout
-* work: http://github.com/rubyworks/tapout
+{<img src="http://travis-ci.org/[YOUR_GITHUB_USERNAME]/[YOUR_PROJECT_NAME].png" />}[http://travis-ci.org/[YOUR_GITHUB_USERNAME]/[YOUR_PROJECT_NAME]]
 
 
 == DESCRIPTION
