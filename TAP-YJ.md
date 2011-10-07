@@ -16,7 +16,7 @@ scalar, sequence and mapping.
 
 A YAML stream is composed a sequence of YAML *documents*, each divided by
 a start document marker (<code>---</code>). Each document MUST have a `type`
-field which designates it a `suite`, `case`, `unit`, `note` or `tally`. Any
+field which designates it a `suite`, `case`, `test`, `note` or `tally`. Any
 document MAY have an `extra` entry which contains an open mapping for
 extraneous information.
 
