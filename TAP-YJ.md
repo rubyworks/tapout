@@ -1,8 +1,5 @@
 # TAP-Y/J Format
 
-PLEASE NOTE: Theoffical specification is moving to the wiki. This document
-may not be fully uptodate.
-
 TAP-Y and TAP-J are test streams. They are essentially the same except
 for the underlying format used, which are YAML and JSON repsectively.
 

@@ -8,22 +8,25 @@
   <link rel="icon" type="image/png" href="assets/images/icon.png" />
 
   <style type="text/css">
-    body { font-family: monospace; margin: 0; padding: 0; background: yellow;}
+    body { font-family: monospace; margin: 0; padding: 0; background: white;}
     li p { margin: 2px; }
     h1 { font-size: 4em; height: 50px; padding: 0; }
     h2 { margin-top: 30px; }
     pre { padding: 20px; background: #ded; font-size: 0.9em; font-family: courier; font-weight: bold; }
-    a { text-decoration: none; color: green; }
+    a { text-decoration: none; color: #F55; }
     a:hover { text-decoration: underline; }
 
-    #nav { font-size: 1.2em; text-align: center; background: #222; padding: 10px; color: #FFF; font-weight: bold; }
-    #nav a { color: #5F5; font-weight: bold; }
+    #nav { font-size: 1.2em; text-align: center; background: #777;
+           text-shadow: 0px 1px #000; padding: 10px; color: #FFF; font-weight: bold; box-shadow: 0px 2px 10px #000; }
+    #nav a { color: #F55; font-weight: bold;  }
     #main { margin: 0 auto; max-width: 780px; }
     #container { opacity: 0.9; background: #fff; padding: 0.5em 2em 3em 2em; }
-    #footer { margin: 0; padding: 40px 0; text-align: center; background: #222; border-top: 1px solid #999; }
+    #footer { margin: 0; padding: 40px 0; text-align: center; background: #555; border-top: 1px solid #999; box-shadow: 0px 2px 10px #000; }
     #readme { background: #eee; padding: 20px; margin: 0; }
 
     #rubyworks{ position: fixed; bottom: 10px; right: 10px; padding: 0; opacity: 0.3; }
+
+    .floater { float: left; padding: 0 15px 0 10px; width: 250px; font-family: serif; font-size: 1.1em; }
   </style>
 
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
@@ -47,11 +50,15 @@
 
   <div id="container">
     <h1>Tap Out</h1>
-    <div style="float: right; width: 200px;">
-      <p>Tap Out is a TAP-Y/J Harness written in Ruby.</p>
-      <p><a href="http://rubydoc.info/gems/tapout/file/TAP-YJ.md">Learn about TAP-Y/J</a>.</p>
+    <img src="assets/images/kitcar.jpg" alt="" />
+    <div style="height: 80px; border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; padding: 20px 0;">
+      <div class="floater">
+        Tap Out is a TAP-Y/J harness written in Ruby. <a href="http://rubydoc.info/gems/tapout/frames">more...</a>
+      </div>
+      <div class="floater">
+        TAP-Y/J is YAML or JSON document streaming specification for test results. <a href="http://rubydoc.info/gems/tapout/file/TAP-YJ.md">more...</a>
+      </div>
     </div>
-    <img src="assets/images/jigoku_jime.gif" alt="" />
   </div>
 
   <div id="footer">
