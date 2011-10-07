@@ -8,7 +8,7 @@
   <link rel="icon" type="image/png" href="assets/images/icon.png" />
 
   <style type="text/css">
-    body { font-family: monospace; margin: 0; padding: 0; background: white;}
+    body { font-family: monospace; margin: 0; padding: 0; background: url(assets/images/bg.png) no-repeat center -100px #fff; }
     li p { margin: 2px; }
     h1 { font-size: 4em; height: 50px; padding: 0; }
     h2 { margin-top: 30px; }
@@ -20,7 +20,7 @@
            text-shadow: 0px 1px #000; padding: 10px; color: #FFF; font-weight: bold; box-shadow: 0px 2px 10px #000; }
     #nav a { color: #F55; font-weight: bold;  }
     #main { margin: 0 auto; max-width: 780px; }
-    #container { opacity: 0.9; background: #fff; padding: 0.5em 2em 3em 2em; }
+    #container { padding: 0.5em 2em 3em 2em; }
     #footer { margin: 0; padding: 40px 0; text-align: center; background: #555; border-top: 1px solid #999; box-shadow: 0px 2px 10px #000; }
     #readme { background: #eee; padding: 20px; margin: 0; }
 
@@ -39,6 +39,8 @@
 <body>
 
 <div id="main">
+  <div style="height: 350px;">&nbsp;</div>
+
   <div id="nav">
     <a href="" style="color: white;">Tap Out</a> &nbsp; &middot; &nbsp;
     <a href="http://rubydoc.info/gems/tapout">API</a> &nbsp;
@@ -49,8 +51,7 @@
   </div>
 
   <div id="container">
-    <h1>Tap Out</h1>
-    <img src="assets/images/kitcar.jpg" alt="" />
+    <img src="assets/images/kitcar.png" alt="" style="padding-top: 10px; padding-left: 20px;" />
     <div style="height: 80px; border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; padding: 20px 0;">
       <div class="floater">
         Tap Out is a TAP-Y/J harness written in Ruby. <a href="http://rubydoc.info/gems/tapout/frames">more...</a>
