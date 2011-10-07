@@ -10,6 +10,7 @@ replacements: []
 conflicts: []
 requirements:
 - name: ansi
+- name: json
 - name: detroit
   groups:
   - build
