@@ -8,7 +8,8 @@
   <link rel="icon" type="image/png" href="assets/images/icon.png" />
 
   <style type="text/css">
-    body { font-family: monospace; margin: 0; padding: 0; background: url(assets/images/bg.png) no-repeat center -100px #fff; }
+    body { font-family: monospace; margin: 0; padding: 0; } 
+    #header { background: url(assets/images/bg.png) no-repeat center #fff; height: 240px; }
     li p { margin: 2px; }
     h1 { font-size: 4em; height: 50px; padding: 0; }
     h2 { margin-top: 30px; }
@@ -20,13 +21,16 @@
            text-shadow: 0px 1px #000; padding: 10px; color: #FFF; font-weight: bold; box-shadow: 0px 2px 10px #000; }
     #nav a { color: #F55; font-weight: bold;  }
     #main { margin: 0 auto; max-width: 780px; }
-    #container { padding: 0.5em 2em 3em 2em; }
-    #footer { margin: 0; padding: 40px 0; text-align: center; background: #555; border-top: 1px solid #999; box-shadow: 0px 2px 10px #000; }
+    #container { padding: 0.5em 2em 3em 2em; height: 300px; }
+    #footer { margin: 40px 0 0 0; padding: 40px 0; text-align: center; background: #555;
+              border-top: 1px solid #999; box-shadow: 0px 2px 10px #000; }
     #readme { background: #eee; padding: 20px; margin: 0; }
 
     #rubyworks{ position: fixed; bottom: 10px; right: 10px; padding: 0; opacity: 0.3; }
 
-    .floater { float: left; padding: 0 15px 0 10px; width: 250px; font-family: serif; font-size: 1.1em; }
+    .info {  border-bottom: 0px solid #ccc; clear: both; }
+    .info p { padding: 2em 0.5em 0 0.5em; font-family: sans-serif; font-size: 1.3em; color: #555; }
+    .info img { margin: 0; width: 350px; }
   </style>
 
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
@@ -38,8 +42,10 @@
 </head>
 <body>
 
+<div id="header">
+</div>
+
 <div id="main">
-  <div style="height: 350px;">&nbsp;</div>
 
   <div id="nav">
     <a href="" style="color: white;">Tap Out</a> &nbsp; &middot; &nbsp;
@@ -51,16 +57,33 @@
   </div>
 
   <div id="container">
-    <img src="assets/images/kitcar.png" alt="" style="padding-top: 10px; padding-left: 20px;" />
-    <div style="height: 80px; border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; padding: 20px 0;">
-      <div class="floater">
-        Tap Out is a TAP-Y/J harness written in Ruby. <a href="http://rubydoc.info/gems/tapout/frames">more...</a>
-      </div>
-      <div class="floater">
-        TAP-Y/J is YAML or JSON document streaming specification for test results. <a href="http://rubydoc.info/gems/tapout/file/TAP-YJ.md">more...</a>
-      </div>
+    <div class="info">
+      <img src="assets/images/kitcar.png" align="left" alt="" style="margin-right: 3em;" />
+      <p>Tap Out is a TAP-Y/J report harness written in Ruby.<br/>
+      <a href="http://rubydoc.info/gems/tapout/frames">Read the Documentation</a></p>
+    </div>
+    <div class="info">
+      <img src="assets/images/kitcar.png" alt="" align="right" style="margin-left: 3em;" />
+      <p>TAP-Y/J is a YAML/JSON streaming document specification for test results.<br/>
+         <a href="http://rubydoc.info/gems/tapout/file/TAP-YJ.md">Read the Specification</a>
+      </p>
+    </div>
+    <div class="info">
+      <img src="assets/images/kitcar.png" align="left" alt="" style="margin-right: 3em;" />
+      <p>Tap Out let's turn drab black and white test output into glorious techno-color.</p>
+    </div>
+    <div class="info">
+      <img src="assets/images/kitcar.png" alt="" align="right" style="margin-left: 3em;" />
+      <p>Select from a wide variety of output formats from the traditional progress reporters to
+         sophisticated interactive debugging reporters.</p>
+    </div>
+    <div class="info">
+      <img src="assets/images/kitcar.png" align="left" alt="" style="margin-right: 3em;" />
+      <p>Tap Out follows the <i>Unix Way</i> consuming TAP-Y/J streams via a shell pipe.</p>
     </div>
   </div>
+
+  <div style="clear: both;"></div>
 
   <div id="footer">
 <script type="text/javascript"><!--
