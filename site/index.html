@@ -5,10 +5,10 @@
 
   <title>Tap Out</title>
 
-  <link rel="icon" type="image/png" alt="TO" href="assets/images/icon.png" />
+  <link rel="icon" type="image/png" href="assets/images/icon.png" />
 
   <style type="text/css">
-    body { font-family: monospace; margin: 0; padding: 0; background: url(assets/images/bg.jpg) top center repeat-x #000;}
+    body { font-family: monospace; margin: 0; padding: 0; background: url(assets/images/bg.jpg) top center #000;}
     li p { margin: 2px; }
     h1 { font-size: 4em; height: 50px; padding: 0; }
     h2 { margin-top: 30px; }
@@ -19,11 +19,18 @@
     #nav { font-size: 1.2em; text-align: center; background: #222; padding: 10px; color: #FFF; font-weight: bold; }
     #nav a { color: #5F5; font-weight: bold; }
     #main { margin: 0 auto; max-width: 780px; }
-    #readme { opacity: 0.9; background: #fff; padding: 0.5em 2em 3em 2em; }
+    #container { opacity: 0.9; background: #fff; padding: 0.5em 2em 3em 2em; }
     #footer { margin-top: 0; padding: 40px 0; text-align: center; background: #222; border-top: 1px solid #999; }
 
     #rubyworks{ position: fixed; bottom: 10px; right: 10px; padding: 0; opacity: 0.3; }
   </style>
+
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $('#readme').load('readme.html');
+    });
+  </script>
 </head>
 <body>
 
@@ -37,7 +44,7 @@
     <a href="http://github.com/rubyworks/tapout">Code</a> &nbsp;
   </div>
 
-  <div id="readme">
+  <div id="container">
     <h1>Tap Out</h1>
     <div style="float: right; width: 200px;">
       <p>Tap Out is a TAP-Y/J Harness written in Ruby.</p>
@@ -60,6 +67,9 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 </script>
   </div>
 
+  <div id="readme">
+  </div>
+
   <div style="color: #ccc;">
     Copyright 2010 &copy; Thomas Sawyer, Rubyworks
   </div>
@@ -71,7 +81,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 
 <div id="rubyworks">
   <a href="http://rubyworks.github.com">
-    <img src="http://rubyworks.github.com/assets/images/seal.png" height="175px" alt="rubyworks" />
+    <img src="http://rubyworks.github.com/assets/images/seal.png" height="175" alt="rubyworks" />
   </a>
 </div>
 
