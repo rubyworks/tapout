@@ -4,7 +4,6 @@
 {Development}[http://github.com/rubyworks/tapout]
 
 Copyright:: 2010 Thomas Sawyer, Rubyworks
-Author:: Thomas Sawyer
 License:: BSD-2-Clause
 Status:: {<img src="http://travis-ci.org/rubyworks/tapout.png" />}[http://travis-ci.org/rubyworks/tapout]
 
@@ -31,26 +30,26 @@ the stream into `tapout`.
 
   $ ruby-test -y -Ilib test/foo.rb | tapout
 
-TapOut supports a variety of output formats. These are selectable via the `-f`
-option.
+TapOut supports a variety of output formats. These are selectable via the 
+first argument. The default if not given, as in the example above, is `dotprogress`.
 
-  $ ruby-test -y -Ilib test/foo.rb | tapout -f progessbar
+  $ ruby-test -y -Ilib test/foo.rb | tapout progessbar
 
 TapOut is smart enough to match the closest matching format name. So, for
 example, the above could be written as:
 
-  $ ruby-test -y -Ilib test/foo.rb | tapout -f pro
+  $ ruby-test -y -Ilib test/foo.rb | tapout pro
 
 And tapout will know to use the `progressbar` format.
 
 To see a list of supported formats use the list subcommand:
 
-  $ tapout list
+  $ tapout --help
 
 If your test framework does not support TAP-Y, but does support traditional
 TAP, TapOut will automatically recognize the difference by TAP's `1..N` header.
 
-  $ ruby-test -ftap -Ilib test/foo.rb | tapout -f progressbar
+  $ ruby-test -ftap -Ilib test/foo.rb | tapout progressbar
 
 
 == COPYRIGHTS
