@@ -74,7 +74,7 @@ Gem::Specification.new do |gemspec|
     metadata['requirements'].each do |req|
       name    = req['name']
       version = req['version']
-      groups  = req['groups']
+      groups  = req['groups'] || []
 
       #development = req['development']
       #if development
