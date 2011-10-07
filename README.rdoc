@@ -1,4 +1,4 @@
-= TapOut
+= Tap Out
 
 {Website}[http://rubyworks.github.com/tapout] |
 {Development}[http://github.com/rubyworks/tapout]
