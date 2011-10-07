@@ -30,8 +30,8 @@ resources:
 load_path:
 - lib
 extra: {}
-date: '2011-10-06'
-version: 0.2.2
+date: '2011-10-07'
+version: 0.2.3
 alternatives: []
 revision: 0
 source:

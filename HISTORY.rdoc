@@ -1,5 +1,16 @@
 = RELEASE HISTORY
 
+
+== 0.2.3 / 2011-10-08
+
+Exit code are important for a test output format. This release addressed that
+issue.
+
+Changes:
+
+* Fixed exit code.
+
+
 == 0.2.2 / 2011-10-07
 
 Fixed incorrect tally entry in breakdown reporter.
