@@ -25,7 +25,7 @@ module TapOut
       #end
 
       opt.on('--no-color', 'Supress ANSI color codes') do
-        # TODO
+        $ansi = false  # TODO: Is this correct?
       end
 
       opt.on('--debug', 'Run with $DEBUG flag on') do |fmt|
