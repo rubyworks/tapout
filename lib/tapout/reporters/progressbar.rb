@@ -47,7 +47,7 @@ module TapOut
       end
 
       #
-      def err(entry) #message=nil)
+      def error(entry) #message=nil)
         @pbar.clear
 
         e = entry['exception']

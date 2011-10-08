@@ -1,4 +1,4 @@
-# TAP-Y/J Format
+# TAP-Y/J Specification
 
 TAP-Y and TAP-J are test streams. They are essentially the same except
 for the underlying format used, which are YAML and JSON repsectively.
@@ -26,12 +26,14 @@ A `suite` document marks the beginning of a forthcoming stream of tests,
 i.e. a <i>test suite</i>. All TAP-Y streams MUST begin with a suite
 document.
 
+
     ---
     type: suite
     start: 2011-10-10 12:12:32
     count: 2
     seed: 32154
     rev: 2
+
 
 The `start` field marks the date and time testing began. It MUST be
 an ISO-8601 formated timestamp.
@@ -54,11 +56,13 @@ apps to adjust to any future variation.
 
 The `case` type indicates the start of a test case.
 
+
     ---
     type: case
     subtype: feature
     label: Multiplication
     level: 0
+
 
 The case document MAY provide a `class` which is a label for the
 typ of test case. For example, a test framwework that uses Gherkin
@@ -83,6 +87,7 @@ common fields.
 
 Here is an example of a passing unit document.
 
+
     ---
     type: test
     subtype: step
@@ -103,6 +108,7 @@ Here is an example of a passing unit document.
       line: 11..13
       code: Foo#*
     time: 0.01
+
 
 Besides the `status`, all test documents MUST have a `label`.
 
@@ -144,6 +150,7 @@ If a test has a status other than `pass` it MUST also provide a `exception`
 subsection which is used to describe the nature of the failure, error or
 omission.
 
+
     ---
     type: test
     subtype: step
@@ -180,6 +187,7 @@ omission.
         - test/test_foo.rb:45
     time: 0.02
 
+
 The `exception` section MUST give the `message`, describing the nature
 of the failure or exception. In this subsection, `file` and `line` indicate
 the location in code that triggered the exception or failed assertion.
@@ -204,25 +212,28 @@ code with having to do additional processing.
 The `note` type is used to interject a message between tests that
 is not tied to a specific unit or case. It has only a few fields.
 
+
   ---
   type: note
   text:
     This is an example note.
+
 
 The note document is simply used to interject any information the 
 tester might want to know, but doesn't properly fit elsewhere in the
 stream. A note cna appear any where in the document stream prior
 to the tally.
 
-### Tally
+### Final & Tally
 
-While a running tally can technically occur anywhere in the document
-stream without consequence, it generally incidates the end of a test
-suite, which is strictly complete with the end-document-marker (`...`)
-appears.
+The `final` and `tally` types are the same. The difference is only that a `tally`
+entry is a running tally, and can technically occur anywhere in the document
+stream. The `final` entry on the other hand incidates the end of a test suite,
+which will be followed by an end-document-marker (`...`).
+
 
   ---
-  type : tally
+  type : final
   time : 0.03
   counts:
     total: 2
@@ -233,10 +244,16 @@ appears.
     todo : 0
   ...
 
-A tally document MUST provide a counts mapping with the `total` number of
+
+A tally/final document MUST provide a counts mapping with the `total` number of
 tests (this MUST be same as `count` in the suite document if it was given)
 and the totals for each test status. It SHOULD also give the time elapsed
 since the suite time.
+
+Tally documents are very rare, if used at all. They only make sense for very
+large test suites as a progress report mechanism. As a rule of thumb, TAP-Y/J
+consumer apps will ignore them unless a configuration option (e.g. `--verbose`)
+is used.
 
 As mentioned, the test stream ends when a full ellipsis (<code>...</code>)
 appears.
@@ -244,7 +261,6 @@ appears.
 As you can see TAP-Y streams provides a great deal of detail. They are not
 intended for the end-user, but rather to pipe to a consuming app to process
 into a human readable form.
-
 
 ## Glossery of Fields
 

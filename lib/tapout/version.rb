@@ -3,5 +3,5 @@ module TapOut
   VERSION = "0.2.3"
 
   # The current revision of the TAP-Y/J format.
-  REVISION = "2"
+  REVISION = "3"
 end

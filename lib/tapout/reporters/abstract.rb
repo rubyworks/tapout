@@ -22,6 +22,7 @@ module TapOut
     #
     # TODO: Simplify this class and have the sublcasses handle more of the load.
     class Abstract
+
       # When Abstract is inherited it saves a reference to it in `Reporters.index`.
       def self.inherited(subclass)
         name = subclass.name.split('::').last.downcase
@@ -36,53 +37,14 @@ module TapOut
         @skipped = []
         @omitted = []
 
-        @source        = {}
-        @previous_case = nil
-        @exit_code     = 0  # assume passing
+        @case_stack = []
+        @source     = {}
+        @exit_code  = 0  # assume passing
       end
 
-      # Exit code.
-      def exit_code
+      # When all is said and done.
+      def finalize
         @exit_code
-      end
-
-      #
-      def <<(entry)
-        handle(entry)
-      end
-
-      # Handler method. This dispatches a given entry to the appropriate
-      # report methods.
-      def handle(entry)
-        case entry['type']
-        when 'suite'
-          start_suite(entry)
-        when 'case'
-          finish_case(@previous_case) if @previous_case
-          @previous_case = entry
-          start_case(entry)
-        when 'note'
-          note(entry)
-        when 'test'
-          test(entry)
-          case entry['status']
-          when 'pass'
-            pass(entry)
-          when 'fail'
-            @exit_code = -1
-            fail(entry)
-          when 'error'
-            @exit_code = -1
-            err(entry)
-          when 'omit'
-            omit(entry)
-          when 'todo', 'skip', 'pending'
-            skip(entry)
-          end
-        when 'tally'
-          finish_case(@previous_case) if @previous_case
-          finish_suite(entry)
-        end
       end
 
       # Handle header.
@@ -93,12 +55,8 @@ module TapOut
       def start_case(entry)
       end
 
-      # Handle an arbitray note.
-      def note(entry)
-      end
-
       # Handle test. This is run before the status handlers.
-      def test(entry)
+      def start_test(entry)
       end
 
       # Handle test with pass status.
@@ -112,7 +70,7 @@ module TapOut
       end
 
       # Handle test with error status.
-      def err(entry)
+      def error(entry)
         @raised << entry
       end
 
@@ -126,16 +84,79 @@ module TapOut
         @skipped << entry
       end
 
+      # Handle an arbitray note.
+      def note(entry)
+      end
+
+      # Handle running tally.
+      def tally(entry)
+      end
+
+      # When a test unit is complete.
+      def finish_test(entry)
+      end
+
       # When a test case is complete.
       def finish_case(entry)
       end
 
-      # Handle footer.
+      # Handle final entry.
       def finish_suite(entry)
       end
 
-      # TODO: get the tally's from the footer entry ?
-      def tally(entry)
+      # -- H A N D L E R --
+
+      #
+      def <<(entry)
+        handle(entry)
+      end
+
+      # Handler method. This dispatches a given entry to the appropriate
+      # report methods.
+      def handle(entry)
+        case entry['type']
+        when 'suite'
+          start_suite(entry)
+        when 'case'
+          complete_cases(entry)
+          @case_stack << entry
+          start_case(entry)
+        when 'note'
+          note(entry)
+        when 'test'
+          start_test(entry)
+          case entry['status']
+          when 'pass'
+            pass(entry)
+          when 'fail'
+            @exit_code = -1
+            fail(entry)
+          when 'error'
+            @exit_code = -1
+            error(entry)
+          when 'omit'
+            omit(entry)
+          when 'todo', 'skip', 'pending'
+            skip(entry)
+          end
+          finish_test(entry)
+        when 'tally'
+          tally(entry)
+        when 'final'
+          complete_cases
+          finish_suite(entry)
+        end
+      end
+
+      # Get the exit code.
+      def exit_code
+        @exit_code
+      end
+
+      # Generate a tally message given a tally or final entry.
+      #
+      # @return [String] tally message
+      def tally_message(entry)
         total = @passed.size + @failed.size + @raised.size #+ @skipped.size + @omitted.size
 
         if entry['counts']
@@ -174,7 +195,9 @@ module TapOut
         end
       end
 
+      # Used to clean-up backtrace.
       #
+      # TODO: Use Rubinius global system instead.
       INTERNALS = /(lib|bin)#{Regexp.escape(File::SEPARATOR)}tapout/
 
       # Clean the backtrace of any reference to ko/ paths and code.
@@ -268,6 +291,19 @@ module TapOut
         caller =~ /(.+?):(\d+(?=:|\z))/ or return ""
         source_file, source_line = $1, $2.to_i
         returnf source_file, source_line
+      end
+
+      #
+      def complete_cases(case_entry=nil)
+        if case_entry
+          while @case_stack.last and @case_stack.last['level'].to_i >= case_entry['level'].to_i
+            finish_case(@case_stack.pop)
+          end
+        else
+          while @case_stack.last
+            finish_case(@case_stack.pop)
+          end
+        end
       end
 
     end#class Abstract

@@ -156,7 +156,7 @@ module TapOut
       groups = @entries.group_by{ |e| e['status'] }
 
       entry = {}
-      entry['type'] = 'tally'
+      entry['type'] = 'final'
       entry['counts'] = {
         'total' => @count,
         'pass'  => (groups['pass'] || []).size,

@@ -3,22 +3,16 @@ require 'tapout/parsers'
 
 module TapOut
 
-  # Usable formats.
-  FORMATS = %w{breakdown dotprogress html outline progressbar tap}
-
+  # Command line interface.
   #
   def self.cli(*argv)
     options = {}
     type    = :modern
 
     parser = OptionParser.new do |opt|
-      opt.banner = "tapout [options] [format]"
+      opt.banner = "tapout [options] [reporter]"
 
       opt.separator("\nOPTIONS:")
-
-      #opt.on('--format', '-f FORMAT', 'Report format') do |fmt|
-      #  options[:format] = fmt
-      #end
 
       #opt.on('-t', '--tap', 'Consume legacy TAP input') do |fmt|
       #  type = :legacy
@@ -32,7 +26,7 @@ module TapOut
         $DEBUG = true
       end
 
-      opt.separator("\nFORMATS:\n        " + FORMATS.join("\n        "))
+      opt.separator("\nREPORTERS:\n        " + Reporters.index.keys.join("\n        "))
     end
 
     parser.parse!(argv)

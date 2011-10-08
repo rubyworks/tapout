@@ -54,7 +54,7 @@ module TapOut::Reporters
     end
 
     #
-    def err(entry)
+    def error(entry)
       super(entry)
 
       @i += 1

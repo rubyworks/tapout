@@ -34,7 +34,7 @@ module TapOut::Reporters
       $stdout.puts
     end
 
-    def err(entry)
+    def error(entry)
       super(entry)
       $stdout.puts "* " + entry['label'].ansi(:yellow) + "   #{entry['source']}"
       $stdout.puts

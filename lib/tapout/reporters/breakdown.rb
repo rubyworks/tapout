@@ -4,7 +4,8 @@ module TapOut
 
   module Reporters
 
-    # The Breakdown report format give a tally for each test case.
+    # The Breakdown report format gives a tally for each test case.
+    #
     class Breakdown < Abstract
 
       def initialize

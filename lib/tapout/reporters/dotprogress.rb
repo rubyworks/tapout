@@ -26,7 +26,7 @@ module TapOut::Reporters
     end
 
     #
-    def err(entry)
+    def error(entry)
       $stdout.print 'E'.ansi(:yellow)
       $stdout.flush
       super(entry)

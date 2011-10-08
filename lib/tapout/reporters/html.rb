@@ -81,7 +81,7 @@ module TapOut::Reporters
     end
 
     #
-    def err(entry)
+    def error(entry)
       e = entry['exception']
 
       puts %[<li class="error">]
