@@ -24,7 +24,7 @@ module TapOut
         @case_entries = []
       end
 
-      def test(entry)
+      def start_test(entry)
         @case_entries << entry
       end
 
@@ -111,7 +111,7 @@ module TapOut
           end
         #end
 
-        puts tally(entry)
+        puts tally_message(entry)
       end
 
     end

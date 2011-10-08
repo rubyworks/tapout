@@ -117,7 +117,7 @@ module TapOut::Reporters
     def finish_suite(entry)
       puts ""
       puts %[<div class="tally">]
-      puts tally(entry)
+      puts tally_message(entry)
       puts %[</div>]
       puts ""
       puts ""

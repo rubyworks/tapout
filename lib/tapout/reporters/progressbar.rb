@@ -82,7 +82,7 @@ module TapOut
         @pbar.finish
         #post_report(entry)
         puts
-        puts tally(entry)
+        puts tally_message(entry)
       end
 
     end

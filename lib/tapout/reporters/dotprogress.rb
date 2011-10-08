@@ -61,7 +61,7 @@ module TapOut::Reporters
       end
 
       $stdout.puts "Finished in #{Time.now - @start_time}s"
-      $stdout.puts tally(entry)
+      $stdout.puts tally_message(entry)
     end
 
   end

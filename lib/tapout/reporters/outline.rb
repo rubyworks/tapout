@@ -48,7 +48,7 @@ module TapOut::Reporters
     #
     def finish_suite(entry)
       #$stderr.puts
-      $stdout.print tally(entry)
+      $stdout.print tally_message(entry)
       $stdout.puts " [%0.4fs] " % [Time.now - @start_time]
     end
 
