@@ -1,6 +1,6 @@
 --- 
 name: tapout
-version: 0.2.3
+version: 0.3.0
 
 title: TapOut
 summary: Progressive TAP Harness

@@ -1,6 +1,15 @@
 = RELEASE HISTORY
 
 
+== 0.3.0 / 2011-10-09
+
+This release supports revision 3 of the TAP-Y/J specification, which ass `final`
+to the document types. The `final` document is the last document of a test suite.
+It takes the place of `tally`, which is now simply an optional running subtotals
+document. This release also makes some intreface imporvements to the `Reporters::Abstract`
+base class.
+
+
 == 0.2.3 / 2011-10-08
 
 Exit code are important for a test output format. This release addressed that
