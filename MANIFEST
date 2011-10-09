@@ -1,4 +1,4 @@
-#!mast .ruby .yardopts bin lib man qed test [A-Z][A-Z]*
+#!mast .ruby .yardopts bin lib man spec test [A-Z][A-Z]*
 .ruby
 .yardopts
 bin/tapout
@@ -21,6 +21,11 @@ lib/tapout/reporters.rb
 lib/tapout/version.rb
 lib/tapout.rb
 lib/tapout.yml
+spec/applique/env.rb
+spec/perl_adapter.rdoc
+spec/reporters/applique/cli.rb
+spec/reporters/fixtures/tapy.yml
+spec/reporters/reporters.rdoc
 test/unit/test-progressbar.rb
 HISTORY.rdoc
 PROFILE
