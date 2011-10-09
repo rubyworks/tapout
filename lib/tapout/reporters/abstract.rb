@@ -26,6 +26,7 @@ module TapOut
       # When Abstract is inherited it saves a reference to it in `Reporters.index`.
       def self.inherited(subclass)
         name = subclass.name.split('::').last.downcase
+        name = name.chomp('reporter')
         Reporters.index[name] = subclass
       end
 

@@ -6,7 +6,7 @@ module TapOut
 
     # The Breakdown report format gives a tally for each test case.
     #
-    class Breakdown < Abstract
+    class BreakdownReporter < Abstract
 
       def initialize
         super

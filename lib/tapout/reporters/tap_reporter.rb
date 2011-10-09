@@ -3,7 +3,7 @@ require 'tapout/reporters/abstract'
 module TapOut::Reporters
 
   # Tap Reporter
-  class Tap < Abstract
+  class TapReporter < Abstract
 
     #
     def start_suite(entry)

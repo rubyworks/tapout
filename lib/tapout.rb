@@ -3,6 +3,16 @@ require 'tapout/parsers'
 
 module TapOut
 
+  #
+  def self.trace
+    @trace
+  end
+
+  #
+  def self.trace=(depth)
+    @trace = depth.to_i
+  end
+
   # Command line interface.
   #
   def self.cli(*argv)
@@ -17,6 +27,10 @@ module TapOut
       #opt.on('-t', '--tap', 'Consume legacy TAP input') do |fmt|
       #  type = :legacy
       #end
+
+      opt.on('--trace', '-t DEPTH', 'set backtrace depth') do |depth|
+        self.trace = depth
+      end
 
       opt.on('--no-color', 'Supress ANSI color codes') do
         $ansi = false  # TODO: Is this correct?

@@ -3,7 +3,8 @@ require 'tapout/reporters/abstract'
 module TapOut::Reporters
 
   # Traditional dot progress reporter.
-  class Dotprogress < Abstract
+  #
+  class DotReporter < Abstract
 
     #
     def start_suite(entry)
