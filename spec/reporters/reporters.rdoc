@@ -68,9 +68,9 @@ Using the following TAP-Y sample:
   ...
 
 
-The dotprogress reporter should run without error.
+The dot reporter should run without error.
 
-The progressbar reporter should run without error.
+The progress reporter should run without error.
 
 The html reporter should run without error.
 
@@ -80,4 +80,7 @@ The breakdown reporter should run without error.
 
 The tap reporter should run without error.
 
+The turn reporter should run without error.
+
+The pretty reporter should run without error.
 

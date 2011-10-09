@@ -3,11 +3,13 @@
 
 == 0.3.0 / 2011-10-09
 
-This release supports revision 3 of the TAP-Y/J specification, which ass `final`
+This release supports revision 3 of the TAP-Y/J specification, which adds `final`
 to the document types. The `final` document is the last document of a test suite.
-It takes the place of `tally`, which is now simply an optional running subtotals
-document. This release also makes some intreface imporvements to the `Reporters::Abstract`
-base class.
+It takes the place of `tally`, which is now simply an optional running subtotal
+document. 
+
+This release also makes some intreface imporvements to the `Reporters::Abstract`
+base class and ports over all applicable reporters from othe Turn project.
 
 
 == 0.2.3 / 2011-10-08
