@@ -88,14 +88,16 @@ module TapOut
 
       # TODO: TAP-Y/J needs a field for the error class
       def error(doc)
-        message = doc['exception']['message'].to_s
-        #backtrace = "Exception `#{exception.class}' at " + clean_backtrace(exception.backtrace).join("\n")
-        backtrace = "Exception at " + clean_backtrace(doc['exception']['backtrace'] || []).join("\n")
-        message = message.ansi(:bold)
+        exception_class = doc['exception']['class'].to_s
+        message         = doc['exception']['message'].to_s.ansi(:bold)
+        backtrace       = "Exception `#{exception_class}' at " +
+                          clean_backtrace(doc['exception']['backtrace'] || []).join("\n")
+
         puts("#{ERROR}")
         puts(message.tabto(8))
         puts "STDERR:".tabto(8)
         puts(backtrace.tabto(8))
+
         show_captured_output
       end
 

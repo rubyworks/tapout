@@ -122,10 +122,10 @@ equality, e.g. <code>assert_equal(4,3)</code>, so `expected` would be `3` and
 of information for a test framework to provide, so it is the most often
 omitted.
 
-A unit SHOULD also have a `file` and `line` number for source file location.
+A test SHOULD also have a `file` and `line` number for source file location.
 This is the location of the test definition itself.
 
-A unit SHOULD provide the line of `source` code for the test.
+A test SHOULD provide the line of `source` code for the test.
 This will be the line of code that `file` and `line` number references.
 Unlike `snippet` lines, the source line should be stripped of whitespace.
 
@@ -136,12 +136,12 @@ the source line in the center. Or, it MAY be an ordered map of verbatim
 and end wherever, but they MUST be consecutive and the source line MUST
 be among them.
 
-[EXPERIMENTAL] The `coverage` subsection MAY be provided, in which can have three optional 
-fields: `file`, `line` and `code`. Where `file` specifies the source file being
-targeted by the test, `line` specifies the line number, range of line
-numbers (e.g. `1..4`) or an array of such, and `code` specifices the
-language construct being targeted. For example, `code` might be `Foo#bar`
-if the test targets the `bar` method of the `Foo` class.
+[EXPERIMENTAL] The `coverage` subsection MAY be provided, which can have three
+optional  fields: `file`, `line` and `code`. Where `file` specifies the source
+file being targeted by the test, `line` specifies the line number, range of line
+numbers (e.g. `1..4`) or an array of such line or array of line numbaer,
+and `code` specifices the language construct being targeted. For example, `code`
+might be `Foo#bar` if the test targets the `bar` method of the `Foo` class.
 
 The `time` is the number of seconds that have elapsed since the
 the suite start time.
@@ -175,6 +175,7 @@ omission.
         (assertion fail) must_equal
         1
         2
+      class: EqualityAssertion
       file: test/test_foo.rb
       line: 50
       source: 1.must_equal == v
