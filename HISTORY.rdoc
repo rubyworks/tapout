@@ -1,5 +1,16 @@
 = RELEASE HISTORY
 
+== 0.3.1 / 2011-10-18
+
+This release fixes an error raised when no report format is explicitly speciifed.
+Where as it is supposed to defualt to the `dot` reporter. It also adds initial
+support for error/failure `class` field.
+
+Changes:
+
+* Fix default reporter issue. (Brad Murray) #1
+* Add support for class field to Turn reporter.
+
 
 == 0.3.0 / 2011-10-09
 
@@ -10,6 +21,11 @@ document.
 
 This release also makes some intreface imporvements to the `Reporters::Abstract`
 base class and ports over all applicable reporters from othe Turn project.
+
+Changes:
+
+* Use `final` instead of `tally` for last entry.
+* Port Turn report formats.
 
 
 == 0.2.3 / 2011-10-08
