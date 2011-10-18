@@ -53,7 +53,7 @@ module TapOut
         e = entry['exception']
 
         puts
-        message = e['message'].strip
+        message = [e['class'], e['message']].compact.join(': ').strip
         message = message.ansi(:red)
         puts(message)
         puts "#{e['file']}:#{e['line']}"

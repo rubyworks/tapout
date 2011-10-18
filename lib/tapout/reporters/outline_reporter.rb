@@ -25,9 +25,12 @@ module TapOut::Reporters
 
     def fail(entry)
       super(entry)
+
+      msg = entry['exception'].values_at('class', 'message').compact.join(' - ')
+
       $stdout.puts "* " + entry['label'].ansi(:red) + "   #{entry['source']}"
       $stdout.puts
-      $stdout.puts "    #{entry['exception']['message']}"
+      $stdout.puts "    #{msg}"
       #$stdout.puts "    " + ok.caller #clean_backtrace(exception.backtrace)[0]
       $stdout.puts
       $stdout.puts code_snippet(entry['exception'])
@@ -36,9 +39,12 @@ module TapOut::Reporters
 
     def error(entry)
       super(entry)
+
+      msg = entry['exception'].values_at('class', 'message').compact.join(' - ')
+
       $stdout.puts "* " + entry['label'].ansi(:yellow) + "   #{entry['source']}"
       $stdout.puts
-      $stdout.puts "    #{entry['exception']['message']}"  # error class?
+      $stdout.puts "    #{msg}"
       #$stdout.puts "    " + ok.caller #clean_backtrace(exception.backtrace)[0..2].join("    \n")
       $stdout.puts
       $stdout.puts code_snippet(entry['exception'])

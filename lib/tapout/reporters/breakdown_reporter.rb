@@ -100,7 +100,7 @@ module TapOut
             puts
             bad.each do |e|
               x = e['exception']
-              message = x['message'].strip
+              message = [x['class'],x['message']].compact.join(': ').strip
               message = message.ansi(:red)
               puts(message)
               puts "#{x['file']}:#{x['line']}"

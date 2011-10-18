@@ -64,8 +64,8 @@ module TapOut::Reporters
 
       body = []
       body << "ERROR #{x['file']}:#{x['line']}" #clean_backtrace(exception.backtrace)[0..2].join("    \n")
-      #body << "#{exception.class}: #{entry['message']}"
-      body << "#{x['message']}"
+      body << "#{x['class']}: #{x['message']}"
+      #body << "#{x['message']}"
       body << ""
       body << code_snippet(entry)
       body << ""
