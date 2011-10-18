@@ -6,15 +6,21 @@ module TapOut
   # Namespace for Report Formats.
   module Reporters
 
+    #
+    DEAFULT_REPORTER = 'dot'
+
     # Returns a Hash of name to reporter class.
     def self.index
       @index ||= {}
     end
 
     # Returns a reporter class given it's name or a unique abbreviation of it.
+    # If `name` is `nil` then the default dot reporter is returned.
     def self.factory(name)
       list = index.keys.abbrev
-      index[list[name]]
+      rptr = index[list[name || DEAFULT_REPORTER]]
+      raise ArgumentError, "Unrecognized reporter -- #{name.inspect}" unless rptr
+      rptr
     end
 
     # The Abstract class serves as a base class for all reporters. Reporters

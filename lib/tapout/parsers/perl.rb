@@ -10,7 +10,7 @@ module TapOut
 
     # options[:format] - the report format to use
     def initialize(options={})
-      format    = options[:format] || 'dotprogress'
+      format    = options[:format]
       @reporter = Reporters.factory(format).new
     end
 
