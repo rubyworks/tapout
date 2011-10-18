@@ -8,7 +8,7 @@ module TapOut
   def self.metadata
     @metadata ||= (
       require 'yaml'
-      YAML.load_file(File.join(File.dirname(__FILE__), 'tapout.yml'))
+      YAML.load_file(File.join(File.dirname(__FILE__), '/../tapout.yml'))
     )
   end
 
