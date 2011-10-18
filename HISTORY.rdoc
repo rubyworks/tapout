@@ -2,8 +2,8 @@
 
 == 0.3.1 / 2011-10-18
 
-This release fixes an error raised when no report format is explicitly speciifed.
-Where as it is supposed to defualt to the `dot` reporter. It also adds initial
+This release fixes an error raised when no report format is explicitly specified.
+Where as it is supposed to default to the `dot` reporter. It also adds initial
 support for error/failure `class` field.
 
 Changes:
@@ -19,8 +19,8 @@ to the document types. The `final` document is the last document of a test suite
 It takes the place of `tally`, which is now simply an optional running subtotal
 document. 
 
-This release also makes some intreface imporvements to the `Reporters::Abstract`
-base class and ports over all applicable reporters from othe Turn project.
+This release also makes some interface improvements to the `Reporters::Abstract`
+base class and ports over all applicable reporters from the Turn project.
 
 Changes:
 
@@ -45,7 +45,7 @@ Fixed incorrect tally entry in breakdown reporter.
 Changes:
 
 * Fixed incorrect tally entry in breakdown reporter.
-* Add intergration specs for reporters.
+* Add integration specs for reporters.
 
 
 == 0.2.1 / 2011-10-06
@@ -61,11 +61,11 @@ Changes:
 
 == 0.2.0 / 2011-10-06
 
-This realease revises the specification a bit, primarily
+This release revises the specification a bit, primarily
 changing the names of header and footer sections to more
-semantically usefule terms, suite and tally, respectively.
+semantically useful terms, suite and tally, respectively.
 Also, a `rev` field has been added to the suite entries
-to allow consuming apps to gracfully handle any future
+to allow consuming apps to gracefully handle any future
 changes.
 
 Changes:
