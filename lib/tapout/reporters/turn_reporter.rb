@@ -79,14 +79,14 @@ module TapOut
           tabsize = 8
           backtrace1 = label + backtrace.shift
           puts(backtrace1.tabto(tabsize))
-          if trace = TapOut.trace
+          if depth = TapOut.trace
             puts backtrace[0,depth].map{|l| l.tabto(label.length + tabsize) }.join("\n")
           end
         end
         show_captured_output
       end
 
-      # TODO: TAP-Y/J needs a field for the error class
+      #
       def error(doc)
         exception_class = doc['exception']['class'].to_s
         message         = doc['exception']['message'].to_s.ansi(:bold)
