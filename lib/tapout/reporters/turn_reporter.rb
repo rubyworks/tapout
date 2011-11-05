@@ -67,9 +67,11 @@ module TapOut
       end
 
       #
+      #
       def fail(doc)
         message   = doc['exception']['message'].to_s
         backtrace = clean_backtrace(doc['exception']['backtrace'] || [])
+        depth     = TapOut.trace || backtrace.size
 
         puts(" #{FAIL}")
         puts message.ansi(:bold).tabto(8)
@@ -79,19 +81,20 @@ module TapOut
           tabsize = 8
           backtrace1 = label + backtrace.shift
           puts(backtrace1.tabto(tabsize))
-          if depth = TapOut.trace
-            puts backtrace[0,depth].map{|l| l.tabto(label.length + tabsize) }.join("\n")
-          end
+          puts backtrace[0,depth].map{|l| l.tabto(label.length + tabsize) }.join("\n")
         end
         show_captured_output
       end
 
       #
+      #
       def error(doc)
         exception_class = doc['exception']['class'].to_s
         message         = doc['exception']['message'].to_s.ansi(:bold)
-        backtrace       = "Exception `#{exception_class}' at " +
-                          clean_backtrace(doc['exception']['backtrace'] || []).join("\n")
+
+        backtrace       = clean_backtrace(doc['exception']['backtrace'] || [])
+        depth           = TapOut.trace || backtrace.size
+        backtrace       = "Exception `#{exception_class}' at " + backtrace[0,depth].join("\n")
 
         puts("#{ERROR}")
         puts(message.tabto(8))

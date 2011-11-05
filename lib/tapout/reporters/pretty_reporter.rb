@@ -77,17 +77,18 @@ module TapOut
         if bt = test['exception']['backtrace']
           _trace = clean_backtrace(bt)
         else
-          _trace = clean_backtrace(bt)
+          _trace = []
         end
 
-        puts
+        trace   = _trace.shift
+        depth   = TapOut.trace || trace.size
         tabsize = 10
+
+        puts
         #puts pad(message, tabsize)
         puts message.tabto(tabsize)
-        puts _trace.shift.tabto(tabsize)
-        if depth = TapOut.trace
-          puts _trace[0,depth].map{|l| l.tabto(tabsize) }.join("\n")
-        end
+        puts trace.tabto(tabsize)
+        puts _trace[0,depth].map{|l| l.tabto(tabsize) }.join("\n")
         #show_captured_output
       end
 
@@ -107,14 +108,14 @@ module TapOut
           _trace = filter_backtrace(bt)
         end
 
-        trace = _trace.shift
-        puts
+        trace   = _trace.shift
+        depth   = TapOut.trace || trace.size
         tabsize = 10
+
+        puts
         puts message.tabto(tabsize)
         puts trace.tabto(tabsize)
-        if depth = TapOut.trace
-          puts _trace[0,depth].map{|l| l.tabto(tabsize) }.join("\n")
-        end
+        puts _trace[0,depth].map{|l| l.tabto(tabsize) }.join("\n")
       end
 
       # TODO: skip support

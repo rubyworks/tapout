@@ -40,27 +40,31 @@ module TapOut::Reporters
       i = 1
 
       @failed.each do |e|
-        #backtrace = clean_backtrace(exception.backtrace)
+        backtrace = clean_backtrace(e['exception']['backtrace'])
+        depth     = TapOut.trace || backtrace.size
+
         $stdout.puts "#{i}. " + (e['label']).ansi(:red)
         $stdout.puts
         $stdout.puts "    #{e['exception']['class']}" if e['exception']['class']
         $stdout.puts e['exception']['message'].to_s.tabto(4)
         $stdout.puts "    #{e['exception']['file']}:#{e['exception']['line']}" #+ backtrace[0]
         $stdout.puts code_snippet(e['exception'])
-        $stdout.puts e['exception']['backtrace'][1..TapOut.trace].join("\n").tabto(4)
+        $stdout.puts backtrace[0,depth].join("\n").tabto(4)
         $stdout.puts
         i += 1
       end
 
       @raised.each do |e|
-        #backtrace = clean_backtrace(exception.backtrace)
+        backtrace = clean_backtrace(e['exception']['backtrace'])
+        depth     = TapOut.trace || backtrace.size
+
         $stdout.puts "#{i}. " + (e['label']).ansi(:yellow)
         $stdout.puts
         $stdout.puts "    #{e['exception']['class']}" if e['exception']['class']
         $stdout.puts "    #{e['exception']['message']}"
         $stdout.puts "    #{e['exception']['file']}:#{e['exception']['line']}" #+ backtrace[0..2].join("    \n")
         $stdout.puts code_snippet(e['exception'])
-        $stdout.puts e['exception']['backtrace'][1..TapOut.trace].join("\n").tabto(4)
+        $stdout.puts backtrace[0,depth].join("\n").tabto(4)
         $stdout.puts
         i += 1
       end
