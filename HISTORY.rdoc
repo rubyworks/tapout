@@ -1,5 +1,16 @@
 = RELEASE HISTORY
 
+== 0.3.2 / 2011-11-05
+
+Improve backtrace output in a number of reporters. Now, by default, full
+backtraces are provided. Use the `--trace DEPTH` option to limit the
+number of backtrace lines to report.
+
+Changes:
+
+* Improve backtrace output among the most polished reporters.
+
+
 == 0.3.1 / 2011-10-18
 
 This release fixes an error raised when no report format is explicitly specified.
