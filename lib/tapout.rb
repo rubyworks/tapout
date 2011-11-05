@@ -3,6 +3,9 @@ require 'tapout/parsers'
 
 module TapOut
 
+  # Default trace depth.
+  @trace = -1
+
   #
   def self.trace
     @trace
