@@ -1,6 +1,6 @@
 ---
 github:
-  active: true
+  folder: pages
 
 gem:
   active : true

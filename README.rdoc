@@ -56,6 +56,6 @@ TAP, TapOut will automatically recognize the difference by TAP's `1..N` header.
 
 TapOut, Copyright (c) 2010 Thomas Sawyer
 
-TapOut is licensed under the terms of the FreeBSD license.
+TapOut is licensed under the terms of the *FreeBSD* license.
 
 See COPYING.rdoc and LICENSE.txt for details.
