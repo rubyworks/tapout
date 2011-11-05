@@ -3,9 +3,9 @@
 {Website}[http://rubyworks.github.com/tapout] |
 {Development}[http://github.com/rubyworks/tapout]
 
+Status:: {<img src="http://travis-ci.org/rubyworks/tapout.png" />}[http://travis-ci.org/rubyworks/tapout]
 Copyright:: 2010 Thomas Sawyer, Rubyworks
 License:: BSD-2-Clause
-Status:: {<img src="http://travis-ci.org/rubyworks/tapout.png" />}[http://travis-ci.org/rubyworks/tapout]
 
 
 == DESCRIPTION
