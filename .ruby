@@ -11,7 +11,17 @@ copyrights:
   license: BSD-2-Clause
 replacements: []
 alternatives: []
-requirements: []
+requirements:
+- name: ansi
+- name: json
+- name: detroit
+  groups:
+  - build
+  development: true
+- name: qed
+  groups:
+  - test
+  development: true
 dependencies: []
 conflicts: []
 repositories:
