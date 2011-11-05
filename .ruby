@@ -1,4 +1,7 @@
 ---
+source:
+- PROFILE
+- meta
 authors:
 - name: Thomas Sawyer
   email: transfire@gmail.com
@@ -7,19 +10,10 @@ copyrights:
   year: '2010'
   license: BSD-2-Clause
 replacements: []
-conflicts: []
-requirements:
-- name: ansi
-- name: json
-- name: detroit
-  groups:
-  - build
-  development: true
-- name: qed
-  groups:
-  - test
-  development: true
+alternatives: []
+requirements: []
 dependencies: []
+conflicts: []
 repositories:
 - uri: git://github.com/rubyworks/tapout.git
   scm: git
@@ -27,19 +21,16 @@ repositories:
 resources:
   home: http://rubyworks.github.com/tapout
   code: http://github.com/rubyworks/tapout
+extra: {}
 load_path:
 - lib
-extra: {}
-source:
-- PROFILE
-alternatives: []
 revision: 0
-name: tapout
-title: TapOut
-version: 0.3.1
+created: '2010-12-23'
 summary: Progressive TAP Harness
+title: TapOut
+version: 0.3.2
+name: tapout
 description: Tapout is a TAP consumer that can take any TAP, TAP-Y or TAP-J stream
   and output it in a variety of useful formats.
 organization: RubyWorks
-created: '2010-12-23'
-date: '2011-10-18'
+date: '2011-11-05'

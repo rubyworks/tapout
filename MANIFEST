@@ -22,13 +22,14 @@ lib/tapout/version.rb
 lib/tapout.rb
 lib/tapout.yml
 spec/applique/env.rb
+spec/issues/applique/env.rb
+spec/issues/default_reporter.rdoc
 spec/perl_adapter.rdoc
 spec/reporters/applique/cli.rb
 spec/reporters/fixtures/tapy.yml
 spec/reporters/reporters.rdoc
 test/unit/test-progressbar.rb
 HISTORY.rdoc
-PROFILE
 LICENSE.txt
 README.rdoc
 COPYING.rdoc
