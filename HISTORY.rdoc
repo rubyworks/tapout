@@ -1,6 +1,7 @@
 = RELEASE HISTORY
 
-== 0.3.2 / 2011-11-05
+
+== 0.3.2 / 2011-11-08
 
 Improve backtrace output in a number of reporters. Now, by default, full
 backtraces are provided. Use the `--trace DEPTH` option to limit the
