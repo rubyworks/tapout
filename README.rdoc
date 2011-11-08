@@ -1,10 +1,11 @@
 = Tap Out
 
 {Website}[http://rubyworks.github.com/tapout] |
-{Development}[http://github.com/rubyworks/tapout]
+{Development}[http://github.com/rubyworks/tapout] |
+{Report Issue}[http://github.com/rubyworks/tapout/issues]
 
 Status:: {<img src="http://travis-ci.org/rubyworks/tapout.png" />}[http://travis-ci.org/rubyworks/tapout]
-Copyright:: 2010 Thomas Sawyer, Rubyworks
+Copyright:: 2010 Rubyworks
 License:: BSD-2-Clause
 
 
