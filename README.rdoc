@@ -16,10 +16,10 @@ TapOut is a TAP handler. TapOut supports TAP-Y/J as well as traditional TAP.
 TAP-Y/J is a modernization of TAP using pure YAML/JSON streams.
 Traditional TAP has less detail than TAP-Y/J, but it can still be translated
 with fairly good results. TapOut includes a TAP adapter to handle the
-translation transparently. Current TapOut support TAP v12 with minor
-limitations.
+translation transparently. Currently TapOut supports TAP v12 with minor
+some limitations.
 
-To learn about the TAP-Y/J specification, see the TAP-YJ.rdoc file.
+To learn about the TAP-Y/J specification, see the {TAP-YJ.rdoc} file.
 
 For information about TAP, see http://testanything.org/wiki/index.php/Main_Page.
 
@@ -55,8 +55,9 @@ TAP, TapOut will automatically recognize the difference by TAP's `1..N` header.
 
 == COPYRIGHTS
 
-TapOut, Copyright (c) 2010 Thomas Sawyer
+TapOut - Copyright (c) 2010 Rubyworks
 
-TapOut is licensed under the terms of the *FreeBSD* license.
+TapOut is licensed under the terms of the *BSD-2-Clause* license.
 
-See COPYING.rdoc and LICENSE.txt for details.
+See COPYING.rdoc for details.
+
