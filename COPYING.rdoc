@@ -2,11 +2,13 @@
 
 == TAPOUT
 
-Copyright:: (c) 2010 Thomas Sawyer, Rubyworks
+Copyright:: (c) 2010 Rubyworks
 License:: BSD-2-Clause
 Website:: http://rubyworks.github.com/tapout
 
-    Copyright 2011 Thomas Sawyer. All rights reserved.
+    TAPOUT - Modernized TAP Harness
+
+    Copyright 2010 Rubyworks. All rights reserved.
 
     Redistribution and use in source and binary forms, with or without
     modification, are permitted provided that the following conditions are met:

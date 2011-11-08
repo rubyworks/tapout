@@ -1,7 +1,6 @@
 ---
 source:
-- PROFILE
-- meta
+- var
 authors:
 - name: Thomas Sawyer
   email: transfire@gmail.com
@@ -43,4 +42,4 @@ name: tapout
 description: Tapout is a TAP consumer that can take any TAP, TAP-Y or TAP-J stream
   and output it in a variety of useful formats.
 organization: RubyWorks
-date: '2011-11-05'
+date: '2011-11-08'
