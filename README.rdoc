@@ -4,9 +4,7 @@
 {Development}[http://github.com/rubyworks/tapout] |
 {Report Issue}[http://github.com/rubyworks/tapout/issues]
 
-Status:: {<img src="http://travis-ci.org/rubyworks/tapout.png" />}[http://travis-ci.org/rubyworks/tapout]
-Copyright:: 2010 Rubyworks
-License:: BSD-2-Clause
+{<img src="http://travis-ci.org/rubyworks/tapout.png" />}[http://travis-ci.org/rubyworks/tapout]
 
 
 == DESCRIPTION
