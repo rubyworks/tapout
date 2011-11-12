@@ -1,34 +1,26 @@
 ---
 github:
-  folder: pages
+  gh_pages: pages
 
 gem:
-  active : true
+  active: true
 
 dnote:
-  service  : DNote
-  labels   : ~
-  output   : log/NOTES.rdoc
-  active   : true
+  title: Source Notes
+  labels: ~
+  output: log/notes.html
 
 locat:
-  active   : false
+  output: log/locat.html
+  active: false
 
 email:
-  service : Email
-  file    : ~
-  subject : ~
-  mailto  : ruby-talk@ruby-lang.org
-#  from    : transfire@gmail.com
-#  server  : <%= ENV['EMAIL_SERVER'] %>
-#  port    : <%= ENV['EMAIL_PORT'] %>
-#  account : <%= ENV['EMAIL_ACCOUNT'] %>
-#  domain  : <%= ENV['EMAIL_DOMAIN'] %>
-#  login   : <%= ENV['EMAIL_LOGIN'] %>
-#  secure  : <%= ENV['EMAIL_SECURE'] %>
-  active  : true
+  mailto:
+    - ruby-talk@ruby-lang.org
+    - rubyworks-mailinglist@googlegroups.com
 
 vclog:
-  output   : log/HISTORY.rdoc
-  active   : false
+  output:
+    - log/history.html
+    - log/changes.html
 

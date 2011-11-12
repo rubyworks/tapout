@@ -2,7 +2,6 @@
 .yardoc
 log
 pkg
-site/doc
 tmp
 work
-pages
+web
