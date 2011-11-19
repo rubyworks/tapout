@@ -214,10 +214,10 @@ The `note` type is used to interject a message between tests that
 is not tied to a specific unit or case. It has only a few fields.
 
 
-  ---
-  type: note
-  text:
-    This is an example note.
+    ---
+    type: note
+    text:
+      This is an example note.
 
 
 The note document is simply used to interject any information the 
@@ -233,17 +233,17 @@ stream. The `final` entry on the other hand incidates the end of a test suite,
 which will be followed by an end-document-marker (`...`).
 
 
-  ---
-  type : final
-  time : 0.03
-  counts:
-    total: 2
-    pass : 1
-    fail : 1
-    error: 0
-    omit : 0
-    todo : 0
-  ...
+    ---
+    type : final
+    time : 0.03
+    counts:
+      total: 2
+      pass : 1
+      fail : 1
+      error: 0
+      omit : 0
+      todo : 0
+    ...
 
 
 A tally/final document MUST provide a counts mapping with the `total` number of
