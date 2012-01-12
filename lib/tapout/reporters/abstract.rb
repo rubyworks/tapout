@@ -91,6 +91,9 @@ module TapOut
         @skipped << entry
       end
 
+      # Same as skip.
+      alias_method :todo, :skip
+
       # Handle an arbitray note.
       def note(entry)
       end
@@ -311,6 +314,53 @@ module TapOut
             finish_case(@case_stack.pop)
           end
         end
+      end
+
+      #
+      def captured_stdout(test)
+        stdout = test['stdout'].to_s.strip
+        return if stdout.empty?
+        if block_given?
+          yield(stdout)
+        else
+          stdout
+        end
+      end
+
+      #
+      def captured_stderr(test)
+        stderr = test['stderr'].to_s.strip
+        return if stderr.empty?
+        if block_given?
+          yield(stderr)
+        else
+          stderr
+        end
+      end
+
+      #
+      def captured_output(test)
+        str = ""
+        str += captured_stdout(test){ |c| "\nSTDOUT:\n#{c.tabto(2)}\n" }.to_s
+        str += captured_stderr(test){ |c| "\nSTDERR:\n#{c.tabto(2)}\n" }.to_s
+        str
+      end
+
+      #
+      def captured_output?(test)
+        captured_stdout?(test) || captured_stderr?(test)
+      end
+
+      #
+      def captured_stdout?(test)
+        stderr = test['stdout'].to_s.strip
+        !stderr.empty?
+      end
+
+      #
+      def captured_stderr?(test)
+        stderr = test['stderr'].to_s.strip
+        !stderr.empty?
       end
 
     end#class Abstract

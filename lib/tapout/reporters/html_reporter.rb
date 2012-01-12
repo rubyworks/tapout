@@ -78,6 +78,7 @@ module TapOut::Reporters
       puts clean_backtrace(e['backtrace']).join("\n")
       puts "</pre>"
       puts %[</li>]
+      # TODO: Add captured_stdout and _stderr
     end
 
     #
@@ -91,6 +92,7 @@ module TapOut::Reporters
       puts clean_backtrace(e['backtrace']).join("\n")
       puts "</pre>"
       puts %[</li>]
+      # TODO: Add captured_stdout and _stderr
     end
 
     #

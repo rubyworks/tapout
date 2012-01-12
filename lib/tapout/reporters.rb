@@ -8,4 +8,4 @@ require 'tapout/reporters/outline_reporter'
 require 'tapout/reporters/progress_reporter'
 require 'tapout/reporters/breakdown_reporter'
 require 'tapout/reporters/tap_reporter'
-
+require 'tapout/reporters/markdown_reporter'

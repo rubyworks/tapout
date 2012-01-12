@@ -43,7 +43,6 @@ module TapOut
 
       #
       def finish_suite(entry)
-        #@pbar.finish
         post_report(entry)
       end
 
@@ -98,19 +97,26 @@ module TapOut
           unless bad.empty? # or verbose?
             #puts "\n-- Failures and Errors --\n"
             puts
-            bad.each do |e|
+            bad.each_with_index do |e, i|
               x = e['exception']
-              message = [x['class'],x['message']].compact.join(': ').strip
-              message = message.ansi(:red)
-              puts(message)
-              puts "#{x['file']}:#{x['line']}"
-              puts
+
+              backtrace = clean_backtrace(e['exception']['backtrace'])
+              depth     = TapOut.trace || backtrace.size
+
+              print "#{i+1}. "
+              puts x['class'].ansi(:red)
+              puts x['message'].ansi(:red).tabto(4)
+              puts "#{x['file']}:#{x['line']}".tabto(4)
               puts code_snippet(x)
+              puts backtrace[1,depth].join("\n").tabto(4)       
+              print captured_output(e).tabto(4)
+              puts
             end
             puts
           end
         #end
 
+        puts "Finished in #{entry['time']}s"
         puts tally_message(entry)
       end
 

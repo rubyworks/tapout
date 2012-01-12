@@ -40,6 +40,7 @@ module TapOut
         puts "#{e['file']}:#{e['line']}"
         puts
         puts code_snippet(e)
+        print captured_output(e)
         puts
 
         @pbar.style(:bar=>:red)
@@ -59,6 +60,7 @@ module TapOut
         puts "#{e['file']}:#{e['line']}"
         puts
         puts code_snippet(e)
+        print captured_output(e)
         puts
 
         @pbar.style(:bar=>:yellow)

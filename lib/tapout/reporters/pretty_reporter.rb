@@ -61,6 +61,11 @@ module TapOut
         #  message = message.to_s.tabto(10)
         #  puts(message)
         #end
+
+        # TODO: Is there any reason to show captured output for passing test?
+        #if captured_output?(test)
+        #  puts captured_output(test).tabto(tabsize)
+        #end
       end
 
       #
@@ -89,7 +94,8 @@ module TapOut
         puts message.tabto(tabsize)
         puts trace.tabto(tabsize)
         puts _trace[0,depth].map{|l| l.tabto(tabsize) }.join("\n")
-        #show_captured_output
+
+        print captured_output(test).tabto(tabsize)
       end
 
       #
@@ -116,6 +122,8 @@ module TapOut
         puts message.tabto(tabsize)
         puts trace.tabto(tabsize)
         puts _trace[0,depth].map{|l| l.tabto(tabsize) }.join("\n")
+
+        print captured_output(test).tabto(tabsize)
       end
 
       # TODO: skip support
@@ -132,31 +140,7 @@ module TapOut
         #$stderr = STDERR
       end
 
-=begin
-      def show_captured_output
-        show_captured_stdout
-        show_captured_stderr
-      end
-
-      def show_captured_stdout
-        @stdout.rewind
-        return if @stdout.eof?
-        STDOUT.puts(<<-output.tabto(8))
-  \nSTDOUT:
-  #{@stdout.read}
-        output
-      end
-
-      def show_captured_stderr
-        @stderr.rewind
-        return if @stderr.eof?
-        STDOUT.puts(<<-output.tabto(8))
-  \nSTDERR:
-  #{@stderr.read}
-        output
-      end
-=end
-
+      #
       def finish_case(kase)
         #if kase.size == 0
         #  puts pad("(No Tests)")
@@ -170,7 +154,7 @@ module TapOut
         total   = final['counts']['total'] || 0
         failure = final['counts']['fail']  || 0
         error   = final['counts']['error'] || 0
-        skip    = final['counts']['skip']  || 0
+        skip    = final['counts']['todo']  || 0
         omit    = final['counts']['omit']  || 0
         #pass    = total - failure - error
 

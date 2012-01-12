@@ -8,7 +8,6 @@ module TapOut::Reporters
 
     #
     def start_suite(entry)
-      @start_time = Time.now
       $stdout.puts "Started\n"
     end
 
@@ -50,6 +49,7 @@ module TapOut::Reporters
         $stdout.puts "    #{e['exception']['file']}:#{e['exception']['line']}" #+ backtrace[0]
         $stdout.puts code_snippet(e['exception'])
         $stdout.puts backtrace[0,depth].join("\n").tabto(4)
+        $stdout.print captured_output(e).tabto(4)
         $stdout.puts
         i += 1
       end
@@ -65,11 +65,13 @@ module TapOut::Reporters
         $stdout.puts "    #{e['exception']['file']}:#{e['exception']['line']}" #+ backtrace[0..2].join("    \n")
         $stdout.puts code_snippet(e['exception'])
         $stdout.puts backtrace[0,depth].join("\n").tabto(4)
+        $stdout.print captured_output(e).tabto(4)
         $stdout.puts
+
         i += 1
       end
 
-      $stdout.puts "Finished in #{Time.now - @start_time}s"
+      $stdout.puts "Finished in #{entry['time']}s"
       $stdout.puts tally_message(entry)
     end
 
