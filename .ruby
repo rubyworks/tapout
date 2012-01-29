@@ -37,9 +37,9 @@ revision: 0
 created: '2010-12-23'
 summary: Progressive TAP Harness
 title: TapOut
-version: 0.3.2
+version: 0.4.0
 name: tapout
 description: Tapout is a TAP consumer that can take any TAP, TAP-Y or TAP-J stream
   and output it in a variety of useful formats.
 organization: RubyWorks
-date: '2011-11-08'
+date: '2012-01-29'

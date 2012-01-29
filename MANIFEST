@@ -1,8 +1,17 @@
-#!mast .ruby .yardopts bin lib man spec test [A-Z]*.*
+#!mast .ruby .yardopts bin demo lib man spec test [A-Z]*.*
 .ruby
 .yardopts
 bin/tapout
+demo/applique/env.rb
+demo/issues/applique/env.rb
+demo/issues/default_reporter.rdoc
+demo/perl_adapter.rdoc
+demo/reporters/applique/cli.rb
+demo/reporters/fixtures/tapy.yml
+demo/reporters/reporters.rdoc
 lib/tapout/adapters/perl.rb
+lib/tapout/cli.rb
+lib/tapout/config.rb
 lib/tapout/core_ext.rb
 lib/tapout/parsers/json.rb
 lib/tapout/parsers/perl.rb
@@ -12,25 +21,18 @@ lib/tapout/reporters/abstract.rb
 lib/tapout/reporters/breakdown_reporter.rb
 lib/tapout/reporters/dot_reporter.rb
 lib/tapout/reporters/html_reporter.rb
+lib/tapout/reporters/markdown_reporter.rb
 lib/tapout/reporters/outline_reporter.rb
 lib/tapout/reporters/pretty_reporter.rb
 lib/tapout/reporters/progress_reporter.rb
+lib/tapout/reporters/runtime_reporter.rb
 lib/tapout/reporters/tap_reporter.rb
 lib/tapout/reporters/turn_reporter.rb
 lib/tapout/reporters.rb
 lib/tapout/version.rb
 lib/tapout.rb
 lib/tapout.yml
-spec/applique/env.rb
-spec/issues/applique/env.rb
-spec/issues/default_reporter.rdoc
-spec/perl_adapter.rdoc
-spec/reporters/applique/cli.rb
-spec/reporters/fixtures/tapy.yml
-spec/reporters/reporters.rdoc
-test/unit/test-progressbar.rb
 HISTORY.rdoc
-LICENSE.txt
 README.rdoc
 COPYING.rdoc
 TAP-YJ.md
