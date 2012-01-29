@@ -30,7 +30,7 @@ Instead of having each parser worry about setting the default
 we can let the factory method do it when `nil` is passed as an
 argument.
 
-    reporter = TapOut::Reporters.factory(nil)
+    reporter = Tapout::Reporters.factory(nil)
 
-    reporter #=> TapOut::Reporters::DotReporter
+    reporter #=> Tapout::Reporters::DotReporter
 

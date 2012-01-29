@@ -4,7 +4,7 @@ require 'json'
 module Tapout
 
   # The TAP-J Parser takes a TAP-J stream and routes it through
-  # a TapOut report format.
+  # a Tapout report format.
   #
   class JsonParser
 
