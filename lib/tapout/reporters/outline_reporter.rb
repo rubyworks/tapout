@@ -1,6 +1,6 @@
 require 'tapout/reporters/abstract'
 
-module TapOut::Reporters
+module Tapout::Reporters
 
   # Outline reporter.
   #
@@ -19,8 +19,9 @@ module TapOut::Reporters
       @_test_count = 0
       @_level = entry['level'].to_i
 
-      $stdout.print(' ' * (level_tab - 2))
-      $stdout.puts(case_count(entry) + ' ' + entry['label'].ansi(:bold))
+      print(' ' * (level_tab - 2))
+      puts(case_count(entry) + ' ' + entry['label'].ansi(*config.highlight))
+      puts
     end
 
     #
@@ -57,40 +58,46 @@ module TapOut::Reporters
     def fail(entry)
       super(entry)
 
-      msg = entry['exception'].values_at('message', 'class').compact.join("\n\n")
-
-      $stdout.print(' ' * level_tab)
-      $stdout.puts "#{test_count}. " + entry['label'].ansi(:red) + "   #{entry['source']}"
-      $stdout.puts
-      $stdout.puts msg.tabto(level_tab+6)
-      #$stdout.puts "    " + ok.caller #clean_backtrace(exception.backtrace)[0]
-      $stdout.puts
-      $stdout.puts code_snippet(entry['exception']).join("\n").tabto(level_tab+9)
-      $stdout.print captured_output(entry).tabto(level_tab+6)
-      $stdout.puts
+      printout(entry, 'FAIL', config.fail)
     end
 
     def error(entry)
       super(entry)
 
-      msg = entry['exception'].values_at('message', 'class').compact.join("\n\n")
-
-      $stdout.print(' ' * level_tab)
-      $stdout.puts "#{test_count}. " + entry['label'].ansi(:yellow) + "   #{entry['source']}"
-      $stdout.puts
-      $stdout.puts msg.tabto(level_tab+6)
-      #$stdout.puts "    " + ok.caller #clean_backtrace(exception.backtrace)[0..2].join("    \n")
-      $stdout.puts
-      $stdout.puts code_snippet(entry['exception']).join("\n").tabto(level_tab+9)
-      $stdout.print captured_output(entry).tabto(level_tab+6)
-      $stdout.puts
+      printout(entry, 'ERROR', config.error)
     end
 
     #
     def finish_suite(entry)
-      #$stderr.puts
-      $stdout.print tally_message(entry)
-      $stdout.puts " [%0.4fs] " % [Time.now - @start_time]
+      time, rate, avg = time_tally(entry)
+      delta = duration(time)
+
+      puts
+      print tally_message(entry)
+      #puts " [%0.4fs %.4ft/s %.4fs/t] " % [time, rate, avg]
+      puts " [%s %.2ft/s %.4fs/t] " % [delta, rate, avg]
+    end
+
+  private
+
+    #
+    def printout(entry, type, ansi)
+      counter = "#{test_count}. "
+
+      label   = entry['label'].ansi(*ansi)
+      message = entry['exception']['message']
+      exclass = entry['exception']['class']
+
+      parts = [message, exclass].compact.reject{ |x| x.strip.empty? }
+
+      print(' ' * level_tab)
+      puts counter + label + "   #{entry['source']}"
+      puts
+      puts parts.join("\n\n").tabto(level_tab+counter.size)
+      puts
+      puts backtrace_snippets(entry).tabto(level_tab++counter.size+4)
+      print captured_output(entry).tabto(level_tab+counter.size)
+      puts
     end
 
   end

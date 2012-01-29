@@ -1,6 +1,6 @@
-module TapOut
+module Tapout
   # The current revision of the TAP-Y/J format.
-  REVISION = "3"
+  REVISION = "4"
 
   # Project metadata.
   #

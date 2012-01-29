@@ -1,7 +1,7 @@
 require 'tapout/reporters/abstract'
 require 'stringio'
 
-module TapOut
+module Tapout
 
   module Reporters
 
@@ -74,7 +74,7 @@ module TapOut
       def fail(doc)
         message   = doc['exception']['message'].to_s
         backtrace = clean_backtrace(doc['exception']['backtrace'] || [])
-        depth     = TapOut.trace || backtrace.size
+        depth     = config.trace || backtrace.size
 
         puts(" #{FAIL}")
         puts message.ansi(:bold).tabto(8)
@@ -96,7 +96,7 @@ module TapOut
         message         = doc['exception']['message'].to_s.ansi(:bold)
 
         backtrace       = clean_backtrace(doc['exception']['backtrace'] || [])
-        depth           = TapOut.trace || backtrace.size
+        depth           = config.trace || backtrace.size
         backtrace       = "Exception `#{exception_class}' at " + backtrace[0,depth].join("\n")
 
         puts("#{ERROR}")

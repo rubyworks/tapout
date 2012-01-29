@@ -1,33 +1,36 @@
 require 'tapout/reporters/abstract'
 
-module TapOut::Reporters
+module Tapout::Reporters
 
   # Traditional dot progress reporter.
   #
   class DotReporter < Abstract
 
     #
-    def start_suite(entry)
-      $stdout.puts "Started\n"
+    def start_suite(suite)
+      print "Started"
+      print " w/ Seed: #{suite['seed']}" if suite['seed']
+      puts
+      super(suite)
     end
 
     #
     def pass(entry)
-      $stdout.print '.'.ansi(:green)
+      $stdout.print '.'.ansi(*config.pass)
       $stdout.flush
       super(entry)
     end
 
     #
     def fail(entry)
-      $stdout.print 'F'.ansi(:red)
+      $stdout.print 'F'.ansi(*config.fail)
       $stdout.flush
       super(entry)
     end
 
     #
     def error(entry)
-      $stdout.print 'E'.ansi(:yellow)
+      $stdout.print 'E'.ansi(*config.error)
       $stdout.flush
       super(entry)
     end
@@ -38,41 +41,55 @@ module TapOut::Reporters
 
       i = 1
 
-      @failed.each do |e|
-        backtrace = clean_backtrace(e['exception']['backtrace'])
-        depth     = TapOut.trace || backtrace.size
+      @failed.each do |test|
+        label     = test['label'].to_s
+        snippets  = backtrace_snippets(test)
+        errclass  = test['exception']['class']
+        message   = test['exception']['message']
+        capture   = captured_output(test)
+ 
+        parts = [errclass, message, snippets, capture].compact.map{ |e| e.strip }.reject{ |e| e.empty? }
 
-        $stdout.puts "#{i}. " + (e['label']).ansi(:red)
-        $stdout.puts
-        $stdout.puts "    #{e['exception']['class']}" if e['exception']['class']
-        $stdout.puts e['exception']['message'].to_s.tabto(4)
-        $stdout.puts "    #{e['exception']['file']}:#{e['exception']['line']}" #+ backtrace[0]
-        $stdout.puts code_snippet(e['exception'])
-        $stdout.puts backtrace[0,depth].join("\n").tabto(4)
-        $stdout.print captured_output(e).tabto(4)
-        $stdout.puts
-        i += 1
-      end
-
-      @raised.each do |e|
-        backtrace = clean_backtrace(e['exception']['backtrace'])
-        depth     = TapOut.trace || backtrace.size
-
-        $stdout.puts "#{i}. " + (e['label']).ansi(:yellow)
-        $stdout.puts
-        $stdout.puts "    #{e['exception']['class']}" if e['exception']['class']
-        $stdout.puts "    #{e['exception']['message']}"
-        $stdout.puts "    #{e['exception']['file']}:#{e['exception']['line']}" #+ backtrace[0..2].join("    \n")
-        $stdout.puts code_snippet(e['exception'])
-        $stdout.puts backtrace[0,depth].join("\n").tabto(4)
-        $stdout.print captured_output(e).tabto(4)
-        $stdout.puts
+        puts "#{i}. " + "FAIL".ansi(*config.error) + " " + label.ansi(*config.fail)
+        puts
+        puts parts.join("\n\n").tabto(4)
+        puts
 
         i += 1
       end
 
-      $stdout.puts "Finished in #{entry['time']}s"
-      $stdout.puts tally_message(entry)
+      @raised.each do |test|
+        label     = test['label'].to_s
+        snippets  = backtrace_snippets(test)
+        errclass  = test['exception']['class']
+        message   = test['exception']['message']
+        capture   = captured_output(test)
+ 
+        parts = [errclass, message, snippets, capture].compact.map{ |e| e.strip }.reject{ |e| e.empty? }
+
+        puts "#{i}. " + "ERROR".ansi(*config.error) + " " + label.ansi(*config.highlight)
+        puts
+        puts parts.join("\n\n").tabto(4)
+        puts
+
+        i += 1
+      end
+
+      time, rate, avg = time_tally(entry)
+
+      total, pass, fail, error, todo, omit = count_tally(entry)
+
+      #total = @passed.size + @failed.size + @raised.size + @skipped.size + @omitted.size
+      #total = entry['counts']['total'] || total
+
+      #time = (entry['time'] || (Time.now - @start_time)).to_f
+      #avg  = time / total
+      #rate = total / time
+
+      puts
+      puts "Finished in %.3fs (%.3f test/s, %.6fs avg.)" % [time, rate, avg]
+      puts
+      puts "%s tests: %s pass, %s fail, %s exit, %s todo, %s omit" % [total, pass, fail, error, todo, omit]
     end
 
   end

@@ -1,7 +1,7 @@
 require 'tapout/reporters'
 require 'yaml'
 
-module TapOut
+module Tapout
 
   # The TAP-Y Parser takes a TAP-Y stream and routes it through
   # a TapOut report format.

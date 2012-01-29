@@ -1,5 +1,6 @@
 require 'tapout/reporters/abstract'
 
+require 'tapout/reporters/runtime_reporter'
 require 'tapout/reporters/dot_reporter'
 require 'tapout/reporters/pretty_reporter'
 require 'tapout/reporters/turn_reporter'

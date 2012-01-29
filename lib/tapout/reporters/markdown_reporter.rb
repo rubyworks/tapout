@@ -1,6 +1,6 @@
 require 'tapout/reporters/abstract'
 
-module TapOut::Reporters
+module Tapout::Reporters
 
   # Markdown reporter.
   #

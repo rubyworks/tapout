@@ -1,6 +1,6 @@
 require 'tapout/version'
 
-module TapOut
+module Tapout
 
   # The TAP Legacy Adapter transforms traditional TAP format to 
   # modern TAP-Y format.

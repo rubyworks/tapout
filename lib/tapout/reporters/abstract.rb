@@ -1,7 +1,7 @@
 require 'ansi'
 require 'abbrev'
 
-module TapOut
+module Tapout
 
   # Namespace for Report Formats.
   module Reporters
@@ -26,7 +26,6 @@ module TapOut
     # The Abstract class serves as a base class for all reporters. Reporters
     # must sublcass Abstract in order to be added the the Reporters Index.
     #
-    # TODO: Simplify this class and have the sublcasses handle more of the load.
     class Abstract
 
       # When Abstract is inherited it saves a reference to it in `Reporters.index`.
@@ -35,6 +34,8 @@ module TapOut
         name = name.chomp('reporter')
         Reporters.index[name] = subclass
       end
+
+      #old_sync, @@out.sync = @@out.sync, true if io.respond_to? :sync=
 
       # New reporter.
       def initialize
@@ -56,6 +57,7 @@ module TapOut
 
       # Handle header.
       def start_suite(entry)
+        @start_time = Time.now
       end
 
       # At the start of a new test case.
@@ -87,12 +89,12 @@ module TapOut
       end
 
       # Handle test with skip or pending status.
-      def skip(entry)
+      def todo(entry)
         @skipped << entry
       end
 
-      # Same as skip.
-      alias_method :todo, :skip
+      # Same as todo.
+      alias_method :skip, :todo
 
       # Handle an arbitray note.
       def note(entry)
@@ -147,7 +149,7 @@ module TapOut
           when 'omit'
             omit(entry)
           when 'todo', 'skip', 'pending'
-            skip(entry)
+            todo(entry)
           end
           finish_test(entry)
         when 'tally'
@@ -163,46 +165,92 @@ module TapOut
         @exit_code
       end
 
+      # Calculate the lapsed time, the rate of testing and average time per test.
+      #
+      # @return [Array<Float>] Lapsed time, rate and average.
+      def time_tally(entry)
+        total = @passed.size + @failed.size + @raised.size + @skipped.size + @omitted.size
+        total = entry['counts']['total'] || total
+
+        time = (entry['time'] || (Time.now - @start_time)).to_f
+        rate = total / time
+        avg  = time / total
+
+        return time, rate, avg
+      end
+
+      # Return the total counts given a tally or final entry.
+      #
+      # @return [Array<Integer>] The total, fail, error, todo and omit counts.
+      def count_tally(entry)
+        total = @passed.size + @failed.size + @raised.size + @skipped.size + @omitted.size
+        total = entry['counts']['total'] || total
+
+        if counts = entry['counts']
+          pass  = counts['pass']  || @passed.size
+          fail  = counts['fail']  || @failed.size
+          error = counts['error'] || @raised.size
+          todo  = counts['todo']  || @skipped.size
+          omit  = counts['omit']  || @omitted.size
+        else
+          pass, fail, error, todo, omit = *[@passed, @failed, @raised, @skipped, @omitted].map{ |e| e.size }
+        end
+
+        return total, pass, fail, error, todo, omit
+      end
+
       # Generate a tally message given a tally or final entry.
       #
       # @return [String] tally message
       def tally_message(entry)
-        total = @passed.size + @failed.size + @raised.size #+ @skipped.size + @omitted.size
+        sums = count_tally(entry)
 
-        if entry['counts']
-          total       = entry['counts']['total'] || total
-          count_fail  = entry['counts']['fail']  || 0
-          count_error = entry['counts']['error'] || 0
+        total, pass, fail, error, todo, omit = *sums
+
+        # TODO: Assertion counts isn't TAP-Y/J spec, is it a good idea to add ?
+        if entry['counts'] && entry['counts']['assertions']
+          assertions = entry['counts']['assertions']['pass']
+          failures   = entry['counts']['assertions']['fail']
         else
-          count_fail  = @failed.size
-          count_error = @raised.size
+          assertions = nil
+          failures   = nil
         end
 
-        if tally = entry['counts']
-          sums = %w{pass fail error todo omit}.map{ |e| tally[e] || 0 }
-        else
-          sums = [@passed, @failed, @raised, @skipped, @omitted].map{ |e| e.size }
-        end
-
-        # ???
-        assertions = entry['assertions']
-        failures   = entry['failures']
+        text = []
+        text << "%s pass".ansi(*config.pass)
+        text << "%s fail".ansi(*config.fail)
+        text << "%s errs".ansi(*config.error)
+        text << "%s todo".ansi(*config.todo)
+        text << "%s omit".ansi(*config.omit)
+        text = "%s tests: " + text.join(", ")
 
         if assertions
-          text = "%s tests: %s pass, %s fail, %s err, %s todo, %omit (%s/%s assertions)"
-          text = text % [total, *sums] + [assertions - failures, assertions]
+          text << " (%s/%s assertions)"
+          text = text % (sums + [assertions - failures, assertions])
         else
-          text = "%s tests: %s pass, %s fail, %s err, %s todo, %s omit"
-          text = text % [total, *sums]
+          text = text % sums
         end
 
-        if count_fail > 0
-          text.ansi(:red)
-        elsif count_error > 0
-          text.ansi(:yellow)
+        text
+      end
+
+      # Give a test entry, returns a clean and filtered backtrace.
+      #
+      def backtrace(test)
+        exception = test['exception']
+
+        trace   = exception['backtrace']
+        file    = exception['file']
+        line    = exception['line']
+
+        if trace
+          trace = clean_backtrace(trace)
         else
-          text.ansi(:green)
+          trace = []
+          trace << "#{file}:#{line}" if file && line
         end
+
+        trace
       end
 
       # Used to clean-up backtrace.
@@ -210,9 +258,13 @@ module TapOut
       # TODO: Use Rubinius global system instead.
       INTERNALS = /(lib|bin)#{Regexp.escape(File::SEPARATOR)}tapout/
 
-      # Clean the backtrace of any reference to ko/ paths and code.
+      # Clean the backtrace of any "boring" reference.
       def clean_backtrace(backtrace)
-        trace = backtrace.reject{ |bt| bt =~ INTERNALS }
+        if ENV['debug']
+          trace = backtrace
+        else
+          trace = backtrace.reject{ |bt| bt =~ INTERNALS }
+        end
         trace = trace.map do |bt| 
           if i = bt.index(':in')
             bt[0...i]
@@ -223,6 +275,59 @@ module TapOut
         trace = backtrace if trace.empty?
         trace = trace.map{ |bt| bt.sub(Dir.pwd+File::SEPARATOR,'') }
         trace
+      end
+
+      # Get s nicely formatted string of backtrace and source code, ready
+      # for output.
+      #
+      # @return [String] Formatted backtrace with source code.
+      def backtrace_snippets(test)
+        string = []
+        backtrace_snippets_chain(test).each do |(stamp, snip)|
+          string << stamp.ansi(*config.highlight)
+          if snip
+            if snip.index('=>')
+              string << snip.sub(/(\=\>.*?)$/, '\1'.ansi(*config.highlight))
+            else
+              string << snip
+            end
+          end
+        end
+        string.join("\n")
+      end
+
+      # Returns an associative array of backtraces along with corresponding
+      # source code, if available.
+      #
+      # @return [Array<String,String>]
+      #   Array of backtrace line and source code.
+      def backtrace_snippets_chain(test)
+        code  = test['exception']['snippet']
+        line  = test['exception']['line']
+
+        chain = []
+        backtrace(test).each do |bt|
+          if md = /(.+?):(\d+)/.match(bt)
+            chain << [bt, code_snippet('file'=>md[1], 'line'=>md[2].to_i)]
+          else
+            chain << [bt, nil]
+          end
+        end
+        # use the tap-y/j snippet if the first file was not found
+        chain[0][1] = code_snippet('snippet'=>snippet, 'line'=>line) unless chain[0][1]
+        chain
+      end
+
+      # Parse a bactrace line into file and line number. Returns nil for both
+      # if parsing fails.
+      #
+      # @return [Array<String,Integer>] File and line number.
+      def parse_backtrace(bt)
+        if md = /(.+?):(\d+)/.match(bt)
+          return md[1], md[2].to_i
+        else
+          return nil, nil
+        end
       end
 
       # Returns a String of source code.
@@ -267,6 +372,26 @@ module TapOut
           end
         end
 
+        format_snippet_array(s, line)
+
+#        len = s.map{ |(n,t)| n }.max.to_s.length
+#
+#        # ensure proper alignment by zero-padding line numbers
+#        format = " %5s %0#{len}d %s"
+#
+#        #s = s.map{|n,t|[n,t]}.sort{|a,b|a[0]<=>b[0]}
+#
+#        pretty = s.map do |(n,t)|
+#          format % [('=>' if n == line), n, t.rstrip]
+#        end #.unshift "[#{region.inspect}] in #{source_file}"
+#
+#        return pretty
+      end
+
+      #
+      def format_snippet_array(array, line)
+        s = array
+
         len = s.map{ |(n,t)| n }.max.to_s.length
 
         # ensure proper alignment by zero-padding line numbers
@@ -278,11 +403,13 @@ module TapOut
           format % [('=>' if n == line), n, t.rstrip]
         end #.unshift "[#{region.inspect}] in #{source_file}"
 
-        return pretty
+        pretty.join("\n")
       end
 
       # Cache source file text. This is only used if the TAP-Y stream
       # doesn not provide a snippet and the test file is locatable.
+      #
+      # @return [String] File contents.
       def source(file)
         @source[file] ||= (
           File.readlines(file)
@@ -341,8 +468,8 @@ module TapOut
       #
       def captured_output(test)
         str = ""
-        str += captured_stdout(test){ |c| "\nSTDOUT:\n#{c.tabto(2)}\n" }.to_s
-        str += captured_stderr(test){ |c| "\nSTDERR:\n#{c.tabto(2)}\n" }.to_s
+        str += captured_stdout(test){ |c| "\nSTDOUT\n#{c.tabto(4)}\n" }.to_s
+        str += captured_stderr(test){ |c| "\nSTDERR\n#{c.tabto(4)}\n" }.to_s
         str
       end
 
@@ -361,6 +488,21 @@ module TapOut
       def captured_stderr?(test)
         stderr = test['stderr'].to_s.strip
         !stderr.empty?
+      end
+
+      #
+      def duration(seconds, precision=2)
+        p = precision.to_i
+        s = seconds.to_i
+        f = seconds - s
+        h, s = s.divmod(60)
+        m, s = s.divmod(60)
+        "%02x:%02x:%02x.%0#{p}x" % [h, m, s, f * 10**p]
+      end
+
+      # Access to configurtion.
+      def config
+        Tapout.config
       end
 
     end#class Abstract

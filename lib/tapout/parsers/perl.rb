@@ -2,7 +2,7 @@ require 'tapout/version'
 require 'tapout/adapters/perl'
 require 'tapout/reporters'
 
-module TapOut
+module Tapout
 
   # The TAPLegacy Parser takes a traditional TAP stream and routes
   # it through a Tap Out report format.

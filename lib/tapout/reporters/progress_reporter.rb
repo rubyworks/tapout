@@ -1,7 +1,7 @@
 require 'tapout/reporters/abstract'
 require 'ansi/progressbar'
 
-module TapOut
+module Tapout
 
   module Reporters
 
@@ -10,10 +10,18 @@ module TapOut
     #
     class ProgressReporter < Abstract
 
+      FAIL  = "FAIL".ansi(*Tapout.config.fail)
+      ERROR = "ERROR".ansi(*Tapout.config.error)
+
+      #
       def start_suite(entry)
         @pbar = ::ANSI::Progressbar.new('Testing', entry['count'].to_i + 1)
-        @pbar.style(:bar=>:green)
+        @pbar.style(:bar=>[:invert, *config.pass])
         @pbar.inc
+
+        @i = 0
+
+        super(entry)
       end
 
       def start_case(entry)
@@ -24,56 +32,65 @@ module TapOut
       #end
 
       def pass(entry)
+        @pbar.style(:bar=>config.pass)
         @pbar.inc
       end
 
       #
-      def fail(entry)
+      def fail(test)
         @pbar.clear
 
-        e = entry['exception']
+        err = test['exception']
 
+        label    = test['label'].to_s
+        errclass = err['class']
+        message  = err['message']
+        trace    = backtrace_snippets(test)
+        capture  = captured_output(err)
+
+        parts = [errclass, message, trace, capture].compact.reject{ |x| x.strip.empty? }
+
+        puts "#{@i+=1}. #{FAIL} #{label}"
         puts
-        message = e['message'].strip
-        message = message.ansi(:red)
-        puts(message)
-        puts "#{e['file']}:#{e['line']}"
-        puts
-        puts code_snippet(e)
-        print captured_output(e)
+        puts parts.join("\n\n").tabto(4)
         puts
 
-        @pbar.style(:bar=>:red)
+        @pbar.style(:bar=>config.fail)
         @pbar.inc
       end
 
       #
-      def error(entry) #message=nil)
+      def error(test)
         @pbar.clear
 
-        e = entry['exception']
+        err = test['exception']
 
+        label    = test['label'].to_s
+        errclass = err['class']
+        message  = err['message']
+        trace    = backtrace_snippets(test)
+        capture  = captured_output(err)
+
+        parts = [errclass, message, trace, capture].compact.reject{ |x| x.strip.empty? }
+
+        puts "#{@i+=1}. #{ERROR} #{label}"
         puts
-        message = [e['class'], e['message']].compact.join(': ').strip
-        message = message.ansi(:red)
-        puts(message)
-        puts "#{e['file']}:#{e['line']}"
-        puts
-        puts code_snippet(e)
-        print captured_output(e)
+        puts parts.join("\n\n").tabto(4)
         puts
 
-        @pbar.style(:bar=>:yellow)
+        @pbar.style(:bar=>config.error)
+        @pbar.inc
+      end
+
+      #
+      def todo(entry)
+        @pbar.style(:bar=>config.todo)
         @pbar.inc
       end
 
       #
       def omit(entry)
-        @pbar.inc
-      end
-
-      #
-      def skip(entry)
+        @pbar.style(:bar=>config.omit)
         @pbar.inc
       end
 
@@ -81,7 +98,13 @@ module TapOut
       #end
 
       def finish_suite(entry)
+        total, pass, fail, error, todo, omit = count_tally(entry)
+
+        @pbar.style(:bar=>config.pass)  if pass > 0
+        @pbar.style(:bar=>config.error) if error > 0
+        @pbar.style(:bar=>config.fail)  if fail > 0
         @pbar.finish
+
         #post_report(entry)
         puts
         puts tally_message(entry)

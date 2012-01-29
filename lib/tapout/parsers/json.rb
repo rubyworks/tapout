@@ -1,7 +1,7 @@
 require 'tapout/reporters'
 require 'json'
 
-module TapOut
+module Tapout
 
   # The TAP-J Parser takes a TAP-J stream and routes it through
   # a TapOut report format.

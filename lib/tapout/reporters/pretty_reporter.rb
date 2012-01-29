@@ -1,32 +1,31 @@
 require 'tapout/core_ext'
 require 'tapout/reporters/abstract'
 
-module TapOut
+module Tapout
 
   module Reporters
 
-    # = Pretty Reporter (by Paydro)
+    # Pretty Reporter (by Paydro)
     #
     class PrettyReporter < Abstract
 
       #
       PADDING_SIZE = 4
 
-      PASS  = "PASS".ansi(:green)
-      FAIL  = "FAIL".ansi(:red)
-      ERROR = "ERROR".ansi(:yellow)
+      PASS  = " PASS".ansi(*Tapout.config.pass)
+      TODO  = " TODO".ansi(*Tapout.config.todo)
+      OMIT  = " OMIT".ansi(*Tapout.config.omit)
+      FAIL  = " FAIL".ansi(*Tapout.config.fail)
+      ERROR = "ERROR".ansi(*Tapout.config.error)
 
       #
       def start_suite(suite)
-        #old_sync, @@out.sync = @@out.sync, true if io.respond_to? :sync=
+        super(suite)
         @suite  = suite
-        @time   = Time.now
-        #@stdout = StringIO.new
-        #@stderr = StringIO.new
         #files = suite.collect{ |s| s.file }.join(' ')
-      #puts "Loaded suite #{suite.name}"
-        puts "Suite seed: #{suite['seed']}" if suite['seed']
-        puts "Started"
+        print "Running Suite"  #{suite.name}
+        print " w/ Seed: #{suite['seed']}" if suite['seed']
+        puts
       end
 
       #
@@ -53,9 +52,14 @@ module TapOut
 
       #
       def pass(test)
+        return if config.minimal?
+
+        label = test['label'].to_s.ansi(*config.highlight)
+
         print pad_with_size("#{PASS}")
-        print " #{test['label']}"
+        print " #{label}"
         print " (%.2fs) " % (Time.now - @test_time)
+
         #if message
         #  message = test['source'].ansi(:magenta)
         #  message = message.to_s.tabto(10)
@@ -69,67 +73,62 @@ module TapOut
       end
 
       #
+      def todo(test)
+        label = test['label'].to_s.ansi(*config.highlight)
+
+        print pad_with_size("#{TODO}")
+        print " #{label}"
+        print " (%.2fs) " % (Time.now - @test_time)
+      end
+
+      #
+      def omit(test)
+        return if config.minimal?
+
+        label = test['label'].to_s.ansi(*config.highlight)
+
+        print pad_with_size("#{OMIT}")
+        print " #{label}"
+        print " (%.2fs) " % (Time.now - @test_time)
+      end
+
+      #
       def fail(test)
+        label = test['label'].to_s.ansi(*config.highlight)
+
         print pad_with_size("#{FAIL}")
-        print " #{test['label']}"
+        print " #{label}"
         print " (%.2fs) " % (Time.now - @test_time)
 
-        #message = assertion.location[0] + "\n" + assertion.message #.gsub("\n","\n")
-        #trace   = MiniTest::filter_backtrace(report[:exception].backtrace).first
+        message = test['exception']['message'].to_s
 
-        message = test['exception']['message']
-
-        if bt = test['exception']['backtrace']
-          _trace = clean_backtrace(bt)
-        else
-          _trace = []
-        end
-
-        trace   = _trace.shift
-        depth   = TapOut.trace || trace.size
         tabsize = 10
 
         puts
-        #puts pad(message, tabsize)
         puts message.tabto(tabsize)
-        puts trace.tabto(tabsize)
-        puts _trace[0,depth].map{|l| l.tabto(tabsize) }.join("\n")
+        puts backtrace_snippets(test).tabto(tabsize)
 
         print captured_output(test).tabto(tabsize)
       end
 
       #
       def error(test)
+        label = test['label'].to_s.ansi(*config.highlight)
+
         print pad_with_size("#{ERROR}")
-        print " #{test['label']}"
+        print " #{label}"
         print " (%.2fs) " % (Time.now - @test_time)
 
-        #message = exception.to_s.split("\n")[2..-1].join("\n")
+        message = test['exception']['message'].to_s
 
-        message = test['exception']['message']
-
-        if bt = test['exception']['backtrace']
-          _trace = clean_backtrace(bt)
-        else
-          _trace = filter_backtrace(bt)
-        end
-
-        trace   = _trace.shift
-        depth   = TapOut.trace || trace.size
         tabsize = 10
 
         puts
-        puts message.tabto(tabsize)
-        puts trace.tabto(tabsize)
-        puts _trace[0,depth].map{|l| l.tabto(tabsize) }.join("\n")
+        puts message.tabto(tabsize) unless message.empty?
+        puts backtrace_snippets(test).tabto(tabsize)
 
         print captured_output(test).tabto(tabsize)
       end
-
-      # TODO: skip support
-      #def skip
-      #  puts(pad_with_size("#{SKIP}"))
-      #end
 
       #
       def finish_test(test)
@@ -151,22 +150,18 @@ module TapOut
       def finish_suite(final)
         #@@out.sync = old_sync if @@out.respond_to? :sync=
 
-        total   = final['counts']['total'] || 0
-        failure = final['counts']['fail']  || 0
-        error   = final['counts']['error'] || 0
-        skip    = final['counts']['todo']  || 0
-        omit    = final['counts']['omit']  || 0
-        #pass    = total - failure - error
+        total, pass, fail, error, todo, omit = count_tally(final)
 
         puts
-        puts "Finished in #{'%.6f' % (Time.now - @time)} seconds."
+        puts "Finished in #{'%.6f' % (Time.now - @start_time)} seconds."
         puts
 
-        print "%d tests, " % total
+        print "%d tests: " % total
         #print "%d assertions, " % suite.count_assertions
-        print ("%d failures" % failure).ansi(:red) + ', '
-        print ("%d errors" % error).ansi(:yellow) + ', '
-        print ("%d pending" % skip).ansi(:cyan)
+        print ("%d failures" % fail).ansi(*config.fail)   + ', '
+        print ("%d errors"   % error).ansi(*config.error) + ', '
+        print ("%d pending"  % todo).ansi(*config.todo)   + ', '
+        print ("%d omitted"  % omit).ansi(*config.omit)
         puts
       end
 
