@@ -497,7 +497,7 @@ module Tapout
         f = seconds - s
         h, s = s.divmod(60)
         m, s = s.divmod(60)
-        "%02x:%02x:%02x.%0#{p}x" % [h, m, s, f * 10**p]
+        "%02d:%02d:%02d.%0#{p}d" % [h, m, s, f * 10**p]
       end
 
       # Access to configurtion.
