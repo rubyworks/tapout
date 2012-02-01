@@ -1,4 +1,4 @@
-= TAP.out
+= TAPOut
 
 {Website}[http://rubyworks.github.com/tapout] |
 {Development}[http://github.com/rubyworks/tapout] |
@@ -9,12 +9,12 @@
 
 == DESCRIPTION
 
-_TAP.out_ is a TAP handler. TAP.out supports TAP-Y/J as well as traditional TAP.
+*TAPOut* is a TAP handler. TAPOut supports TAP-Y/J as well as traditional TAP.
 
 TAP-Y/J is a modernization of TAP using pure YAML/JSON streams.
 Traditional TAP has less detail than TAP-Y/J, but it can still be translated
-with fairly good results. TAP.out includes a TAP adapter to handle the
-translation transparently. Currently TAP.out supports TAP v12 with minor
+with fairly good results. TAPOut includes a TAP adapter to handle the
+translation transparently. Currently TAPOut supports TAP v12 with minor
 some limitations.
 
 To learn about the TAP-Y/J specification, see the {TAP-Y/J Specification}[https://github.com/rubyworks/tapout/wiki/Specification]
@@ -30,12 +30,12 @@ the stream into `tapout`.
 
   $ ruby-test -y -Ilib test/foo.rb | tapout
 
-TAP.out supports a variety of output formats. These are selectable via the 
+TAPOut supports a variety of output formats. These are selectable via the 
 first argument. The default if not given, as in the example above, is `dotprogress`.
 
   $ ruby-test -y -Ilib test/foo.rb | tapout progessbar
 
-TAP.out is smart enough to match the closest matching format name. So, for
+TAPOut is smart enough to match the closest matching format name. So, for
 example, the above could be written as:
 
   $ ruby-test -y -Ilib test/foo.rb | tapout pro
@@ -47,16 +47,16 @@ To see a list of supported formats use the list subcommand:
   $ tapout --help
 
 If your test framework does not support TAP-Y, but does support traditional
-TAP, TAP.out will automatically recognize the difference by TAP's `1..N` header.
+TAP, TAPOut will automatically recognize the difference by TAP's `1..N` header.
 
   $ ruby-test -ftap -Ilib test/foo.rb | tapout progressbar
 
 
 == COPYRIGHTS
 
-TAP.out - Copyright (c) 2010 Rubyworks
+TAPOut - Copyright (c) 2010 Rubyworks
 
-TAP.out is licensed under the terms of the *BSD-2-Clause* license.
+TAPOut is licensed under the terms of the *BSD-2-Clause* license.
 
 See COPYING.rdoc for details.
 
