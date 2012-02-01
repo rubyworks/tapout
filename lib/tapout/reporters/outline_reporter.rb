@@ -20,8 +20,8 @@ module Tapout::Reporters
       @_level = entry['level'].to_i
 
       print(' ' * (level_tab - 2))
-      puts(case_count(entry) + ' ' + entry['label'].ansi(*config.highlight))
-      puts
+      puts(case_count(entry) + '. ' + entry['label'].ansi(*config.highlight))
+      #puts
     end
 
     #
@@ -32,10 +32,11 @@ module Tapout::Reporters
     #
     def case_count(entry)
       level = entry['level'].to_i
-      @_case_count = @_case_count[0,level]
+      @_case_count = @_case_count[0,level+1]
       @_case_count[level] ||= 0
       @_case_count[level] += 1
-      @_case_count.join('.') + '.'
+      @_case_count.join('.') #+ '.'
+      @_case_count[level].to_s
     end
 
     #
@@ -51,8 +52,8 @@ module Tapout::Reporters
     #
     def pass(entry)
       super(entry)
-      $stdout.print(' ' * level_tab)
-      $stdout.puts "#{test_count}. " + entry['label'].ansi(:green) + "   #{entry['source']}"
+      print(' ' * level_tab)
+      puts "#{test_count}. " + entry['label'].ansi(:green) + "   #{entry['source']}"
     end
 
     def fail(entry)
