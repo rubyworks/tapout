@@ -62,16 +62,6 @@ module Tapout
         @test_time = Time.now
         @test  = test
         @count = @count + 1
-
-        #if @file != test.file
-        #  @file = test.file
-        #  puts(test.file)
-        #end
-        #print "    %-69s" % test.name
-        #$stdout = @stdout
-        #$stderr = @stderr
-        #$stdout.rewind
-        #$stderr.rewind
       end
 
       # TODO: Only show if in verbose mode.
