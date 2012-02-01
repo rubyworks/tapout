@@ -31,12 +31,15 @@ module Tapout
         @suite  = suite
         @count  = 0
         @index  = 0
-        @suite_size = suite.size
+        @suite_size = suite['count'].to_i
+        @case_stack = []
+
+        @index_pad = @suite_size.zero? ? '' : @suite_size.to_s.size
 
         #@stdout = StringIO.new
         #@stderr = StringIO.new
         #files = suite.collect{ |s| s.file }.join(' ')
-        print "Started Suite" ##{suite.name}"
+        print "Started Suite (#{@suite_size})" ##{suite.name}"
         print " w/ Seed: #{suite['seed']}" if suite['seed']
         puts
       end
@@ -44,8 +47,27 @@ module Tapout
       #
       def start_case(kase)
         #if kase.size > 0  # TODO: Don't have size yet?
-          label = kase['label'].ansi(:bold, :underline)
-          print "\n#{label}\n\n"
+        #  label = kase['label'].ansi(:bold, :underline)
+        #  print "\n#{label}\n\n"
+        #end
+
+        @case_stack << kase
+
+        #if last = @case_stack.last
+        #  case kase['level'].to_i <=> last['level'].to_i
+        #  when 0
+        #    @case_stack.pop
+        #    @case_stack << kase
+        #  when 1
+        #    @case_stack << kase
+        #  else
+        #    while (last = @case_stack.pop)
+        #      break if last['level'].to_i < kase['level'].to_i
+        #    end
+        #    @case_stack << kase
+        #  end
+        #else
+        #  @case_stack << kase
         #end
       end
 
@@ -187,6 +209,7 @@ module Tapout
 
       #
       def finish_case(kase)
+        @case_stack.pop
         #if kase.size == 0
         #  puts pad("(No Tests)")
         #end
@@ -231,11 +254,13 @@ module Tapout
       def stamp_it(test, type, *color)
         @index += 1
 
+        kase  = @case_stack.last || {}
         time  = Time.now
         delta = time - @test_time
-        label = test['label']
+        #label = test['label']
+        label = ("%s %s" % [kase['label'], test['label']]).strip
 
-        indexS = @index.to_s
+        indexS = @index
         prcntS = " %3s%% " % [@count * 100 / @suite_size]
         ratioS = " #{@count}/#{@suite_size} "
         deltaS = " %.6f " % [time - @test_time]
@@ -261,7 +286,7 @@ module Tapout
 
         stuff = [indexS, typeS, label.ansi(:bold), ratioS, prcntS, deltaS, timeS]
 
-        print " %d |%s| %-#{width}s %s|%s|%s|%s" % stuff
+        print " %#{@index_pad}d |%s| %-#{width}s %s|%s|%s|%s" % stuff
       end
 
     end
