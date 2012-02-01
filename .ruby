@@ -40,7 +40,7 @@ load_path:
 revision: 0
 created: '2010-12-23'
 summary: Progressive TAP Harness
-title: TapOut
+title: TAPOUT
 version: 0.4.0
 name: tapout
 description: Tapout is a TAP consumer that can take any TAP, TAP-Y or TAP-J stream
