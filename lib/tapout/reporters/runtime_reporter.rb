@@ -31,14 +31,15 @@ module Tapout
         @suite  = suite
         @count  = 0
         @index  = 0
+
         @suite_size = suite['count'].to_i
         @case_stack = []
 
+        # pad for index based on how big the index number will get
         @index_pad = @suite_size.zero? ? '' : @suite_size.to_s.size
 
-        #@stdout = StringIO.new
-        #@stderr = StringIO.new
-        #files = suite.collect{ |s| s.file }.join(' ')
+        #files = suite['files'].collect{ |s| s.file }.join(' ')
+
         print "Started Suite (#{@suite_size})" ##{suite.name}"
         print " w/ Seed: #{suite['seed']}" if suite['seed']
         puts
@@ -46,29 +47,14 @@ module Tapout
 
       #
       def start_case(kase)
-        #if kase.size > 0  # TODO: Don't have size yet?
-        #  label = kase['label'].ansi(:bold, :underline)
-        #  print "\n#{label}\n\n"
-        #end
+        #return if kase.size == 0  # TODO: Don't have size yet?
+        last = @case_stack.pop
+        while last
+          break if last['level'].to_i <= kase['level'].to_i
+          last = @case_stack.pop
+        end
 
         @case_stack << kase
-
-        #if last = @case_stack.last
-        #  case kase['level'].to_i <=> last['level'].to_i
-        #  when 0
-        #    @case_stack.pop
-        #    @case_stack << kase
-        #  when 1
-        #    @case_stack << kase
-        #  else
-        #    while (last = @case_stack.pop)
-        #      break if last['level'].to_i < kase['level'].to_i
-        #    end
-        #    @case_stack << kase
-        #  end
-        #else
-        #  @case_stack << kase
-        #end
       end
 
       #
@@ -123,20 +109,6 @@ module Tapout
 
         message = test['exception']['message']
 
-        code = test['exception']['snippet']
-        file = test['exception']['file']
-        line = test['exception']['line']
-
-        #if bt = test['exception']['backtrace']
-        #  trace = clean_backtrace(bt)
-        #else
-        #  trace = []
-        #  trace << "#{file}:#{line}" if file && line
-        #end
-
-        #depth   = config.trace || trace.size
-        #trace   = trace[0,depth]
-
         puts
         if message
           puts
@@ -145,13 +117,6 @@ module Tapout
         puts
 
         puts backtrace_snippets(test).tabto(TABSIZE)
-        #backtrace_snippets_chain(trace, code, line).each do |(stamp, snip)|
-        #  puts stamp.ansi(:bold).tabto(TABSIZE)
-        #  if snip
-        #    snip = snip.sub(/^(\s*\=\>.*?)$/, '\1'.ansi(:bold))
-        #    puts snip.tabto(TABSIZE + 4)
-        #  end
-        #end
 
         print captured_output(test).tabto(TABSIZE)
       end
@@ -160,23 +125,7 @@ module Tapout
       def error(test)
         stamp_it(test, ERROR, :red)
 
-        #message = exception.to_s.split("\n")[2..-1].join("\n")
-
         message = test['exception']['message']
-
-        #code = test['exception']['snippet']
-        #file = test['exception']['file']
-        #line = test['exception']['line']
-
-        #if bt = test['exception']['backtrace']
-        #  trace = clean_backtrace(bt)
-        #else
-        #  trace = []
-        #  trace << "#{file}:#{line}" if file && line
-        #end
-
-        #depth   = config.trace || trace.size
-        #trace   = trace[0,depth]
 
         puts
         if message && !message.empty?
@@ -187,29 +136,16 @@ module Tapout
 
         puts backtrace_snippets(test).tabto(TABSIZE)
 
-        #backtrace_snippets_chain(trace, code, line).each do |(stamp, snip)|
-        #  puts stamp.ansi(:bold).tabto(TABSIZE)
-        #  if snip
-        #    snip = snip.sub(/^(\s*\=\>.*?)$/, '\1'.ansi(:bold))
-        #    puts snip.tabto(TABSIZE + 4)
-        #  end
-        #end
-
         print captured_output(test).tabto(TABSIZE)
       end
 
       #
       def finish_test(test)
-        puts
-        #@test_count += 1
-        #@assertion_count += inst._assertions
-        #$stdout = STDOUT
-        #$stderr = STDERR
+        puts unless config.minimal?
       end
 
       #
       def finish_case(kase)
-        @case_stack.pop
         #if kase.size == 0
         #  puts pad("(No Tests)")
         #end
@@ -254,11 +190,11 @@ module Tapout
       def stamp_it(test, type, *color)
         @index += 1
 
-        kase  = @case_stack.last || {}
+        cases  = @case_stack.map{ |k| k['label'] }.join(' ')
         time  = Time.now
         delta = time - @test_time
         #label = test['label']
-        label = ("%s %s" % [kase['label'], test['label']]).strip
+        label = [cases, test['label']].join(' ').strip
 
         indexS = @index
         prcntS = " %3s%% " % [@count * 100 / @suite_size]
