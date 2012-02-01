@@ -1,5 +1,22 @@
 = RELEASE HISTORY
 
+== 0.4.0 / 2012-02-01
+
+TAP-Y/J spec now supports `stdout` and `stderr` fields in `exception`.
+This allows test harnesses to capture stdout and stderr while running
+tests and pipe them through with the TAP stream, which tapout can then
+include in the test report output. This release also see a great deal
+of imporvement in test reports in general, from better time stats to
+much improved backtrace output.
+
+Changes:
+
+* Rename namespace to Tapout, instead of TapOut.
+* Add support for `stdout` and `stderr` fields to spec.
+* Add common config for all reporters.
+* Add common code snippet functionality to all reporters.
+* Add markdown reporter.
+
 
 == 0.3.2 / 2011-11-08
 

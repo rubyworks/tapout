@@ -2,6 +2,7 @@
 .ruby
 .yardopts
 bin/tapout
+demo/applique/ae.rb
 demo/applique/env.rb
 demo/issues/applique/env.rb
 demo/issues/default_reporter.rdoc

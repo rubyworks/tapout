@@ -46,4 +46,4 @@ name: tapout
 description: Tapout is a TAP consumer that can take any TAP, TAP-Y or TAP-J stream
   and output it in a variety of useful formats.
 organization: RubyWorks
-date: '2012-01-29'
+date: '2012-02-01'
