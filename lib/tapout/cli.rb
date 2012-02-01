@@ -21,7 +21,7 @@ module Tapout
         self.config.trace = depth
       end
 
-      opt.on('--lines', '-l LINES', 'number of surounding source code lines') do |lines|
+      opt.on('--lines', '-l LINES', 'number of surrounding source code lines') do |lines|
         self.config.lines = lines.to_i
       end
 
