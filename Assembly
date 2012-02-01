@@ -1,6 +1,6 @@
 ---
 github:
-  gh_pages: pages
+  gh_pages: web
 
 gem:
   active: true

@@ -33,7 +33,12 @@ repositories:
   name: upstream
 resources:
   home: http://rubyworks.github.com/tapout
+  wiki: http://github.com/rubyworks/tapout/wiki
+  docs: http://rubydoc.info/gems/tapout/frames
   code: http://github.com/rubyworks/tapout
+  bugs: http://github.com/rubyworks/tapout/issues
+  mail: http://groups.google.com/rubyworks-mailinglist
+  chat: irc://chat.us.freenode.net#rubyworks
 extra: {}
 load_path:
 - lib
