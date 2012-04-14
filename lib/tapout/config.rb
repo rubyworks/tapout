@@ -2,23 +2,25 @@ module Tapout
 
   #
   #
-  def self.config
+  def self.config(settings=nil, &block)
     @config ||= Config.new
+    @config.update(settings, &block)
   end
 
   #
   #
   class Config
 
+    #
     def initialize
       initialize_defaults
     end
 
+    #
     def initialize_defaults
-      @trace = nil
-      @lines = 3
-
-      @minimal = false
+      @trace     = nil
+      @lines     = 3
+      @minimal   = false
 
       @highlight = [:bold]
       @fadelight = [:dark]
@@ -28,6 +30,15 @@ module Tapout
       @error = [:red]
       @todo  = [:yellow]
       @omit  = [:yellow]
+    end
+
+    #
+    def update(settings, &block)
+      settings.each do |k,v|
+        __send__("#{k}=", v)
+      end if settings
+      block.call(self) if block
+      self
     end
 
     #
