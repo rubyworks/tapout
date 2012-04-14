@@ -19,7 +19,15 @@ module Tapout
     def self.factory(name)
       list = index.keys.abbrev
       rptr = index[list[name || DEAFULT_REPORTER]]
-      raise ArgumentError, "Unrecognized reporter -- #{name.inspect}" unless rptr
+      unless rptr
+        begin
+          require "tapout-#{name}"
+          list = index.keys.abbrev
+          rptr = index[list[name || DEAFULT_REPORTER]]
+        rescue LoadError
+        end
+        raise ArgumentError, "Unrecognized reporter -- #{name.inspect}" unless rptr
+      end
       rptr
     end
 

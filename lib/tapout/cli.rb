@@ -29,11 +29,19 @@ module Tapout
         self.config.minimal = val
       end
 
-      opt.on('--no-color', 'Supress ANSI color codes') do
+      opt.on('--no-color', 'suppress ANSI color codes') do
         $ansi = false
       end
 
-      opt.on('--debug', 'Run with $DEBUG flag on') do |fmt|
+      opt.on('--require', '-r FEATURE', 'require feature') do |feature|
+        require feature
+      end
+
+      #opt.on('--plugin', '-p NAME', 'Require plugin feature (tapout-<name>)') do |name|
+      #  require "tapout-#{name}"
+      #end
+
+      opt.on('--debug', 'run with $DEBUG flag on') do |fmt|
         $DEBUG = true
       end
 
