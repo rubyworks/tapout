@@ -285,7 +285,7 @@ module Tapout
         end
         trace = backtrace if trace.empty?
         trace = trace.map{ |bt| bt.sub(Dir.pwd+File::SEPARATOR,'') }
-        trace = trace[1, config.trace_depth]
+        trace = trace[0, config.trace_depth]
         trace
       end
 
@@ -324,7 +324,7 @@ module Tapout
 
         if bts.empty?
           if file && line
-            bts << "#{file}:{line}"
+            bts << "#{file}:#{line}"
           end
         end
 
