@@ -1,8 +1,9 @@
 --title "TAPout"
---readme README.rdoc
+--readme README.md
 --protected
 --private
 lib
 -
-[A-Z]*.*
-TAP-YJ.md
+*.md
+*.txt
+
