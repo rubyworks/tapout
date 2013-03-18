@@ -1,17 +1,21 @@
 module Tapout
 
-  #
-  #
-  def self.configure(settings=nil, &block)
+  # Define configuration.
+  def self.configure(&block)
+    configuration.update(&block)
+  end
+
+  # Access to configuration.
+  def self.configuration
     @config ||= Config.new
-    @config.update(settings, &block)
   end
 
-  # @deprecated
-  def self.config(settings=nil, &block)
-    configure(settings, &block)
+  # Alias for `#configuration`.
+  def self.config
+    configuration
   end
 
+  ##
   # Configuration.
   #
   # TODO: Rename the ANSI options with a _color suffix,
@@ -19,12 +23,16 @@ module Tapout
   #
   class Config
 
+    # Initialize new Config instance.
     #
     def initialize
       initialize_defaults
     end
 
-    # Default trace depth is 12.
+    # Initialize defaults.
+    #
+    # * Default trace depth is 12.
+    # * Default snippet size is 3 (which means 7 total).
     #
     def initialize_defaults
       @trace     = 12

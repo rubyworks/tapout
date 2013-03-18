@@ -315,18 +315,31 @@ module Tapout
       #   Array of backtrace line and source code.
       def backtrace_snippets_chain(test)
         code  = test['exception']['snippet']
+        file  = test['exception']['file']
         line  = test['exception']['line']
 
         chain = []
-        backtrace(test).each do |bt|
+
+        bts = backtrace(test)
+
+        if bts.empty?
+          if file && line
+            bts << "#{file}:{line}"
+          end
+        end
+
+        bts.each do |bt|
           if md = /(.+?):(\d+)/.match(bt)
             chain << [bt, code_snippet('file'=>md[1], 'line'=>md[2].to_i)]
           else
             chain << [bt, nil]
           end
         end
-        # use the tap-y/j snippet if the first file was not found
-        chain[0][1] = code_snippet('snippet'=>snippet, 'line'=>line) unless chain[0][1]
+
+        if chain.first && chain.first.last.nil?
+          chain[0][1] = code_snippet('snippet'=>code, 'line'=>line)
+        end
+
         chain
       end
 
