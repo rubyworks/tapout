@@ -32,8 +32,9 @@ For information about TAP, see http://testanything.org/wiki/index.php/Main_Page.
 ## Usage
 
 To use TAPOUT you need either a plugin for your current test framework, or use of
-a test framework that supports TAP-Y/J out of the box. You can find a list of
-plugins {here}[https://https://github.com/rubyworks/tapout/wiki] under the section "Producers".
+a test framework that supports TAP-Y/J out of the box. You can find a 
+[list of plugins here](https://https://github.com/rubyworks/tapout/wiki)
+under the section "Producers".
 
 Using a test framework that produces a TAP-Y output stream, simply pipe
 the stream into `tapout`.
@@ -41,7 +42,7 @@ the stream into `tapout`.
     $ rubytest -y -Ilib test/foo.rb | tapout
 
 TAPOUT supports a variety of output formats. These are selectable via the 
-first argument. The default if not given, as in the example above, is `dotprogress`.
+first argument. The default if not given, as in the example above, is `dot`.
 
     $ rubytest -y -Ilib test/foo.rb | tapout progessbar
 
