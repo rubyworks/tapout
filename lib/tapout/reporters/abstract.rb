@@ -3,10 +3,12 @@ require 'abbrev'
 
 module Tapout
 
+  ##
   # Namespace for Report Formats.
+  #
   module Reporters
 
-    #
+    # Default reporter.
     DEAFULT_REPORTER = 'dot'
 
     # Returns a Hash of name to reporter class.
@@ -31,6 +33,7 @@ module Tapout
       rptr
     end
 
+    ##
     # The Abstract class serves as a base class for all reporters. Reporters
     # must sublcass Abstract in order to be added the the Reporters Index.
     #
@@ -282,6 +285,7 @@ module Tapout
         end
         trace = backtrace if trace.empty?
         trace = trace.map{ |bt| bt.sub(Dir.pwd+File::SEPARATOR,'') }
+        trace = trace[1, config.trace_depth]
         trace
       end
 
@@ -367,7 +371,7 @@ module Tapout
           if file && File.file?(file)
             source = source(file)
 
-            radius = 3 # number of surrounding lines to show
+            radius = config.lines # number of surrounding lines to show
             region = [line - radius, 1].max ..
                      [line + radius, source.length].min
 

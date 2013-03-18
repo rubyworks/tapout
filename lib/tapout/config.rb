@@ -2,12 +2,20 @@ module Tapout
 
   #
   #
-  def self.config(settings=nil, &block)
+  def self.configure(settings=nil, &block)
     @config ||= Config.new
     @config.update(settings, &block)
   end
 
+  # @deprecated
+  def self.config(settings=nil, &block)
+    configure(settings, &block)
+  end
+
+  # Configuration.
   #
+  # TODO: Rename the ANSI options with a _color suffix,
+  #       or something to that effect.
   #
   class Config
 
@@ -16,9 +24,10 @@ module Tapout
       initialize_defaults
     end
 
+    # Default trace depth is 12.
     #
     def initialize_defaults
-      @trace     = nil
+      @trace     = 12
       @lines     = 3
       @minimal   = false
 
@@ -47,6 +56,11 @@ module Tapout
     #
     def trace=(depth)
       @trace = depth.to_i
+    end
+
+    # Alias for #trace.
+    def trace_depth
+      @trace
     end
 
     #
