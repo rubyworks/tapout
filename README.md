@@ -24,8 +24,7 @@ with fairly good results. TAPOUT includes a TAP adapter to handle the
 translation transparently. Currently TAPOUT supports TAP v12 with some minor
 limitations.
 
-To learn about the TAP-Y/J specification, see the {TAP-Y/J Specification}[https://github.com/rubyworks/tapout/wiki/Specification]
-document.
+To learn about the TAP-Y/J specification, see the [TAP-Y/J Specification](https://github.com/rubyworks/tapout/wiki/Specification) document.
 
 For information about TAP, see http://testanything.org/wiki/index.php/Main_Page.
 
