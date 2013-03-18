@@ -1,5 +1,15 @@
 # RELEASE HISTORY
 
+## 0.4.2 / 2013-03-18
+
+This release adds support for trace depth and snippet size options.
+
+Changes:
+
+* Tie trace depth config into backtrace filter.
+* Tie lines config into snippet creator.
+
+
 ## 0.4.1 / 2012-04-16
 
 Add support for autoloading reporter plugins. Just name the plugin script
