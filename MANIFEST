@@ -1,5 +1,5 @@
-#!mast .ruby .yardopts bin demo lib man spec test [A-Z]*.*
-.ruby
+#!mast .index .yardopts bin demo lib man spec test *.md *.txt
+.index
 .yardopts
 bin/tapout
 demo/applique/ae.rb
@@ -33,7 +33,7 @@ lib/tapout/reporters.rb
 lib/tapout/version.rb
 lib/tapout.rb
 lib/tapout.yml
-HISTORY.rdoc
-README.rdoc
-COPYING.rdoc
+COPYING.md
+HISTORY.md
+README.md
 TAP-YJ.md

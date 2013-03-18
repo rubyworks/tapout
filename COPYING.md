@@ -1,14 +1,14 @@
-= COPYRIGHT NOTICES
+# COPYRIGHT
 
-== TAPOUT
+## NOTICES
 
-Copyright:: (c) 2010 Rubyworks
-License:: BSD-2-Clause
-Website:: http://rubyworks.github.com/tapout
+### [TAPOUT](http://rubyworks.github.com/tapout)
 
     TAPOUT - Modernized TAP Harness
 
     Copyright 2010 Rubyworks. All rights reserved.
+
+    BSD-2-Clause License
 
     Redistribution and use in source and binary forms, with or without
     modification, are permitted provided that the following conditions are met:
@@ -31,16 +31,15 @@ Website:: http://rubyworks.github.com/tapout
     NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
     EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-== Detest
 
-Copyright:: (c) 2009 Suraj N. Kurapati
-License:: MIT
-Website:: http://detest.org
+### [Detest](http://detest.org)
 
 A small segement of code for outputing error messages was sourced from the
-Detest[http://snk.tuxfamily.org/lib/detest/] project.
+[Detest](http://snk.tuxfamily.org/lib/detest/) project.
 
     Copyright 2009 Suraj N. Kurapati <sunaku@gmail.com>
+
+    MIT License
 
     Permission to use, copy, modify, and/or distribute this software for any
     purpose with or without fee is hereby granted, provided that the above
