@@ -33,7 +33,7 @@ For information about TAP, see http://testanything.org/wiki/index.php/Main_Page.
 
 To use TAPOUT you need either a plugin for your current test framework, or use of
 a test framework that supports TAP-Y/J out of the box. You can find a 
-[list of plugins here](https://https://github.com/rubyworks/tapout/wiki)
+[list of plugins here](https://github.com/rubyworks/tapout/wiki)
 under the section "Producers".
 
 Using a test framework that produces a TAP-Y output stream, simply pipe
