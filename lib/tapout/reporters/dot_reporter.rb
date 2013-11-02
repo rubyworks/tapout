@@ -77,7 +77,7 @@ module Tapout::Reporters
 
       time, rate, avg = time_tally(entry)
 
-      total, pass, fail, error, todo, omit = count_tally(entry)
+      # total, pass, fail, error, todo, omit = count_tally(entry)
 
       #total = @passed.size + @failed.size + @raised.size + @skipped.size + @omitted.size
       #total = entry['counts']['total'] || total
@@ -89,7 +89,7 @@ module Tapout::Reporters
       puts
       puts "Finished in %.3fs (%.3f test/s, %.6fs avg.)" % [time, rate, avg]
       puts
-      puts "%s tests: %s pass, %s fail, %s exit, %s todo, %s omit" % [total, pass, fail, error, todo, omit]
+      puts tally_message(entry)
     end
 
   end
