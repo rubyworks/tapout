@@ -1,5 +1,17 @@
 # RELEASE HISTORY
 
+## 0.4.3 / 2013-11-18
+
+New feature allows producers to emit a *pause document* and 
+*resume document* code to halt and resume test result processing.
+While processing is halted, $stdin is directed back to $stdout
+uninterpreted.
+
+Changes:
+
+* Add support for pause and resume code.
+
+
 ## 0.4.2 / 2013-03-18
 
 This release adds support for trace depth and snippet size options.
