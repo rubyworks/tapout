@@ -14,6 +14,7 @@ lib/tapout/adapters/perl.rb
 lib/tapout/cli.rb
 lib/tapout/config.rb
 lib/tapout/core_ext.rb
+lib/tapout/parsers/abstract.rb
 lib/tapout/parsers/json.rb
 lib/tapout/parsers/perl.rb
 lib/tapout/parsers/yaml.rb
@@ -34,6 +35,6 @@ lib/tapout/version.rb
 lib/tapout.rb
 lib/tapout.yml
 COPYING.md
-HISTORY.md
 README.md
 TAP-YJ.md
+HISTORY.md
