@@ -36,13 +36,14 @@ a test framework that supports TAP-Y/J out of the box. You can find a
 [list of plugins here](https://github.com/rubyworks/tapout/wiki)
 under the section "Producers".
 
-Using a test framework that produces a TAP-Y output stream, simply pipe
-the stream into `tapout`.
+With a test framework that produces a TAP-Y/J output stream in hand pipe the
+output stream into the `tapout` command by using a standard command line pipe.
 
     $ rubytest -y -Ilib test/foo.rb | tapout
 
-TAPOUT supports a variety of output formats. These are selectable via the 
-first argument. The default if not given, as in the example above, is `dot`.
+TAPOUT supports a variety of output formats. The default is the common
+dot-progress format (simply called `dot`). Other formats are selectable
+via the `tapout` command's first argument.
 
     $ rubytest -y -Ilib test/foo.rb | tapout progessbar
 
@@ -57,11 +58,28 @@ To see a list of supported formats use the list subcommand:
 
     $ tapout --help
 
-If your test framework does not support TAP-Y, but does support traditional
-TAP, TAPOUT will automatically recognize the difference by TAP's `1..N` header.
+If your test framework does not support TAP-Y/J, but does support traditional
+TAP, TAPOUT will automatically recognize the difference by TAP's `1..N` header
+and automatically translate it.
 
     $ rubytest -ftap -Ilib test/foo.rb | tapout progressbar
 
+## Bypassing
+
+Since tapout handles the tap test data via a pipe, there is no direct control
+by tapout of the producer, i.e the test runner. If you need to tell tapout
+to stop processing the output temporarily then you can send an *END DOCUMENT*
+sequence. Likewise you can restart processing by sending a *START DOCUMENT*
+sequence. These are barrowed from YAML (evenin the case of JSON), and are `...`
+and `---` respectively. Be sure to include the newline character. A good example
+of this usage is with Pry.
+
+    def test_something
+      STDOUT.puts "..."  # tells tapout to stop processing
+      binding.pry
+      STDOUT.puts "---"  # tells tapout to start again
+      assert somthing
+    end
 
 ## Legal
 

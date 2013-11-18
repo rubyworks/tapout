@@ -1,12 +1,13 @@
 require 'tapout/version'
 require 'tapout/adapters/perl'
 require 'tapout/reporters'
+require 'tapout/parsers/abstract'
 
 module Tapout
 
-  # The TAPLegacy Parser takes a traditional TAP stream and routes
-  # it through a Tap Out report format.
-  class PerlParser
+  # This legacy parser takes a traditional TAP stream and routes
+  # it through a Tapout report format.
+  class PerlParser < AbstractParser
 
     # options[:format] - the report format to use
     def initialize(options={})

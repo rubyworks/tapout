@@ -1,3 +1,4 @@
+require 'tapout/parsers/abstract'
 require 'tapout/reporters'
 require 'json'
 
@@ -6,33 +7,50 @@ module Tapout
   # The TAP-J Parser takes a TAP-J stream and routes it through
   # a Tapout report format.
   #
-  class JsonParser
+  class JsonParser < AbstractParser
 
     #
     def initialize(options={})
       format    = options[:format]
       @reporter = Reporters.factory(format).new
+      @input    = options[:input] || $stdin
     end
 
     #
-    def consume(input)
+    def consume(input=nil)
+      @input = input if input
+
       while line = input.gets
-        self << line
+        case line
+        when EXIT_CODE
+          passthru
+        when RETURN_CODE
+        else
+          handle(line)
+        end
       end
+
       @reporter.finalize
     end
 
-    #
-    def <<(line)
-      handle(line)
-    end
+    # Alias for consume.
+    alias read consume
 
     #
-    def handle(doc)
-      return if doc == ''
-      entry = JSON.load(doc)
-      @reporter << entry
+    def handle(entry)
+      return if entry.empty?
+      return if entry == RETURN_CODE
+
+      begin
+        data = JSON.load(entry)
+        @reporter << data
+      rescue JSON::ParserError
+        passthru(entry)
+      end
     end
+
+    # Alias for handle.
+    alias << handle
 
   end
 
