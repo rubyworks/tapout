@@ -65,7 +65,7 @@ status: pass
 label: test_passing
 time: 1.04997403
 ---
-type: tally
+type: final
 time: 1.000800203
 counts:
   total: 3
