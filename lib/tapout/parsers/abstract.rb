@@ -4,19 +4,18 @@ module Tapout
 
   class AbstractParser
 
-    # These codes make a lot of sense for YAML, but not
-    # so much for JSON, maybe they should be something
-    # esoteric, like an Esc code?
+    # ASCII DLE (Data Link Escape)
+    PAUSE_DOCUMENT  = 16.chr + "\n" #"...\n"
 
-    EXIT_CODE = "...\n"
+    # ASCII ETB (End of Transmission Block)
+    RESUME_DOCUMENT = 23.chr + "\n" #"---\n"
 
-    RETURN_CODE = "---\n"
-
+    # Passthru incoming data directly to `$stdout`.
     #
     def passthru(doc=nil)
       $stdout << doc if doc
       while line = @input.gets
-        return line if line == RETURN_CODE
+        return line if line == RESUME_DOCUMENT
         $stdout << line
       end
       return ''

@@ -16,15 +16,19 @@ module Tapout
       @input    = options[:input] || $stdin
     end
 
+    # Read from input using `gets` and parse, routing entries to reporter.
     #
+    # input - Input channel, defaults to $stdin. [#gets]
+    #
+    # Returns reporter exit code.
     def consume(input=nil)
       @input = input if input
 
       while line = input.gets
         case line
-        when EXIT_CODE
+        when PAUSE_DOCUMENT
           passthru
-        when RETURN_CODE
+        when RESUME_DOCUMENT  # has no effect here
         else
           handle(line)
         end
@@ -36,10 +40,12 @@ module Tapout
     # Alias for consume.
     alias read consume
 
+    # Handle document entry.
     #
+    # Returns nothing.
     def handle(entry)
       return if entry.empty?
-      return if entry == RETURN_CODE
+      return if entry == RESUME_DOCUMENT
 
       begin
         data = JSON.load(entry)

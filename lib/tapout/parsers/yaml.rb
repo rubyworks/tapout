@@ -9,6 +9,9 @@ module Tapout
   #
   class YamlParser < AbstractParser
 
+    NEW_DOCUMENT = /^\-\-\-/
+    END_DOCUMENT = /^\.\.\.\s*$/
+
     #
     def initialize(options={})
       format    = options[:format]
@@ -28,10 +31,13 @@ module Tapout
       entry = ''
       while line = @input.gets
         case line
-        when EXIT_CODE, /^\.\.\./
+        when PAUSE_DOCUMENT
+          passthru
+        when RESUME_DOCUMENT # (no effect)
+        when END_DOCUMENT
           handle(entry)
           entry = passthru
-        when RETURN_CODE, /^\-\-\-/
+        when NEW_DOCUMENT
           handle(entry)
           entry = line
         else
@@ -46,23 +52,13 @@ module Tapout
     # Alias for consume.
     alias read consume
 
-    #def <<(line)
-    #  case line
-    #  when /^\-\-\-/
-    #    handle unless @doc.empty?
-    #    @doc << line
-    #  when /^\.\.\./
-    #    handle #@doc
-    #    stop
-    #  else
-    #    @doc << line
-    #  end
-    #end
-
+    # Handle document entry.
     #
+    # Returns nothing.
     def handle(entry)
       return if entry.empty?
-      return if entry == RETURN_CODE
+      return if entry == NEW_DOCUMENT
+      return if entry == RESUME_DOCUMENT
 
       begin
         data = YAML.load(entry)

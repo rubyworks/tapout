@@ -64,22 +64,42 @@ and automatically translate it.
 
     $ rubytest -ftap -Ilib test/foo.rb | tapout progressbar
 
+
 ## Bypassing
 
-Since tapout handles the tap test data via a pipe, there is no direct control
-by tapout of the producer, i.e the test runner. If you need to tell tapout
-to stop processing the output temporarily then you can send an *END DOCUMENT*
-sequence. Likewise you can restart processing by sending a *START DOCUMENT*
-sequence. These are barrowed from YAML (evenin the case of JSON), and are `...`
-and `---` respectively. Be sure to include the newline character. A good example
-of this usage is with Pry.
+Since tapout receives test results via a pipe, it has no direct control over
+the producer, i.e the test runner. If you need to tell tapout to stop processing
+the output then you can send a *PAUSE DOCUMENT* code. Likewise you can restart
+processing by sending a *RESUME DOCUMENT* code. These codes are taken
+from ASCII codes for DLE (Data Link Escape) and ETB (End of Transmission Block),
+respectively. When tapout receives a *PAUSE DOCUMENT* code, it stops interpreting
+any data it receives as test results and instead just routes `$stdin` back
+to `$stdout` unmodified.
+
+A good example of this is debugging with Pry using `binding.pry`.
 
     def test_something
-      STDOUT.puts "..."  # tells tapout to stop processing
+      STDOUT.puts 16.chr  # tells tapout to pause processing
+      binding.pry
+      STDOUT.puts 23.char # tells tapout to start again
+      assert somthing
+    end
+
+As it turns out, if your are using TAP-Y (not TAP-J) then you can also
+use YAML's *END DOCUMENT* and *NEW DOCUMENT* markers to acheive the
+same effect.
+
+    def test_something
+      STDOUT.puts "..."  # tells tapout to pause processing
       binding.pry
       STDOUT.puts "---"  # tells tapout to start again
       assert somthing
     end
+
+But remember that **only works for YAML**!
+
+Note: when sending these codes, be sure to send a newline character as well. 
+
 
 ## Legal
 
