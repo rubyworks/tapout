@@ -17,6 +17,8 @@ module Tapout
       format    = options[:format]
       @reporter = Reporters.factory(format).new
       @input    = options[:input] || $stdin
+
+      @resume = "---"
     end
 
     # Read from input using `gets` and parse, routing
@@ -32,10 +34,12 @@ module Tapout
       while line = @input.gets
         case line
         when PAUSE_DOCUMENT
+          @resume = RESUME_DOCUMENT
           passthru
         when RESUME_DOCUMENT # (no effect)
         when END_DOCUMENT
           handle(entry)
+          @resume = NEW_DOCUMENT
           entry = passthru
         when NEW_DOCUMENT
           handle(entry)
@@ -56,9 +60,11 @@ module Tapout
     #
     # Returns nothing.
     def handle(entry)
-      return if entry.empty?
       return if entry == RESUME_DOCUMENT
-      return if entry.strip == "---"
+
+      stripped = entry.strip
+      return if stripped.empty?
+      return if stripped == "---"
 
       begin
         data = YAML.load(entry)
@@ -76,8 +82,7 @@ module Tapout
     def passthru(doc=nil)
       $stdout << doc if doc
       while line = @input.gets
-        return ''   if line == RESUME_DOCUMENT
-        return line if line =~ NEW_DOCUMENT
+        return line if @resume === line
         $stdout << line
       end
       return ''
