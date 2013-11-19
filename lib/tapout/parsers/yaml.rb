@@ -57,8 +57,8 @@ module Tapout
     # Returns nothing.
     def handle(entry)
       return if entry.empty?
-      return if entry == NEW_DOCUMENT
       return if entry == RESUME_DOCUMENT
+      return if entry.strip == "---"
 
       begin
         data = YAML.load(entry)
@@ -70,6 +70,18 @@ module Tapout
 
     # Alias for handle.
     alias << handle
+
+    # Passthru incoming data directly to `$stdout`.
+    #
+    def passthru(doc=nil)
+      $stdout << doc if doc
+      while line = @input.gets
+        return ''   if line == RESUME_DOCUMENT
+        return line if line =~ NEW_DOCUMENT
+        $stdout << line
+      end
+      return ''
+    end
 
   end
 
