@@ -48,6 +48,7 @@ module Tapout
           entry << line
         end
       end
+
       handle(entry)  # in case final `...` was left out
 
       @reporter.finalize  #@reporter.exit_code

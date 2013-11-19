@@ -15,7 +15,7 @@ module Tapout
     def passthru(doc=nil)
       $stdout << doc if doc
       while line = @input.gets
-        return line if line == RESUME_DOCUMENT
+        return line if RESUME_DOCUMENT === line
         $stdout << line
       end
       return ''

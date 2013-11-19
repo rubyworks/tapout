@@ -86,19 +86,19 @@ A good example of this is debugging with Pry using `binding.pry`.
     end
 
 As it turns out, if your are using TAP-Y (not TAP-J) then you can also
-use YAML's *END DOCUMENT* and *NEW DOCUMENT* markers to acheive the
-same effect.
+use YAML's *END DOCUMENT* marker to acheive a similar result.
 
     def test_something
       STDOUT.puts "..."  # tells tapout to pause processing
       binding.pry
-      STDOUT.puts "---"  # tells tapout to start again
       assert somthing
     end
 
-But remember that **only works for YAML**!
+But this **only works for YAML** and if you happend to be debugging code
+that emits YAML you might accidently trigger tapout to resume. Therefore
+it is recommended that the ASCII codes be used.
 
-Note: when sending these codes, be sure to send a newline character as well. 
+Note: When sending these codes, be sure to send a newline character as well. 
 
 
 ## Legal
