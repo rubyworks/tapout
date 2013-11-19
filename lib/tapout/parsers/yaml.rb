@@ -18,7 +18,7 @@ module Tapout
       @reporter = Reporters.factory(format).new
       @input    = options[:input] || $stdin
 
-      @resume = "---"
+      @resume = NEW_DOCUMENT
     end
 
     # Read from input using `gets` and parse, routing
