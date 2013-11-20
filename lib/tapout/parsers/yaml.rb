@@ -15,8 +15,10 @@ module Tapout
     #
     def initialize(options={})
       format    = options[:format]
+      input     = options[:input]
+
       @reporter = Reporters.factory(format).new
-      @input    = options[:input] || $stdin
+      @input    = input || $stdin
 
       @resume = NEW_DOCUMENT
     end

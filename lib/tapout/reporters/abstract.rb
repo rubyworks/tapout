@@ -56,6 +56,9 @@ module Tapout
         @skipped = []
         @omitted = []
 
+        #$stdin.sync  = true
+        $stdout.sync = true
+
         @case_stack = []
         @source     = {}
         @exit_code  = 0  # assume passing
@@ -529,6 +532,13 @@ module Tapout
       def config
         Tapout.config
       end
+
+    private
+
+      #def puts(*s)
+      #  super(*s)
+      #  $stdout.flush
+      #end
 
     end#class Abstract
 
