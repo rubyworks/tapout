@@ -1,5 +1,25 @@
 # RELEASE HISTORY
 
+## 0.4.5 / 2013-11-20
+
+Added some convenience methods for test runners using tapout.
+
+Changes:
+
+* Add Tapout::Utility and toplevel tapout interface.
+
+
+## 0.4.4 / 2013-11-19
+
+This release simply makes some improvements to pause and resume
+handlers.
+
+Changes:
+
+* YAML document markers may not always be enough.
+* Rely on DLE (16.chr) and ETB (23.chr) for pause and resume.
+
+
 ## 0.4.3 / 2013-11-18
 
 New feature allows producers to emit a *pause document* and 
