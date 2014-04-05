@@ -4,8 +4,7 @@ script: "bundle exec qed"
 rvm:
   - 1.8.7
   - 1.9.3
+  - 2.0.0
   - rbx
-  - rbx-19mode
   - jruby
-  - jruby-19mode
 
