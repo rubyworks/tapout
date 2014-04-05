@@ -31,6 +31,10 @@ For information about TAP, see http://testanything.org/wiki/index.php/Main_Page.
 
 ## Usage
 
+To learn more about using Tapout, please see the [wiki](https://github.com/rubyworks/tapout/wiki).
+It provides more detailed information on how to put Tapout to work for you using your prefered 
+testing framework and build tool. What follows here is a very general overview of usage.
+
 To use TAPOUT you need either a plugin for your current test framework, or use of
 a test framework that supports TAP-Y/J out of the box. You can find a 
 [list of plugins here](https://github.com/rubyworks/tapout/wiki)
