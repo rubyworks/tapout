@@ -49,7 +49,7 @@ TAPOUT supports a variety of output formats. The default is the common
 dot-progress format (simply called `dot`). Other formats are selectable
 via the `tapout` command's first argument.
 
-    $ rubytest -y -Ilib test/foo.rb | tapout progessbar
+    $ rubytest -y -Ilib test/foo.rb | tapout progressbar
 
 TAPOUT is smart enough to match the closest matching format name. So, for
 example, the above could be written as:
