@@ -15,7 +15,7 @@
 *TAPOUT* is the next generation in test results viewing. You may have heard
 of Turn or minitest-reporters. TAPOUT is the conceptual successor to these
 gems by virture of its use of TAP, a standardized intermediate test results
-protocol. 
+protocol.
 
 TAPOUT works as a TAP handler which supports TAP-Y/J as well as traditional
 TAP streams. TAP-Y/J is a modernization of TAP using pure YAML/JSON streams.
@@ -24,20 +24,20 @@ with fairly good results. TAPOUT includes a TAP adapter to handle the
 translation transparently. Currently TAPOUT supports TAP v12 with some minor
 limitations.
 
-To learn about the TAP-Y/J specification, see the [TAP-Y/J Specification](https://github.com/rubyworks/tapout/wiki/Specification) document.
+To learn about the TAP-Y/J specification, see the [TAP-Y/J Specification](https://github.com/rubyworks/tapout/wiki/TAP-Y-J-Specification) document.
 
-For information about TAP, see http://testanything.org/wiki/index.php/Main_Page.
+For information about TAP, see http://testanything.org/
 
 
 ## Usage
 
 To learn more about using Tapout, please see the [wiki](https://github.com/rubyworks/tapout/wiki).
-It provides more detailed information on how to put Tapout to work for you using your prefered 
+It provides more detailed information on how to put Tapout to work for you using your prefered
 testing framework and build tool. What follows here is a very general overview of usage.
 
 To use TAPOUT you need either a plugin for your current test framework, or use of
-a test framework that supports TAP-Y/J out of the box. You can find a 
-[list of plugins here](https://github.com/rubyworks/tapout/wiki)
+a test framework that supports TAP-Y/J out of the box. You can find a
+[list of plugins here](https://github.com/rubyworks/tapout/wiki#producers)
 under the section "Producers".
 
 With a test framework that produces a TAP-Y/J output stream in hand pipe the
@@ -102,7 +102,7 @@ But this **only works for YAML** and if you happend to be debugging code
 that emits YAML you might accidently trigger tapout to resume. Therefore
 it is recommended that the ASCII codes be used.
 
-Note: When sending these codes, be sure to send a newline character as well. 
+Note: When sending these codes, be sure to send a newline character as well.
 
 
 ## Legal
@@ -112,4 +112,3 @@ Copyright (c) 2010 Rubyworks
 TAPOUT is modifiable and redistributable in accordance with the *BSD-2-Clause* license.
 
 See COPYING.md for details.
-
