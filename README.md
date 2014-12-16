@@ -14,7 +14,7 @@
 
 *TAPOUT* is the next generation in test results viewing. You may have heard
 of Turn or minitest-reporters. TAPOUT is the conceptual successor to these
-gems by virture of its use of TAP, a standardized intermediate test results
+gems by virtue of its use of TAP, a standardized intermediate test results
 protocol.
 
 TAPOUT works as a TAP handler which supports TAP-Y/J as well as traditional
@@ -32,7 +32,7 @@ For information about TAP, see http://testanything.org/
 ## Usage
 
 To learn more about using Tapout, please see the [wiki](https://github.com/rubyworks/tapout/wiki).
-It provides more detailed information on how to put Tapout to work for you using your prefered
+It provides more detailed information on how to put Tapout to work for you using your preferred
 testing framework and build tool. What follows here is a very general overview of usage.
 
 To use TAPOUT you need either a plugin for your current test framework, or use of
@@ -86,7 +86,7 @@ A good example of this is debugging with Pry using `binding.pry`.
       STDOUT.puts 16.chr  # tells tapout to pause processing
       binding.pry
       STDOUT.puts 23.char # tells tapout to start again
-      assert somthing
+      assert something
     end
 
 As it turns out, if your are using TAP-Y (not TAP-J) then you can also
@@ -95,11 +95,11 @@ use YAML's *END DOCUMENT* marker to acheive a similar result.
     def test_something
       STDOUT.puts "..."  # tells tapout to pause processing
       binding.pry
-      assert somthing
+      assert something
     end
 
-But this **only works for YAML** and if you happend to be debugging code
-that emits YAML you might accidently trigger tapout to resume. Therefore
+But this **only works for YAML** and if you happened to be debugging code
+that emits YAML you might accidentally trigger tapout to resume. Therefore
 it is recommended that the ASCII codes be used.
 
 Note: When sending these codes, be sure to send a newline character as well.
