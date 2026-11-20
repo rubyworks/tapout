@@ -32,7 +32,7 @@ module Tapout
     def consume(input=nil)
       @input = input if input
 
-      entry = ''
+      entry = String.new
       while line = @input.gets
         case line
         when PAUSE_DOCUMENT
@@ -88,7 +88,7 @@ module Tapout
         return line if @resume === line
         $stdout << line
       end
-      return ''
+      return String.new
     end
 
   end

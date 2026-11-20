@@ -1,13 +1,12 @@
 # TAPOUT
 
-[Website](http://rubyworks.github.com/tapout) |
-[User Guide](http://github.com/rubyworks/tapout/wiki) |
-[Report Issue](http://github.com/rubyworks/tapout/issues) |
-[Development](http://github.com/rubyworks/tapout)
+[Website](https://rubyworks.github.io/tapout) |
+[User Guide](https://github.com/rubyworks/tapout/wiki) |
+[Report Issue](https://github.com/rubyworks/tapout/issues) |
+[Development](https://github.com/rubyworks/tapout)
 
-[![Build Status](https://secure.travis-ci.org/rubyworks/tapout.png)](http://travis-ci.org/rubyworks/tapout)
-[![Gem Version](https://badge.fury.io/rb/tapout.png)](http://badge.fury.io/rb/tapout) &nbsp; &nbsp;
-[![Flattr Me](http://api.flattr.com/button/flattr-badge-large.png)](http://flattr.com/thing/324911/Rubyworks-Ruby-Development-Fund)
+[![CI](https://github.com/rubyworks/tapout/actions/workflows/ci.yml/badge.svg)](https://github.com/rubyworks/tapout/actions/workflows/ci.yml)
+[![Gem Version](https://badge.fury.io/rb/tapout.svg)](https://rubygems.org/gems/tapout)
 
 
 ## About
@@ -26,7 +25,7 @@ limitations.
 
 To learn about the TAP-Y/J specification, see the [TAP-Y/J Specification](https://github.com/rubyworks/tapout/wiki/TAP-Y-J-Specification) document.
 
-For information about TAP, see http://testanything.org/
+For information about TAP, see https://testanything.org/
 
 
 ## Usage
@@ -49,14 +48,14 @@ TAPOUT supports a variety of output formats. The default is the common
 dot-progress format (simply called `dot`). Other formats are selectable
 via the `tapout` command's first argument.
 
-    $ rubytest -y -Ilib test/foo.rb | tapout progressbar
+    $ rubytest -y -Ilib test/foo.rb | tapout progress
 
 TAPOUT is smart enough to match the closest matching format name. So, for
 example, the above could be written as:
 
     $ rubytest -y -Ilib test/foo.rb | tapout pro
 
-And tapout will know to use the `progressbar` format.
+And tapout will know to use the `progress` format.
 
 To see a list of supported formats use the list subcommand:
 
@@ -66,7 +65,7 @@ If your test framework does not support TAP-Y/J, but does support traditional
 TAP, TAPOUT will automatically recognize the difference by TAP's `1..N` header
 and automatically translate it.
 
-    $ rubytest -ftap -Ilib test/foo.rb | tapout progressbar
+    $ rubytest -ftap -Ilib test/foo.rb | tapout progress
 
 
 ## Bypassing
@@ -85,7 +84,7 @@ A good example of this is debugging with Pry using `binding.pry`.
     def test_something
       STDOUT.puts 16.chr  # tells tapout to pause processing
       binding.pry
-      STDOUT.puts 23.char # tells tapout to start again
+      STDOUT.puts 23.chr  # tells tapout to start again
       assert something
     end
 

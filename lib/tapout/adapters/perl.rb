@@ -29,7 +29,7 @@ module Tapout
 
     # Convert input stream to TAP-Y string.
     def to_s
-      self | ""
+      self | String.new
     end
 
     # Route stream to an array of entires.

@@ -6,7 +6,7 @@ end
 
 When '(((\w+))) reporter should run without error' do |format|
   $stdin  = StringIO.new(@tapy)
-  $stdout = StringIO.new(out = '')
+  $stdout = StringIO.new(out = String.new)
 
   Tapout.cli(format)
 end

@@ -1,5 +1,25 @@
 # RELEASE HISTORY
 
+## Unreleased
+
+Tapout runs on current Ruby again. It needs Ruby 2.7 or newer.
+
+Changes:
+
+* Work with Bundler on Ruby 3.4 and newer, where the `abbrev` library is
+  no longer part of Ruby. Reporter names are matched without it: a name
+  can still be shortened to any unique beginning, as in `tapout pro`.
+* Work with frozen string literals.
+* Work on Ruby 4.0, by loading only the parts of the ANSI library that
+  Tapout uses. Loading all of it fails there for want of `logger`.
+* Replace the old packaging (`.index`, `.gemspec`, `Assembly`, `MANIFEST`,
+  `var/`) with a plain `tapout.gemspec`, and Travis with GitHub Actions,
+  testing Ruby 2.7 to 4.0.
+* `Tapout::VERSION` is a constant in `tapout/version.rb`. `Tapout.metadata`
+  and the lookup of other project metadata as constants are gone.
+* Correct the README, which named a `progressbar` reporter; it is
+  `progress`.
+
 ## 0.4.5 / 2013-11-20
 
 Added some convenience methods for test runners using tapout.
