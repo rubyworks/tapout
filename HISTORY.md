@@ -10,6 +10,8 @@ Changes:
   no longer part of Ruby. Reporter names are matched without it: a name
   can still be shortened to any unique beginning, as in `tapout pro`.
 * Work with frozen string literals.
+* Work on Ruby 4.0, by loading only the parts of the ANSI library that
+  Tapout uses. Loading all of it fails there for want of `logger`.
 * Replace the old packaging (`.index`, `.gemspec`, `Assembly`, `MANIFEST`,
   `var/`) with a plain `tapout.gemspec`, and Travis with GitHub Actions,
   testing Ruby 2.7 to 4.0.

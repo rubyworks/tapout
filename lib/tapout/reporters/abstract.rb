@@ -1,4 +1,6 @@
-require 'ansi'
+# Only the parts of ANSI that are used: all of it brings in its logger,
+# which needs the logger library that Ruby 4.0 no longer ships.
+require 'ansi/core'
 
 module Tapout
 
