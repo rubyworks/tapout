@@ -9,6 +9,7 @@ module Tapout::Reporters
     #
     def start_suite(entry)
       @start_time = Time.now
+      @_level = 0   # for tests outside of any case
     end
 
     #
@@ -38,8 +39,10 @@ module Tapout::Reporters
       $stdout.puts "\n**MESSAGE**\n\n"
       $stdout.puts entry['exception']['message'].tabto(4)
 
-      $stdout.puts "\n**TYPE**\n\n"
-      $stdout.puts entry['exception']['class'].tabto(4)
+      unless entry['exception']['class'].empty?
+        $stdout.puts "\n**TYPE**\n\n"
+        $stdout.puts entry['exception']['class'].tabto(4)
+      end
 
       #$stdout.puts "    " + ok.caller #clean_backtrace(exception.backtrace)[0]
 
@@ -68,8 +71,10 @@ module Tapout::Reporters
       $stdout.puts "\n**MESSAGE**\n\n"
       $stdout.puts entry['exception']['message'].tabto(4)
 
-      $stdout.puts "\n**TYPE**\n\n"
-      $stdout.puts entry['exception']['class'].tabto(4)
+      unless entry['exception']['class'].empty?
+        $stdout.puts "\n**TYPE**\n\n"
+        $stdout.puts entry['exception']['class'].tabto(4)
+      end
 
       #$stdout.puts "    " + ok.caller #clean_backtrace(exception.backtrace)[0..2].join("    \n")
 

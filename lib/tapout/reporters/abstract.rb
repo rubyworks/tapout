@@ -69,6 +69,7 @@ module Tapout
 
         @case_stack = []
         @source     = {}
+        @start_time = Time.now
         @exit_code  = 0  # assume passing
       end
 
@@ -158,6 +159,7 @@ module Tapout
         when 'note'
           note(entry)
         when 'test'
+          complete_exception(entry)
           start_test(entry)
           case entry['status']
           when 'pass'
@@ -180,6 +182,18 @@ module Tapout
           complete_cases
           finish_suite(entry)
         end
+      end
+
+      # A test that didn't pass is supposed to say why, in an `exception`
+      # section with at least a message. Not every producer gives one, or
+      # all of it: plain TAP has none, and others leave out the class or
+      # the backtrace. Fill in what reporters rely on.
+      def complete_exception(entry)
+        return if entry['status'] == 'pass' && !entry['exception']
+        exception = entry['exception']
+        exception = entry['exception'] = {} unless Hash === exception
+        exception['message'] = exception['message'].to_s
+        exception['class']   = exception['class'].to_s
       end
 
       # Get the exit code.
@@ -282,6 +296,7 @@ module Tapout
 
       # Clean the backtrace of any "boring" reference.
       def clean_backtrace(backtrace)
+        backtrace = Array(backtrace)
         if ENV['debug']
           trace = backtrace
         else
