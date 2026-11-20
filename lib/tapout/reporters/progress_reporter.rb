@@ -175,7 +175,7 @@ end
 
       #puts("\n%i tests, %i assertions, %i failures, %i errors\n\n" % tally)
 
-      tally_line = "-----\n"
+      tally_line = +"-----\n"
       tally_line << "%-#{width}s  " % "TOTAL"
       tally_line << "%10s %10s %10s %10s" % tally
 
@@ -201,7 +201,7 @@ end
   private
 
     def paint_line(testrun, width)
-      line = ''
+      line = String.new
       line << "%-#{width}s  " % [testrun.name]
       line << "%10s %10s %10s %10s" % testrun.counts
       line << " " * 8

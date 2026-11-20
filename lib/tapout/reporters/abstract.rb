@@ -1,5 +1,4 @@
 require 'ansi'
-require 'abbrev'
 
 module Tapout
 
@@ -19,18 +18,25 @@ module Tapout
     # Returns a reporter class given it's name or a unique abbreviation of it.
     # If `name` is `nil` then the default dot reporter is returned.
     def self.factory(name)
-      list = index.keys.abbrev
-      rptr = index[list[name || DEAFULT_REPORTER]]
+      rptr = lookup(name || DEAFULT_REPORTER)
       unless rptr
         begin
           require "tapout-#{name}"
-          list = index.keys.abbrev
-          rptr = index[list[name || DEAFULT_REPORTER]]
+          rptr = lookup(name || DEAFULT_REPORTER)
         rescue LoadError
         end
         raise ArgumentError, "Unrecognized reporter -- #{name.inspect}" unless rptr
       end
       rptr
+    end
+
+    # Returns the reporter class with the given name, or the one whose name
+    # it is the start of, if there is only one such.
+    def self.lookup(name)
+      name = name.to_s
+      return index[name] if index.key?(name)
+      keys = index.keys.select { |key| key.start_with?(name) }
+      keys.size == 1 ? index[keys.first] : nil
     end
 
     ##
@@ -495,7 +501,7 @@ module Tapout
 
       #
       def captured_output(test)
-        str = ""
+        str = String.new
         str += captured_stdout(test){ |c| "\nSTDOUT\n#{c.tabto(4)}\n" }.to_s
         str += captured_stderr(test){ |c| "\nSTDERR\n#{c.tabto(4)}\n" }.to_s
         str

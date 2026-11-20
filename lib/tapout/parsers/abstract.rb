@@ -18,7 +18,7 @@ module Tapout
         return line if RESUME_DOCUMENT === line
         $stdout << line
       end
-      return ''
+      return String.new
     end
 
   end

@@ -36,7 +36,7 @@ Or pipe the converted stream directly to another stream.
 
     adapter = Tapout::PerlAdapter.new(stream)
 
-    output = ""
+    output = String.new
 
     tapy = adapter | output
 
