@@ -1,4 +1,5 @@
 require 'tapout/version'
+require 'yaml'
 
 module Tapout
 
@@ -21,6 +22,7 @@ module Tapout
       @state   = nil
       @entries = []
       @cache   = []
+      @count   = nil
     end
 
     # We need to keep an internal list of all entries
@@ -55,9 +57,11 @@ module Tapout
         parse(@cache)
         @state = :footer
         finish
+      when /^TAP version/i
+        return
       when /^\d+\.\.\d+/
-        #parse(@cache) if @state != :plan
         return if @head
+        parse(@cache)
         @head  = true
         @state = :plan
         @cache << line
@@ -86,19 +90,17 @@ module Tapout
       when :plan
         line = cache[0]
         md = /^(\d+)\.\.(\d+)\s*$/.match(line)
-        count = md[2].to_i - md[1].to_i + 1
-        entry = {'count'=>count, 'type'=>'suite', 'rev'=>REVISION}
+        md = /^(\d+)\.\.(\d+)/.match(line)
+        @count = md[2].to_i - md[1].to_i + 1
+        entry = {'count'=>@count, 'type'=>'suite', 'rev'=>REVISION}
       when :ok
-        line = cache[0]
-        md = /^ok\s+(\d+)\s*\-?\s*(.*?)($|#)/.match(line)
-        entry = {'type'=>'test','status'=>'pass','index'=>md[1].to_i, 'label'=>md[2]}
+        number, label, directive, reason = parse_test_line(cache[0])
+        entry = {'type'=>'test', 'status'=>'pass', 'index'=>number, 'label'=>label}
+        apply_directive(entry, directive, reason)
       when :not_ok
-        line = cache[0]
-        yaml = cache[1..-2].join('')
-        yaml = unindent(yaml)
-        data = YAML.load(yaml)
-        md = /^not ok\s+(\d+)\s*\-?\s*(.*?)($|#)/.match(line)
-        entry = convert_not_ok(md[1], md[2], data)
+        number, label, directive, reason = parse_test_line(cache[0])
+        entry = convert_not_ok(number, label, diagnostics(cache[1..-1]))
+        apply_directive(entry, directive, reason)
       when :comment
         desc = cache.map{ |c| c.sub(/^\#\s{0,1}/, '') }.join("\n")
         entry = {'type'=>'note', 'text'=>desc.rstrip}
@@ -129,6 +131,39 @@ module Tapout
 
     private
 
+    # Split a test line into its number, description, and the directive
+    # (`skip` or `todo`) and reason that may follow a `#`. The number is
+    # optional in TAP; a test without one is numbered in order.
+    def parse_test_line(line)
+      md = /^(?:not )?ok\b\s*(\d+)?\s*-?\s*(.*)$/.match(line.chomp)
+      number = md[1] ? md[1].to_i : @entries.count{ |e| e['type'] == 'test' } + 1
+      label, directive, reason = md[2], nil, nil
+      if dm = /(\A|\s)#\s*(skip\w*|todo)\b\s*(.*)\z/i.match(label)
+        label     = dm.pre_match
+        directive = dm[2].downcase.start_with?('skip') ? 'skip' : 'todo'
+        reason    = dm[3]
+      end
+      return number, label.strip, directive, reason
+    end
+
+    # In TAP a skipped test is reported `ok`, and one still to be done
+    # either way. TAP-Y calls these `omit` and `todo`.
+    def apply_directive(entry, directive, reason)
+      return unless directive
+      entry['status'] = (directive == 'skip' ? 'omit' : 'todo')
+      entry['exception'] ||= {}
+      entry['exception']['message'] = reason unless reason.to_s.empty?
+    end
+
+    # The YAML block that may follow a test line, as a Hash, or nil.
+    def diagnostics(lines)
+      lines = lines.reject{ |l| l =~ /^\s*(---|\.\.\.)\s*$/ }
+      data  = YAML.load(unindent(lines.join('')))
+      Hash === data ? data : nil
+    rescue Psych::SyntaxError
+      nil
+    end
+
     #
     # TODO: Any way to distinguish fail vs error?
     def convert_not_ok(number, label, data)
@@ -141,7 +176,7 @@ module Tapout
         entry['exception'] = {}
         entry['exception']['file']    = data['file']
         entry['exception']['line']    = data['line']
-        entry['exception']['message'] = data['description']
+        entry['exception']['message'] = data['description'] || data['message']
 
         entry['expected'] = data['wanted']
         entry['returned'] = data['found']
@@ -157,10 +192,14 @@ module Tapout
 
       entry = {}
       entry['type'] = 'final'
+      tests = @entries.count{ |e| e['type'] == 'test' }
       entry['counts'] = {
-        'total' => @count,
-        'pass'  => (groups['pass'] || []).size,
-        'fail'  => (groups['fail'] || []).size
+        'total' => @count || tests,
+        'pass'  => (groups['pass']  || []).size,
+        'fail'  => (groups['fail']  || []).size,
+        'error' => (groups['error'] || []).size,
+        'omit'  => (groups['omit']  || []).size,
+        'todo'  => (groups['todo']  || []).size
       }
       entry
     end

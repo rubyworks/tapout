@@ -64,3 +64,37 @@ and five passing tests.
 
     entries.size.assert == 8
 
+
+## Version line and directives
+
+A stream may open with a version line, and a test line may end with a
+`SKIP` or `TODO` directive. Given a legacy TAP stream:
+
+    TAP version 13
+    1..5
+    ok 1 - passes
+    not ok 2 - fails
+    ok 3 - is skipped # SKIP no network
+    not ok 4 - is pending # TODO soon
+    ok
+    
+The version line is ignored. A skipped test becomes an `omit` and a test
+still to be done a `todo`, each with its reason as the message. A test
+without a number takes the next one.
+
+    entries = Tapout::PerlAdapter.new(StringIO.new(@tap)).to_a
+
+    tests = entries.select{ |e| e['type'] == 'test' }
+
+    tests.map{ |e| e['status'] }.assert == %w[pass fail omit todo pass]
+    tests.map{ |e| e['label'] }.assert == ['passes', 'fails', 'is skipped', 'is pending', '']
+    tests.map{ |e| e['index'] }.assert == [1, 2, 3, 4, 5]
+
+    tests[2]['exception']['message'].assert == 'no network'
+    tests[3]['exception']['message'].assert == 'soon'
+
+The final entry counts each kind.
+
+    entries.last['counts'].assert == {
+      'total' => 5, 'pass' => 2, 'fail' => 1, 'error' => 0, 'omit' => 1, 'todo' => 1
+    }

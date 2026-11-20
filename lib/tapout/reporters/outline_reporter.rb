@@ -11,6 +11,8 @@ module Tapout::Reporters
     #
     def start_suite(entry)
       @_case_count = [0]
+      @_test_count = 0
+      @_level = -1   # tests outside of any case start at the margin
       @start_time = Time.now
     end
 
@@ -68,6 +70,18 @@ module Tapout::Reporters
       printout(entry, 'ERROR', config.error)
     end
 
+    def todo(entry)
+      super(entry)
+
+      remark(entry, 'TODO', config.todo)
+    end
+
+    def omit(entry)
+      super(entry)
+
+      remark(entry, 'OMIT', config.omit)
+    end
+
     #
     def finish_suite(entry)
       time, rate, avg = time_tally(entry)
@@ -80,6 +94,17 @@ module Tapout::Reporters
     end
 
   private
+
+    # One line for a test that wasn't run to a verdict, with the reason.
+    def remark(entry, type, ansi)
+      reason = entry['reason'] || entry['exception']['message']
+      reason = reason.to_s.lines.first.to_s.strip
+
+      print(' ' * level_tab)
+      line = "#{test_count}. " + entry['label'].ansi(*ansi) + "   #{type}"
+      line += ": #{reason}" unless reason.empty?
+      puts line
+    end
 
     #
     def printout(entry, type, ansi)
