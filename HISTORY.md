@@ -1,6 +1,6 @@
 # RELEASE HISTORY
 
-## Unreleased
+## 0.5.0 / 2026-11-21
 
 Tapout runs on current Ruby again. It needs Ruby 2.7 or newer.
 
