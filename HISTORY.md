@@ -19,6 +19,22 @@ Changes:
   and the lookup of other project metadata as constants are gone.
 * Correct the README, which named a `progressbar` reporter; it is
   `progress`.
+* Reporters no longer raise for a test that didn't pass and says little
+  about why. Only an exception's message is required by TAP-Y/J, but the
+  `markdown` and `html` reporters needed its class or backtrace, and
+  every reporter needed the exception section itself, which a failed test
+  from plain TAP doesn't have.
+* The `tap` reporter prints a line for a test that was omitted
+  (`ok N - label # SKIP reason`) or is still to be done
+  (`not ok N - label # TODO reason`), so the lines match the plan (#14).
+  Without a count at the start of the stream, it prints the plan at the end.
+* The `outline` reporter lists omitted and to-do tests, with the reason.
+* Reading plain TAP: a `TAP version` line is accepted, as is a stream that
+  starts with a test line or a comment; `# SKIP` and `# TODO` directives
+  become `omit` and `todo`; a test line needn't have a number; and the
+  final counts include errors, omissions and to-dos.
+* The `outline` and `markdown` reporters no longer raise for tests that
+  belong to no case, as in plain TAP.
 
 ## 0.4.5 / 2013-11-20
 

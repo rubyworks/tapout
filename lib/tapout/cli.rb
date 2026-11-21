@@ -61,7 +61,7 @@ module Tapout
     stdin = Curmudgeon.new($stdin)
 
     case stdin.line1
-    when /^\d/
+    when /^\d/, /^TAP version/i, /^(not )?ok\b/, /^\#/
       type = :perl
     when /^\-/
       type = :yaml
